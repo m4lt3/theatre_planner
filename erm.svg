@@ -71,7 +71,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
      inkscape:cx="613.90739"
-     inkscape:cy="378.19287"
+     inkscape:cy="349.62144"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -155,7 +155,7 @@
            id="rect815-2"
            style="opacity:1;fill:none;stroke:#000000;stroke-width:0.61299998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
         <flowRoot
-           transform="matrix(0.26458333,0,0,0.26458333,7.606917,84.036095)"
+           transform="matrix(0.26458333,0,0,0.26458333,5.3632583,84.036095)"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:semi-condensed;font-size:40px;line-height:1.25;font-family:'Barlow Semi Condensed';-inkscape-font-specification:'Barlow Semi Condensed, weight=255 Semi-Condensed';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
            id="flowRoot817-9"
            xml:space="preserve"><flowRegion
@@ -165,7 +165,7 @@
                height="45.45689"
                width="175.76653"
                id="rect821-2" /></flowRegion><flowPara
-             id="flowPara823-7">Scene</flowPara><flowPara
+             id="flowPara823-7">Scenes</flowPara><flowPara
              id="flowPara885" /></flowRoot>      </g>
     </g>
     <g
@@ -208,14 +208,14 @@
       <text
          id="text955"
          y="155.78387"
-         x="168.52654"
+         x="166.25816"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:semi-condensed;font-size:10.58333302px;line-height:1.25;font-family:'Barlow Semi Condensed';-inkscape-font-specification:'Barlow Semi Condensed, weight=255 Semi-Condensed';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
          xml:space="preserve"><tspan
            style="font-size:7.05555534px;stroke-width:0.26458332"
            y="155.78387"
-           x="168.52654"
+           x="166.25816"
            id="tspan953"
-           sodipodi:role="line">has</tspan></text>
+           sodipodi:role="line">plays</tspan></text>
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -240,15 +240,15 @@
          style="opacity:1;fill:none;stroke:#000000;stroke-width:0.61299998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          id="text955-1"
-         y="155.78387"
-         x="168.52654"
+         y="155.1815"
+         x="165.06668"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:semi-condensed;font-size:10.58333302px;line-height:1.25;font-family:'Barlow Semi Condensed';-inkscape-font-specification:'Barlow Semi Condensed, weight=255 Semi-Condensed';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
          xml:space="preserve"><tspan
-           style="font-size:7.05555534px;stroke-width:0.26458332"
-           y="155.78387"
-           x="168.52654"
+           style="font-size:5.29166651px;stroke-width:0.26458332"
+           y="155.1815"
+           x="165.06668"
            id="tspan953-8"
-           sodipodi:role="line">has</tspan></text>
+           sodipodi:role="line">features</tspan></text>
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -321,14 +321,14 @@
       <text
          id="text1382"
          y="260.92822"
-         x="141.83913"
+         x="137.94711"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:semi-condensed;font-size:10.58333302px;line-height:1.25;font-family:'Barlow Semi Condensed';-inkscape-font-specification:'Barlow Semi Condensed, weight=255 Semi-Condensed';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
          xml:space="preserve"><tspan
            style="font-size:7.05555534px;stroke-width:0.26458332"
            y="260.92822"
-           x="141.83913"
+           x="137.94711"
            id="tspan1380"
-           sodipodi:role="line">optional</tspan></text>
+           sodipodi:role="line">mandatory</tspan></text>
     </g>
     <path
        style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
