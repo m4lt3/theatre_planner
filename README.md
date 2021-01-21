@@ -9,7 +9,7 @@ TODO
 
 ## Roadmap
 - [x] Create Database scheme
-- [ ] Add users
+- [x] Add users
   - users should have a mail, display name and a password
 - [ ] Add Roles
 - [ ] Assign Roles to users
