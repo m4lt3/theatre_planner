@@ -70,10 +70,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="613.90739"
-     inkscape:cy="349.62144"
+     inkscape:cx="484.62168"
+     inkscape:cy="576.7643"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g1437-1-3"
      showgrid="false"
      inkscape:window-width="1848"
      inkscape:window-height="1043"
@@ -88,7 +88,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -634,5 +634,32 @@
          x="112.87967"
          id="tspan1644"
          sodipodi:role="line">(0;N)</tspan></text>
+    <g
+       id="g1437-1-3"
+       transform="translate(-26.025403,-120.01002)">
+      <ellipse
+         ry="6.3311014"
+         rx="17.670387"
+         cy="272.8121"
+         cx="45.302189"
+         id="path1378-3-9-6"
+         style="opacity:1;fill:none;stroke:#000000;stroke-width:0.26499999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         id="text1382-7-4-7"
+         y="275.2886"
+         x="37.11776"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:semi-condensed;font-size:10.58333302px;line-height:1.25;font-family:'Barlow Semi Condensed';-inkscape-font-specification:'Barlow Semi Condensed, weight=255 Semi-Condensed';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         xml:space="preserve"><tspan
+           style="font-size:7.05555534px;stroke-width:0.26458332"
+           y="275.2886"
+           x="37.11776"
+           id="tspan1380-5-7-5"
+           sodipodi:role="line">admin</tspan></text>
+      <path
+         style="fill:none;stroke:#000000;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="M 63.067069,272.43413 H 83.477784"
+         id="path987"
+         inkscape:connector-curvature="0" />
+    </g>
   </g>
 </svg>
