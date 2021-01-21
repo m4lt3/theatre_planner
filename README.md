@@ -8,7 +8,7 @@ It allows an admin to create users, assign Roles to users and assign scenes to r
 TODO
 
 ## Roadmap
-- [ ] Create Database scheme
+- [x] Create Database scheme
 - [ ] Add users
   - users should have a mail, display name and a password
 - [ ] Add Roles
