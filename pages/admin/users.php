@@ -7,7 +7,7 @@
    $db->update("DELETE FROM USERS WHERE UserID =?", "i", array($_POST["rm_user"]));
  } elseif (isset($_POST["addUser"])) {
    $password = uniqid();
-   if($db->update("INSERT INTO USERS (UserID, Name, Mail, Password, Admin) VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], md5($password), 0))){
+   if($db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], md5($password), 0))){
      // TODO mail($_POST["userMail"], "Hello " . $_POST["userName"] . "! Your Password is '" . $password . "'. Please change it after your first login at " . $_SERVER["SERVER_NAME"]);
    } else {
      echo '<div style="color:red;">Oops! That Address is already taken!</div>';
@@ -22,9 +22,9 @@
   </head>
   <body>
     <!-- TODO add sidebar / static nav -->
-    <form action="" method="post" onSubmit="return checkNewUser()">
-      <input required="true" type="text" id="userName" name="userName" maxlength="32">
-      <input required="true" type="email" id="userMail" name="userMail "maxlength="64">
+    <form action="" method="post">
+      <input required="true" type="text" name="userName" maxlength="32">
+      <input required="true" type="email" name="userMail" maxlength="64">
       <input type="submit" name="addUser" value="Create User">
     </form>
 
