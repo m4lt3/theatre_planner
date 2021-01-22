@@ -1,9 +1,4 @@
 <?php
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
   require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
 
   $db = new DBHandler();
@@ -27,9 +22,9 @@ error_reporting(E_ALL);
   </head>
   <body>
     <!-- TODO add sidebar / static nav -->
-    <form action="" method="post">
-      <input required="true" type="text" name="userName">
-      <input required="true" type="email" name="userMail">
+    <form action="" method="post" onSubmit="return checkNewUser()">
+      <input required="true" type="text" id="userName" name="userName">
+      <input required="true" type="email" id="userMail" name="userMail">
       <input type="submit" name="addUser" value="Nutzer Anlegen">
     </form>
 
@@ -69,5 +64,22 @@ EOT;
         ?>
       </tbody>
     </table>
+    <script type="text/javascript">
+      function checkNewUser(){
+        if(document.getElementById("userName").value.length > 32 ){
+          alert("The Name mustn't be longer than 32 characters");
+          document.getElementById("userName").focus();
+          return false;
+        }
+
+        if(document.getElementById("userMail").value.length > 64){
+          alert("The mail mustn't be longer than 64 characters");
+          document.getElementById("userMail").focus();
+          return false;
+        }
+
+        return true;
+      }
+    </script>
   </body>
 </html>
