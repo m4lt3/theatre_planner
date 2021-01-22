@@ -1,6 +1,10 @@
 <?php
   require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
 
+  ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
   $db = new DBHandler();
   $inserted = true;
 
@@ -12,8 +16,8 @@
    if($inserted){
      // TODO mail($_POST["userMail"], "Hello " . $_POST["userName"] . "! Your Password is '" . $password . "'. Please change it after your first login at " . $_SERVER["SERVER_NAME"]);
    }
- } elseif (isset($_POST["rm_role"])){
-
+ } elseif (isset($_POST["rm_plays"])){
+   $db->update("DELETE FROM PLAYS WHERE PlaysID=?", "i", array($_POST["rm_plays"]));
  }
 ?>
 <!DOCTYPE html>
@@ -57,21 +61,29 @@
       <div class="ui two stackable cards">
         <?php
           $currentUser = array("UserID" => -1);
-          foreach ($db->baseQuery("SELECT USERS.UserID, USERS.Name, USERS.Mail, USERS.ADMIN , ROLES.Name AS Role FROM USERS LEFT JOIN PLAYS ON USERS.UserId = PLAYS.UserID LEFT JOIN ROLES ON ROLES.RoleID = PLAYS.RoleID ORDER BY USERS.UserID") as $user) {
+
+          foreach ($db->baseQuery("SELECT PLAYS.PlaysID, USERS.UserID, USERS.Name, USERS.Mail, USERS.ADMIN , ROLES.Name AS Role FROM USERS LEFT JOIN PLAYS ON USERS.UserId = PLAYS.UserID LEFT JOIN ROLES ON ROLES.RoleID = PLAYS.RoleID ORDER BY USERS.UserID") as $user) {
             if($currentUser["UserID"] != $user["UserID"]){
               if($currentUser["UserID"] != -1){
-                createAccordion($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"]);
+                createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"]);
               }
               $currentUser = $user;
               $currentUser["Role"] = array($currentUser["Role"]);
+              $currentUser["PlaysID"] = array($currentUser["PlaysID"]);
             } else {
               array_push($currentUser["Role"], $user["Role"]);
+              array_push($currentUser["PlaysID"], $user["PlaysID"]);
             }
           }
+          createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"]);
 
-          function createAccordion($id, $name, $mail, $roles){
+          function createCard($UserID, $name, $mail, $roles, $PlaysID){
+            /*print_r($roles);
+            echo "<br/>";
+            print_r($PlaysID);
+            echo "<br/>";*/
             $role_rows = "";
-            foreach ($roles as $role) {
+            foreach ($roles as $index => $role) {
               if($role == ""){
                 continue;
               }
@@ -79,20 +91,21 @@
               <tr>
               <td>$role</td>
               <td>
-              <form action="">
-              <input type="hidden" value="$id" name="rm_role">
+              <form action="" method="POST">
+              <input type="hidden" value="$PlaysID[$index]" name="rm_plays">
               <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
               </form>
               </td>
               </tr>
 EOT;
             }
+
             $message =<<<EOT
   <div class="ui card">
   <div class="content">
   <div class="header">
   $name
-  <div class="right floated meta">#$id</div>
+  <div class="right floated meta">#$UserID</div>
   </div>
   <div class="meta"><a href="mailto:$mail">$mail</a></div>
   </div>
