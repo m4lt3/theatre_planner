@@ -4,8 +4,14 @@
   $db = new DBHandler();
 
   if(isset($_POST["rm_role"])){
-    print_r($_POST);
-    $db->update("DELETE FROM ROLES WHERE RoleID=?", "i", array($_POST["rm_role"]));
+
+    if(!$db->update("DELETE FROM ROLES WHERE RoleID=?", "i", array($_POST["rm_role"]))){
+      $dependencies = $db->prepareQuery("SELECT PlaysID FROM PLAYS WHERE RoleID=?", "i", array($_POST["rm_role"]));
+      foreach ($dependencies as $dependency) {
+        $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i", array($dependency["PlaysID"]));
+      }
+      $db->update("DELETE FROM ROLES WHERE RoleID=?", "i", array($_POST["rm_role"]));
+    }
   } elseif (isset($_POST["addRole"])) {
     $db->update("INSERT INTO ROLES VALUES (NULL, ?, ?)", "ss", array($_POST["roleName"], $_POST["roleDescription"]));
   }
