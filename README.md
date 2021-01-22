@@ -12,7 +12,7 @@ TODO
 - [x] Create Database scheme
 - [x] Add users
   - users should have a mail, display name and a password
-- [ ] Add Roles
+- [x] Add Roles
 - [ ] Assign Roles to users
 - [ ] Create Scenes
   - Scenes should have a name and an optional description
