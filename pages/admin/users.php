@@ -145,8 +145,10 @@ EOT;
 EOT;
 
           $adminColour = "";
+          $admin_appendix = " no";
           if($admin){
             $adminColour = "orange";
+            $admin_appendix = "";
           }
 
             $card =<<<EOT
@@ -155,7 +157,7 @@ EOT;
       <div class="header">
         $name
         <div class="right floated meta">#$UserID</div>
-        <form action="" method="post"><input type="hidden" name="toggle_admin" value ="$UserID"><button type="submit" style="cursor:pointer" class="ui right floating $adminColour icon label"><i class="fitted chess queen icon"></i></button></form>
+        <form action="" method="post"><input type="hidden" name="toggle_admin" value ="$UserID"><button title="Is$admin_appendix admin" type="submit" style="cursor:pointer" class="ui right floating $adminColour icon label"><i class="fitted chess queen icon"></i></button></form>
       </div>
       <div class="meta"><a href="mailto:$mail">$mail</a></div>
     </div>
