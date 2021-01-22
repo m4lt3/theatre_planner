@@ -20,6 +20,10 @@ error_reporting(E_ALL);
    $db->update("DELETE FROM PLAYS WHERE PlaysID=?", "i", array($_POST["rm_plays"]));
  } elseif(isset($_POST["addPlay"])){
    $db->update("INSERT INTO PLAYS VALUES (NULL, ?, ?)", "ii", array($_POST["UserID"], $_POST["newPlay"]));
+ } elseif(isset($_POST["toggle_admin"])){
+   //TODO USer mustn't un-admin himself
+   $adminStatus = $db->prepareQuery("SELECT Admin FROM USERS WHERE UserID=?","i", array($_POST["toggle_admin"]))[0]["Admin"];
+   $db->update("UPDATE USERS SET Admin=? WHERE UserID=?", "ii", array(!$adminStatus,$_POST["toggle_admin"]));
  }
 ?>
 <!DOCTYPE html>
@@ -65,10 +69,10 @@ error_reporting(E_ALL);
           $currentUser = array("UserID" => -1);
           $FreeRoles = $db->baseQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT RoleID FROM PLAYS)");
 
-          foreach ($db->baseQuery("SELECT PLAYS.PlaysID, USERS.UserID, USERS.Name, USERS.Mail, USERS.ADMIN , ROLES.Name AS Role FROM USERS LEFT JOIN PLAYS ON USERS.UserId = PLAYS.UserID LEFT JOIN ROLES ON ROLES.RoleID = PLAYS.RoleID ORDER BY USERS.UserID") as $user) {
+          foreach ($db->baseQuery("SELECT PLAYS.PlaysID, USERS.UserID, USERS.Name, USERS.Mail, USERS.Admin , ROLES.Name AS Role FROM USERS LEFT JOIN PLAYS ON USERS.UserId = PLAYS.UserID LEFT JOIN ROLES ON ROLES.RoleID = PLAYS.RoleID ORDER BY USERS.UserID") as $user) {
             if($currentUser["UserID"] != $user["UserID"]){
               if($currentUser["UserID"] != -1){
-                createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles);
+                createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles, $currentUser["Admin"]);
               }
               $currentUser = $user;
               $currentUser["Role"] = array($currentUser["Role"]);
@@ -78,9 +82,9 @@ error_reporting(E_ALL);
               array_push($currentUser["PlaysID"], $user["PlaysID"]);
             }
           }
-          createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles);
+          createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles, $currentUser["Admin"]);
 
-          function createCard($UserID, $name, $mail, $roles, $PlaysID, $FreeRoles){
+          function createCard($UserID, $name, $mail, $roles, $PlaysID, $FreeRoles, $admin){
             $role_rows = "";
             foreach ($roles as $index => $role) {
               if($role == ""){
@@ -128,22 +132,28 @@ EOT;
             </tr>
 EOT;
 
+          $adminColour = "";
+          if($admin){
+            $adminColour = "orange";
+          }
+
             $card =<<<EOT
   <div class="ui card">
-  <div class="content">
-  <div class="header">
-  $name
-  <div class="right floated meta">#$UserID</div>
-  </div>
-  <div class="meta"><a href="mailto:$mail">$mail</a></div>
-  </div>
-  <div class="content">
-  <div class="ui sub header">Roles</div>
-  <table class="ui very basic table">
-  $role_rows
-  $role_dialog
-  </table>
-  </div>
+    <div class="content">
+      <div class="header">
+        $name
+        <div class="right floated meta">#$UserID</div>
+        <form action="" method="post"><input type="hidden" name="toggle_admin" value ="$UserID"><button type="submit" style="cursor:pointer" class="ui right floating $adminColour icon label"><i class="fitted chess queen icon"></i></button></form>
+      </div>
+      <div class="meta"><a href="mailto:$mail">$mail</a></div>
+    </div>
+    <div class="content">
+      <div class="ui sub header">Roles</div>
+        <table class="ui very basic table">
+          $role_rows
+          $role_dialog
+        </table>
+      </div>
   </div>
 EOT;
           echo $card;
