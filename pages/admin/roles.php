@@ -4,6 +4,7 @@
   $db = new DBHandler();
 
   if(isset($_POST["rm_role"])){
+    print_r($_POST);
     $db->update("DELETE FROM ROLES WHERE RoleID=?", "i", array($_POST["rm_role"]));
   } elseif (isset($_POST["addRole"])) {
     $db->update("INSERT INTO ROLES VALUES (NULL, ?, ?)", "ss", array($_POST["roleName"], $_POST["roleDescription"]));
@@ -33,40 +34,37 @@
 
       <br/>
 
-      <table class="ui celled table">
-        <thead>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th></th>
-        </thead>
-        <tbody>
-          <?php
-            foreach ($db->baseQuery("SELECT * FROM ROLES") ?? array() as $role) {
-              create_row($role["RoleID"], $role["Name"], $role["Description"]);
-            }
-
-            function create_row($id, $name, $description){
-              $button =<<<EOT
-              <form method="POST" action="">
-                <input type="hidden" name="rm_role" value="$id">
-                <input class="ui button" type="submit" value="Delete Role">
-              </form>
+      <div class="ui two stackable cards">
+        <?php
+        foreach ($db->baseQuery("SELECT * FROM ROLES") ?? array() as $role) {
+          create_card($role["RoleID"], $role["Name"], $role["Description"]);
+        }
+        function create_card($id, $name, $description){
+          $button =<<<EOT
+          <form method="POST" action="" style="margin-bottom:0;">
+            <input type="hidden" name="rm_role" value="$id">
+            <button class="ui bottom attached red button" style="width:100%" type="submit"><i class="trash icon"></i></button>
+          </form>
 EOT;
-
-              $message = <<<EOT
-              <tr>
-                <td>$id</td>
-                <td>$name</td>
-                <td>$description</td>
-                <td>$button</td>
-              </tr>
+          $card =<<<EOT
+<div class="ui card">
+  <div class="content">
+    <div class="header">
+      $name
+      <div class="right floated meta">#$id</div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="ui sub header">Description</div>
+    $description
+  </div>
+  $button
+</div>
 EOT;
-            echo $message;
-            }
-          ?>
-        </tbody>
-      </table>
+        echo $card;
+        }
+        ?>
+      </div>
     </main>
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/footer.html"; ?>
   </body>
