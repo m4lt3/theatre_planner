@@ -18,14 +18,14 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner - Add user</title>
+    <title>Theatre Planner | Users</title>
   </head>
   <body>
     <!-- TODO add sidebar / static nav -->
     <form action="" method="post" onSubmit="return checkNewUser()">
-      <input required="true" type="text" id="userName" name="userName">
-      <input required="true" type="email" id="userMail" name="userMail">
-      <input type="submit" name="addUser" value="Nutzer Anlegen">
+      <input required="true" type="text" id="userName" name="userName" maxlength="32">
+      <input required="true" type="email" id="userMail" name="userMail "maxlength="64">
+      <input type="submit" name="addUser" value="Create User">
     </form>
 
     <br/>
@@ -64,22 +64,5 @@ EOT;
         ?>
       </tbody>
     </table>
-    <script type="text/javascript">
-      function checkNewUser(){
-        if(document.getElementById("userName").value.length > 32 ){
-          alert("The Name mustn't be longer than 32 characters");
-          document.getElementById("userName").focus();
-          return false;
-        }
-
-        if(document.getElementById("userMail").value.length > 64){
-          alert("The mail mustn't be longer than 64 characters");
-          document.getElementById("userMail").focus();
-          return false;
-        }
-
-        return true;
-      }
-    </script>
   </body>
 </html>
