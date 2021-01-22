@@ -28,8 +28,8 @@ TODO
 
 ### Could
 - [ ] Forgot Password link
-- [ ] Individual files for a scene
 - [ ] Remember me
+- [ ] Revers dates (Director says which scenes are practiced when, others get a schedule)
 
 ## License
 
