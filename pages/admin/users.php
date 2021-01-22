@@ -1,3 +1,24 @@
+<?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+  require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
+
+  $db = new DBHandler();
+
+ if(isset($_POST["rm_user"])){
+   $db->update("DELETE FROM USERS WHERE UserID =?", "i", array($_POST["rm_user"]));
+ } elseif (isset($_POST["addUser"])) {
+   $password = uniqid();
+   if($db->update("INSERT INTO USERS (UserID, Name, Mail, Password, Admin) VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], md5($password), 0))){
+     // TODO mail($_POST["userMail"], "Hello " . $_POST["userName"] . "! Your Password is '" . $password . "'. Please change it after your first login at " . $_SERVER["SERVER_NAME"]);
+   } else {
+     echo '<div style="color:red;">Oops! That Address is already taken!</div>';
+   }
+ }
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -6,36 +27,6 @@
   </head>
   <body>
     <!-- TODO add sidebar / static nav -->
-    <?php
-      $servername = "localhost";
-      $username = "planner";
-      $password = "dC5*nn%phW!LuGiZ";
-      $dbname = "theatre_planner";
-
-      // Create connection
-      $conn = new mysqli($servername, $username, $password, $dbname);
-
-      // Check connection
-      if ($conn->connect_error) {
-       die("Connection failed: " . $conn->connect_error);
-     }
-
-     if(isset($_POST["rm_user"])){
-       $sql = "DELETE FROM USERS WHERE UserID = " . $_POST["rm_user"] . ";";
-       $conn->query($sql);
-     } elseif (isset($_POST["addUser"])) {
-       $password = uniqid();
-       $sql = "INSERT INTO USERS (UserID, Name, Mail, Password, Admin) VALUES (NULL, '" . $_POST["userName"] . "', '" . $_POST["userMail"] . "', '" . md5($password) . "', 0);";
-       $result = $conn->query($sql);
-       if($result == true){
-         // TODO mail($_POST["userMail"], "Hello " . $_POST["userName"] . "! Your Password is '" . $password . "'. Please change it after your first login at " . $_SERVER["SERVER_NAME"]);
-       } else {
-         echo '<div style="color:red;">Oops! That Address is already taken!</div>';
-       }
-
-     }
-    ?>
-
     <form action="" method="post">
       <input required="true" type="text" name="userName">
       <input required="true" type="email" name="userMail">
@@ -53,12 +44,8 @@
       </thead>
       <tbody>
         <?php
-          $sql = "SELECT UserID, Name, Mail, Admin FROM USERS WHERE Admin = 0";
-          $result = $conn->query($sql);
-          if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-              create_row($row["UserID"], $row["Name"], $row["Mail"]);
-            }
+          foreach ($db->baseQuery("SELECT UserID, Name, Mail, Admin FROM USERS WHERE Admin = 0") ?? array() as $user) {
+            create_row($user["UserID"], $user["Name"], $user["Mail"]);
           }
 
           function create_row($id, $name, $mail){
@@ -68,6 +55,7 @@
               <input type="submit" value="Delete User">
             </form>
 EOT;
+
             $message = <<<EOT
             <tr>
               <td>$id</td>
