@@ -13,7 +13,7 @@ TODO
 - [x] Add users
   - users should have a mail, display name and a password
 - [x] Add Roles
-- [ ] Assign Roles to users
+- [x] Assign Roles to users
 - [ ] Create Scenes
   - Scenes should have a name and an optional description
   - Some roles can be optional for a scene

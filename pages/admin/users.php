@@ -18,6 +18,8 @@ error_reporting(E_ALL);
    }
  } elseif (isset($_POST["rm_plays"])){
    $db->update("DELETE FROM PLAYS WHERE PlaysID=?", "i", array($_POST["rm_plays"]));
+ } elseif(isset($_POST["addPlay"])){
+   $db->update("INSERT INTO PLAYS VALUES (NULL, ?, ?)", "ii", array($_POST["UserID"], $_POST["newPlay"]));
  }
 ?>
 <!DOCTYPE html>
@@ -61,11 +63,12 @@ error_reporting(E_ALL);
       <div class="ui two stackable cards">
         <?php
           $currentUser = array("UserID" => -1);
+          $FreeRoles = $db->baseQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT RoleID FROM PLAYS)");
 
           foreach ($db->baseQuery("SELECT PLAYS.PlaysID, USERS.UserID, USERS.Name, USERS.Mail, USERS.ADMIN , ROLES.Name AS Role FROM USERS LEFT JOIN PLAYS ON USERS.UserId = PLAYS.UserID LEFT JOIN ROLES ON ROLES.RoleID = PLAYS.RoleID ORDER BY USERS.UserID") as $user) {
             if($currentUser["UserID"] != $user["UserID"]){
               if($currentUser["UserID"] != -1){
-                createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"]);
+                createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles);
               }
               $currentUser = $user;
               $currentUser["Role"] = array($currentUser["Role"]);
@@ -75,13 +78,9 @@ error_reporting(E_ALL);
               array_push($currentUser["PlaysID"], $user["PlaysID"]);
             }
           }
-          createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"]);
+          createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles);
 
-          function createCard($UserID, $name, $mail, $roles, $PlaysID){
-            /*print_r($roles);
-            echo "<br/>";
-            print_r($PlaysID);
-            echo "<br/>";*/
+          function createCard($UserID, $name, $mail, $roles, $PlaysID, $FreeRoles){
             $role_rows = "";
             foreach ($roles as $index => $role) {
               if($role == ""){
@@ -89,18 +88,47 @@ error_reporting(E_ALL);
               }
               $role_rows .= <<<EOT
               <tr>
-              <td>$role</td>
-              <td>
-              <form action="" method="POST">
-              <input type="hidden" value="$PlaysID[$index]" name="rm_plays">
-              <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
-              </form>
-              </td>
+                <td>$role</td>
+                <td>
+                  <form action="" method="POST">
+                    <input type="hidden" value="$PlaysID[$index]" name="rm_plays">
+                      <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
+                    </form>
+                  </td>
               </tr>
 EOT;
             }
 
-            $message =<<<EOT
+            $dialog_options = "";
+            if(count($FreeRoles==null?array():$FreeRoles)>0){
+              foreach($FreeRoles as $freeRole){
+                $dialog_options .= '<div class="item" data-value ="' . $freeRole["RoleID"] . '">' . $freeRole["Name"] . '</div>';
+              }
+            }
+            $role_dialog =<<<EOT
+            <tr>
+              <form action="" method="post">
+                <td>
+                  <div class="field">
+                    <div class="ui selection dropdown">
+                      <input type="hidden" name="newPlay">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Role</div>
+                        <div class="menu">
+                          $dialog_options
+                        </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <input type="hidden" name="UserID" value="$UserID">
+                  <button class="ui primary icon button" type="submit" name="addPlay"><i class="plus icon"></i></button>
+                </td>
+              </form>
+            </tr>
+EOT;
+
+            $card =<<<EOT
   <div class="ui card">
   <div class="content">
   <div class="header">
@@ -113,11 +141,12 @@ EOT;
   <div class="ui sub header">Roles</div>
   <table class="ui very basic table">
   $role_rows
+  $role_dialog
   </table>
   </div>
   </div>
 EOT;
-          echo $message;
+          echo $card;
           }
         ?>
       </div>
@@ -130,5 +159,10 @@ EOT;
       echo '<script>document.getElementById("mailError").style.display="block";</script>';
     }
     ?>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('.ui.dropdown').dropdown();
+    });
+    </script>
   </body>
 </html>
