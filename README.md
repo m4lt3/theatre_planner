@@ -14,10 +14,10 @@ TODO
   - users should have a mail, display name and a password
 - [x] Add Roles
 - [x] Assign Roles to users
-- [ ] Create Scenes
+- [x] Create Scenes
   - Scenes should have a name and an optional description
   - Some roles can be optional for a scene
-- [ ] Assign Roles to scenes
+- [x] Assign Roles to scenes
 - [ ] Create Dates
 - [ ] Create Date planner for users
 - [ ] Create Practice overview for director
