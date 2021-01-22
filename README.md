@@ -8,6 +8,7 @@ It allows an admin to create users, assign Roles to users and assign scenes to r
 TODO
 
 ## Roadmap
+### Must
 - [x] Create Database scheme
 - [x] Add users
   - users should have a mail, display name and a password
@@ -20,7 +21,15 @@ TODO
 - [ ] Create Dates
 - [ ] Create Date planner for users
 - [ ] Create Practice overview for director
-- [ ] Let users change/reset their password
+
+### Should
+- [ ] Let users change the Password
+- [ ] Add Dashboards for Users and Admins
+
+### Could
+- [ ] Forgot Password link
+- [ ] Individual files for a scene
+- [ ] Remember me
 
 ## License
 
