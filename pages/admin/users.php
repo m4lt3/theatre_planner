@@ -9,7 +9,14 @@ error_reporting(E_ALL);
   $inserted = true;
 
  if(isset($_POST["rm_user"])){
-   $db->update("DELETE FROM USERS WHERE UserID =?", "i", array($_POST["rm_user"]));
+   //TODO User mustn't remove himself
+   if(!$db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_POST["rm_user"]))){
+     $dependencies = $db->prepareQuery("SELECT PlaysID FROM PLAYS WHERE UserID=?", "i", array($_POST["rm_user"]));
+     foreach ($dependencies as $dependency) {
+       $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i", array($dependency["PlaysID"]));
+     }
+     $db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_POST["rm_user"]));
+   }
  } elseif (isset($_POST["addUser"])) {
    $password = uniqid();
    $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], md5($password), ($_POST["userAdmin"] == "on") ? 1 : 0));
@@ -21,7 +28,7 @@ error_reporting(E_ALL);
  } elseif(isset($_POST["addPlay"])){
    $db->update("INSERT INTO PLAYS VALUES (NULL, ?, ?)", "ii", array($_POST["UserID"], $_POST["newPlay"]));
  } elseif(isset($_POST["toggle_admin"])){
-   //TODO USer mustn't un-admin himself
+   //TODO User mustn't un-admin himself
    $adminStatus = $db->prepareQuery("SELECT Admin FROM USERS WHERE UserID=?","i", array($_POST["toggle_admin"]))[0]["Admin"];
    $db->update("UPDATE USERS SET Admin=? WHERE UserID=?", "ii", array(!$adminStatus,$_POST["toggle_admin"]));
  }
@@ -68,7 +75,6 @@ error_reporting(E_ALL);
         <?php
           $currentUser = array("UserID" => -1);
           $FreeRoles = $db->baseQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT RoleID FROM PLAYS)");
-
           foreach ($db->baseQuery("SELECT PLAYS.PlaysID, USERS.UserID, USERS.Name, USERS.Mail, USERS.Admin , ROLES.Name AS Role FROM USERS LEFT JOIN PLAYS ON USERS.UserId = PLAYS.UserID LEFT JOIN ROLES ON ROLES.RoleID = PLAYS.RoleID ORDER BY USERS.UserID") as $user) {
             if($currentUser["UserID"] != $user["UserID"]){
               if($currentUser["UserID"] != -1){
@@ -131,6 +137,12 @@ EOT;
               </form>
             </tr>
 EOT;
+            $button =<<<EOT
+            <form method="POST" action="" style="margin-bottom:0;">
+              <input type="hidden" name="rm_user" value="$UserID">
+              <button class="ui bottom attached red button" style="width:100%" type="submit"><i class="trash icon"></i></button>
+            </form>
+EOT;
 
           $adminColour = "";
           if($admin){
@@ -154,6 +166,7 @@ EOT;
           $role_dialog
         </table>
       </div>
+      $button
   </div>
 EOT;
           echo $card;
