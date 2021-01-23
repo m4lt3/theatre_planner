@@ -25,11 +25,16 @@ TODO
 ### Should
 - [ ] Let users change the Password
 - [ ] Add Dashboards for Users and Admins
+- [ ] Provide central config
+  - database?
+  - change subfolder
+  - change date setting mode
 
 ### Could
 - [ ] Forgot Password link
 - [ ] Remember me
-- [ ] Revers dates (Director says which scenes are practiced when, others get a schedule)
+- [ ] Reverse dates (Director says which scenes are practiced when, others get a schedule)
+- [ ] Provide translations
 
 ## License
 
