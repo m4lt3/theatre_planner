@@ -18,9 +18,9 @@ TODO
   - Scenes should have a name and an optional description
   - Some roles can be optional for a scene
 - [x] Assign Roles to scenes
-- [ ] Create Dates
+- [x] Create Dates
 - [ ] Create Date planner for users
-- [ ] Create Practice overview for director
+- [x] Create Practice overview for director
 
 ### Should
 - [ ] Let users change the Password

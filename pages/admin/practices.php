@@ -1,5 +1,10 @@
 <?php
   require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
+  require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/practice.php";
+
+  ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
   $db = new DBHandler();
   $past = false;
@@ -62,36 +67,80 @@
       <br/>
       <div class="ui two stacked cards">
         <?php
-        $practices = $db->baseQuery("SELECT * FROM PRACTICES" . (($past=="true")?"":" WHERE Start > NOW()") ." ORDER BY Start");
-        $divided = !($past == "true");
-        foreach ($practices as $practice) {
-          if ($practice["Start"] > date("Y-m-d H:i:s") && !$divided){
-            echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards" style="margin-top:-14px">';
-            $divided = !$divided;
-          }
-          createCard($practice["PracticeID"], $practice["Title"],$practice["Start"]);
+        $practiceQuery = "SELECT PRACTICES.PracticeID, PRACTICES.Title, PRACTICES.Start, USERS.UserID, USERS.Name, ROLES.RoleID, ROLES.Name AS Role FROM PRACTICES LEFT JOIN ATTENDS ON PRACTICES.PracticeID = ATTENDS.PracticeID LEFT JOIN USERS ON USERS.UserID = ATTENDS.UserID LEFT JOIN PLAYS ON PLAYS.UserID = USERS.UserID LEFT JOIN ROLES ON PLAYS.RoleID = ROLES.RoleID";
+        if(!($past == "true")){
+          $practiceQuery .= " WHERE PRACTICES.Start > NOW()";
         }
+        $practiceQuery .= " ORDER BY PRACTICES.Start, USERS.UserID";
+        $practices = $db->baseQuery($practiceQuery);
+        $divided = !($past == "true");
+        $practice_collection = new Practice(-1,"","");
+        $allScenes= $db->baseQuery("SELECT FEATURES.SceneID, FEATURES.RoleID, FEATURES.Mandatory, SCENES.Name FROM FEATURES JOIN SCENES ON FEATURES.SceneID = SCENES.SceneID ORDER BY FEATURES.SceneID ");
+        foreach ($practices as $practice) {
+          if($practice["PracticeID"] != $practice_collection->id){
+            if($practice_collection->id != -1){
+              $practice_collection->detectScenes($allScenes);
 
-        function createCard($id, $title, $date){
-          $format = new DateTime($date);
+              createCard($practice_collection);
+              if ($practice["Start"] > date("Y-m-d H:i:s") && !$divided){
+                echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards" style="margin-top:-14px">';
+                $divided = !$divided;
+              }
+            }
+            $practice_collection = new Practice($practice["PracticeID"], $practice["Title"], $practice["Start"]);
+          }
+          if(count($practice_collection->attendees) == 0){
+            array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
+          } elseif($practice["UserID"] != $practice_collection->attendees[count($practice_collection->attendees)-1]["id"]){
+            array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
+          }
+          array_push($practice_collection->roles, $practice["RoleID"]);
+        }
+        $practice_collection->detectScenes($allScenes);
+        createCard($practice_collection);
+
+        function createCard($practice_collection){
+          $format = new DateTime($practice_collection->date);
           $button=<<<EOT
           <form method="POST" action="" style="margin-bottom:0;">
-            <input type="hidden" name="rm_date" value="$id">
+            <input type="hidden" name="rm_date" value="$practice_collection->id">
             <button class="ui bottom attached red button" style="width:100%" type="submit"><i class="trash icon"></i></button>
           </form>
 EOT;
+          $attendee_rows = "";
+          foreach ($practice_collection->attendees as $attendee) {
+            $attendee_rows .= '<tr><td>' . $attendee["name"] .'<div class="right floated meta">#' . $attendee["id"] . '</div></td></tr>';
+          }
+
+          $scene_rows = "";
+          foreach ($practice_collection->scenes as $scene) {
+            $scene_rows .= '<tr><td>' . $scene["Name"] .'<div class="right floated meta">#' . $scene["SceneID"] . '</div></td></tr>';
+          }
+
           $card=<<<EOT
           <div class="ui card">
             <div class="content">
               <div class="header">
-                $title
+                $practice_collection->title
                 <div class="right floated meta">
-                  #$id
+                  #$practice_collection->id
                 </div>
               </div>
               <div class="meta">
                 {$format->format("d.m.Y H:i")}
               </div>
+            </div>
+            <div class="content">
+              <div class="sub header">Attendees</div>
+              <table class="ui very basic table">
+                $attendee_rows
+              </table>
+            </div>
+            <div class="content">
+              <div class="sub header">Available Scenes</div>
+              <table class="ui very basic table">
+                $scene_rows
+              </table>
             </div>
             $button
           </div>
