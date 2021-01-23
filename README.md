@@ -29,6 +29,7 @@ TODO
   - database?
   - change subfolder
   - change date setting mode
+  - Setting for reverse Dates
 
 ### Could
 - [ ] Forgot Password link
