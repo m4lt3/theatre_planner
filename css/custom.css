@@ -9,3 +9,14 @@ body > main {
 .ui.selection.dropdown{
   min-width: 0;
 }
+footer{
+ background-color: #cac7c3;
+ color: #504F4E;
+ padding: 10px;
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+}
+footer > span:not(:last-child)::after{
+  content:'\a0\a0|\a0\a0'
+}

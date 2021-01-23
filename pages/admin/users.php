@@ -37,7 +37,7 @@
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
-    <!-- TODO add sidebar / static nav -->
+    <?php include "nav.html" ?>
     <main class="ui text container">
       <form class="ui form" action="" method="post">
         <div class="three fields">
@@ -184,6 +184,9 @@ EOT;
     $(document).ready(function(){
       $('.ui.dropdown').dropdown();
     });
+    </script>
+    <script type="text/javascript">
+      document.getElementById("nav_users").className="active item";
     </script>
   </body>
 </html>

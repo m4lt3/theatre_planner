@@ -35,7 +35,7 @@ error_reporting(E_ALL);
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
-    <!-- TODO add sidebar / static nav -->
+    <?php include "nav.html" ?>
     <main class="ui text container">
       <form action="" method="post" class="ui form">
         <div class="required field">
@@ -173,43 +173,6 @@ EOT;
           echo $card;
 
           }
-          /*
-          function createCard($UserID, $name, $mail, $roles, $PlaysID, $FreeRoles, $admin){
-
-            $button =<<<EOT
-            <form method="POST" action="" style="margin-bottom:0;">
-              <input type="hidden" name="rm_user" value="$UserID">
-              <button class="ui bottom attached red button" style="width:100%" type="submit"><i class="trash icon"></i></button>
-            </form>
-EOT;
-
-          $adminColour = "";
-          if($admin){
-            $adminColour = "orange";
-          }
-
-            $card =<<<EOT
-  <div class="ui card">
-    <div class="content">
-      <div class="header">
-        $name
-        <div class="right floated meta">#$UserID</div>
-        <form action="" method="post"><input type="hidden" name="toggle_admin" value ="$UserID"><button type="submit" style="cursor:pointer" class="ui right floating $adminColour icon label"><i class="fitted chess queen icon"></i></button></form>
-      </div>
-      <div class="meta"><a href="mailto:$mail">$mail</a></div>
-    </div>
-    <div class="content">
-      <div class="ui sub header">Roles</div>
-        <table class="ui very basic table">
-          $role_rows
-          $role_dialog
-        </table>
-      </div>
-      $button
-  </div>
-EOT;
-          echo $card;
-        }*/
         ?>
       </div>
     </main>
@@ -221,6 +184,9 @@ EOT;
       $('.ui.dropdown').dropdown();
       $('.ui.checkbox').checkbox();
     });
+    </script>
+    <script type="text/javascript">
+      document.getElementById("nav_scenes").className="active item";
     </script>
   </body>
 </html>

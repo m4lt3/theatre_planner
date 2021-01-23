@@ -32,7 +32,7 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="/theatre_planner/css/jquery.datetimepicker.min.css">
   </head>
   <body>
-    <!-- TODO add sidebar / static nav -->
+    <?php include "nav.html" ?>
     <main class="ui text container">
       <form class="ui form" action="" method="post">
         <div class="two fields">
@@ -174,7 +174,9 @@ EOT;
     function openPicker(){
       $('#dateInput').datetimepicker('show');
     }
-
+    </script>
+    <script type="text/javascript">
+      document.getElementById("nav_practices").className="active item";
     </script>
   </body>
 </html>

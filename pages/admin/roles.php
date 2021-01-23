@@ -24,7 +24,7 @@
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
-    <!-- TODO add sidebar / static nav -->
+    <?php include "nav.html" ?>
     <main class="ui text container">
       <form action="" method="post" class="ui form">
         <div class="required field">
@@ -73,5 +73,8 @@ EOT;
       </div>
     </main>
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/footer.html"; ?>
+    <script type="text/javascript">
+      document.getElementById("nav_roles").className="active item";
+    </script>
   </body>
 </html>
