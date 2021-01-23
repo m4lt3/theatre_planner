@@ -1,5 +1,6 @@
 <?php
-  require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
+  require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
+  require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
 
   $db = new DBHandler();
 
@@ -24,7 +25,7 @@
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
-    <?php include "nav.html" ?>
+    <?php include "nav.php" ?>
     <main class="ui text container">
       <form action="" method="post" class="ui form">
         <div class="required field">

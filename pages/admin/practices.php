@@ -1,10 +1,7 @@
 <?php
-  require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
-  require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/practice.php";
-
-  ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+  require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
+  require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
+  require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/practice.php";
 
   $db = new DBHandler();
   $past = false;
@@ -32,7 +29,7 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="/theatre_planner/css/jquery.datetimepicker.min.css">
   </head>
   <body>
-    <?php include "nav.html" ?>
+    <?php include "nav.php" ?>
     <main class="ui text container">
       <form class="ui form" action="" method="post">
         <div class="two fields">

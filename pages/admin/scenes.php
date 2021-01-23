@@ -1,9 +1,6 @@
 <?php
-  require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
-
-  ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+  require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
+  require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
 
   $db = new DBHandler();
   $inserted = true;
@@ -35,7 +32,7 @@ error_reporting(E_ALL);
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
-    <?php include "nav.html" ?>
+    <?php include "nav.php" ?>
     <main class="ui text container">
       <form action="" method="post" class="ui form">
         <div class="required field">

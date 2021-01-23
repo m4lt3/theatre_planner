@@ -1,21 +1,27 @@
 <?php
-  require $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
+  require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
+  require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
 
   $db = new DBHandler();
   $inserted = true;
 
  if(isset($_POST["rm_user"])){
-   //TODO User mustn't remove himself
-   if(!$db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_POST["rm_user"]))){
-     $dependencies = $db->prepareQuery("SELECT PlaysID FROM PLAYS WHERE UserID=?", "i", array($_POST["rm_user"]));
-     foreach ($dependencies as $dependency) {
-       $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i", array($dependency["PlaysID"]));
+   if($_SESSION["UserID"] != $_POST["rm_user"]){
+     if(!$db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_POST["rm_user"]))){
+       $dependencies = $db->prepareQuery("SELECT PlaysID FROM PLAYS WHERE UserID=?", "i", array($_POST["rm_user"]));
+       foreach ($dependencies as $dependency) {
+         $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i", array($dependency["PlaysID"]));
+       }
+       $dependencies = $db->prepareQuery("SELECT AttendsID FROM ATTENDS WHERE UserID=?", "i", array($_POST["rm_user"]));
+       foreach ($dependencies as $dependency) {
+         $db->update("DELETE FROM ATTENDS WHERE AttendsID=?","i", array($dependency["AttendsID"]));
+       }
+       $db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_POST["rm_user"]));
      }
-     $db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_POST["rm_user"]));
    }
  } elseif (isset($_POST["addUser"])) {
    $password = uniqid();
-   $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], md5($password), ($_POST["userAdmin"] == "on") ? 1 : 0));
+   $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], password_hash($password, PASSWORD_BCRYPT), ($_POST["userAdmin"] == "on") ? 1 : 0));
    if($inserted){
      // TODO mail($_POST["userMail"], "Hello " . $_POST["userName"] . "! Your Password is '" . $password . "'. Please change it after your first login at " . $_SERVER["SERVER_NAME"]);
    }
@@ -24,9 +30,10 @@
  } elseif(isset($_POST["addPlay"])){
    $db->update("INSERT INTO PLAYS VALUES (NULL, ?, ?)", "ii", array($_POST["UserID"], $_POST["newPlay"]));
  } elseif(isset($_POST["toggle_admin"])){
-   //TODO User mustn't un-admin himself
-   $adminStatus = $db->prepareQuery("SELECT Admin FROM USERS WHERE UserID=?","i", array($_POST["toggle_admin"]))[0]["Admin"];
-   $db->update("UPDATE USERS SET Admin=? WHERE UserID=?", "ii", array(!$adminStatus,$_POST["toggle_admin"]));
+   if($_SESSION["UserID"] != $_POST["toggle_admin"]){
+     $adminStatus = $db->prepareQuery("SELECT Admin FROM USERS WHERE UserID=?","i", array($_POST["toggle_admin"]))[0]["Admin"];
+     $db->update("UPDATE USERS SET Admin=? WHERE UserID=?", "ii", array(!$adminStatus,$_POST["toggle_admin"]));
+   }
  }
 ?>
 <!DOCTYPE html>
@@ -37,7 +44,7 @@
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
-    <?php include "nav.html" ?>
+    <?php include "nav.php" ?>
     <main class="ui text container">
       <form class="ui form" action="" method="post">
         <div class="three fields">
