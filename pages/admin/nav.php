@@ -12,7 +12,7 @@
           <a href="/theatre_planner/dashboard.php" class="mini ui icon button" title="Change to User Dashboard"><i class="user icon"></i></a>
       </div>
       <div class="ui item">
-        <form action="/theatre_planner/logout.php" method="post">
+        <form action="/theatre_planner/php/auth/logout.php" method="post">
           <button type="submit" name="logout" class="mini ui right labeled icon button"><i class="sign-out icon"></i><?php echo $_SESSION["UserName"]; ?></button>
         </form>
       </div>
