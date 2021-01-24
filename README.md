@@ -28,8 +28,8 @@ TODO
 - [ ] Provide central config
   - database?
   - change subfolder
-  - change date setting mode
   - Setting for reverse Dates
+  - Imprint & Privacy
 
 ### Could
 - [ ] Forgot Password link
@@ -37,6 +37,9 @@ TODO
 - [ ] Reverse dates (Director says which scenes are practiced when, others get a schedule)
 - [ ] Provide translations
 - [ ] Onboarding process?
+- [ ] Allow Role Assignment from roles tab
+- [ ] cookie management
+- [ ] imprint and privacy management
 
 ## License
 

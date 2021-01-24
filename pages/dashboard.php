@@ -29,7 +29,7 @@ $date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES L
         <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?>'s Dashboard</h1>
         <div class="ui mobile reversed stackable two column grid">
           <div class="column">
-            <div class="ui huge center statistic">
+            <div class="ui huge statistic">
               <div class="value">
                 <?php if(empty($roles)){
                   echo "0";
