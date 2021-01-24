@@ -1,9 +1,9 @@
 <?php
-  require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
+  require_once dirname(dirname(__DIR__)) . "/php/auth/sessionValidate.php";
   if(!$loggedIn){
     header("location:/theatre_planner/index.php");
   }
-  require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
+  require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
 
   $db = new DBHandler();
   $inserted = true;
@@ -32,7 +32,7 @@
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Scene Management</title>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
+    <?php include dirname(dirname(__DIR__)) . "/pages/head.html"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
@@ -178,7 +178,7 @@ EOT;
       </div>
     </main>
     <?php
-    include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/footer.html";
+    include dirname(dirname(__DIR__)) . "/pages/footer.html";
     ?>
     <script type="text/javascript">
     $(document).ready(function(){

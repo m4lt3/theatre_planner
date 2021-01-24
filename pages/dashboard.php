@@ -1,6 +1,6 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
+require_once dirname(__DIR__) . "/php/auth/sessionValidate.php";
+require_once dirname(__DIR__) . "/php/utils/database.php";
 if(!$loggedIn){
   header("location:/theatre_planner/index.php");
 }
@@ -14,7 +14,7 @@ $date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES L
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Dashboard</title>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
+    <?php include dirname(__DIR__) . "/pages/head.html"; ?>
     <style media="screen">
       main > .grid > .column {
         display: flex!important;
@@ -103,7 +103,7 @@ EOT;
           </div>
         </div>
     </main>
-    <?php include $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/pages/footer.html" ?>
+    <?php include dirname(__DIR__) . "/pages/footer.html" ?>
     <script type="text/javascript">
       document.getElementById("nav_dashboard").className="active item";
     </script>

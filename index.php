@@ -1,9 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/utils/database.php";
+require_once __DIR__ . "/php/auth/sessionValidate.php";
+require_once __DIR__ . "/php/utils/database.php";
 
 if($loggedIn){
   header("location:./pages/dashboard.php");
@@ -52,7 +49,7 @@ if($loggedIn){
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Login</title>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
+    <?php include __DIR__ . "/pages/head.html"; ?>
     <style type="text/css">
     body{
       background-image: url("/theatre_planner/images/login.jpg");
@@ -105,7 +102,7 @@ if($loggedIn){
         </div>
       </div>
     </main>
-    <?php include $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/pages/footer.html" ?>
+    <?php include __DIR__ . "/pages/footer.html" ?>
     <script type="text/javascript">
       $(document).ready(function(){
         $('.ui.checkbox').checkbox();

@@ -1,10 +1,10 @@
 <?php
-  require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
+  require_once dirname(dirname(__DIR__)) . "/php/auth/sessionValidate.php";
   if(!$loggedIn){
     header("location:/theatre_planner/index.php");
   }
-  require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
-  require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/practice.php";
+  require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
+  require_once dirname(dirname(__DIR__)) . "/php/utils/practice.php";
 
   $db = new DBHandler();
 
@@ -28,7 +28,7 @@
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Practice Management</title>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
+    <?php include dirname(dirname(__DIR__)) . "/pages/head.html"; ?>
     <link rel="stylesheet" href="/theatre_planner/css/jquery.datetimepicker.min.css">
   </head>
   <body>
@@ -153,7 +153,7 @@ EOT;
         ?>
       </div>
     </main>
-    <?php include $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/pages/footer.html" ?>
+    <?php include dirname(dirname(__DIR__)) . "/pages/footer.html" ?>
     <script src="/theatre_planner/js/jquery.datetimepicker.full.min.js" charset="utf-8"></script>
     <script type="text/javascript">
     $(document).ready(function(){

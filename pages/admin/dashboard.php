@@ -1,6 +1,7 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
-require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/utils/database.php";
+require_once dirname(dirname(__DIR__)) . "/php/auth/sessionValidate.php";
+require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
+$config = require dirname(dirname(__DIR__))."/php/config.php";
 if(!$loggedIn){
   header("location:/theatre_planner/index.php");
 }
@@ -18,7 +19,7 @@ $roleless_actors = $db->baseQuery("SELECT UserID, Name, Mail FROM USERS WHERE Us
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Admin Dashboard</title>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
+    <?php include dirname(dirname(__DIR__)) . "/pages/head.html"; ?>
     <style media="screen">
       main > .grid > .column {
         display: flex!important;
@@ -136,7 +137,7 @@ EOT;
         </div>
       </div>
     </main>
-    <?php include $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/pages/footer.html" ?>
+    <?php include dirname(dirname(__DIR__)) . "/pages/footer.html" ?>
     <script type="text/javascript">
       document.getElementById("nav_dashboard").className="active item";
     </script>

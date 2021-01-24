@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
+require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
 
 $loggedIn = false;
 
