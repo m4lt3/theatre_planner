@@ -42,7 +42,7 @@ if(isset($_POST["newPassword"])){
   </head>
   <body>
     <?php include "nav.php" ?>
-    <main class="ui container">
+    <main class="ui text container">
       <h3 class="ui medium header">Change Password</h3>
       <form class="ui form" action="" method="post" id="passForm">
         <div class="ui error message" id="passEqual" style="">

@@ -27,7 +27,7 @@ if (isset($_POST["reject"])){
   </head>
   <body>
     <?php include "nav.php" ?>
-    <main class="ui container">
+    <main class="ui text container">
       <h1 class="ui large header">Your practices</h1>
       <br/>
       <form id="toggleForm" action="" method="post">

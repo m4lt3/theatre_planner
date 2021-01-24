@@ -14,7 +14,7 @@ if(!$loggedIn){
   </head>
   <body>
     <?php include "nav.php" ?>
-    <main class="ui container">
+    <main class="ui text container">
       User Dashboard
     </main>
     <?php include $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/pages/footer.html" ?>
