@@ -23,10 +23,10 @@ if($loggedIn){
 
 
        $h1 = random_bytes(16);
-       setcookie("theatre_h1", $h1, array("expires"=>$cookie_expiration_time, "samesite"=>"Strict", "path"=>"/"));
+       setcookie("theatre_h1", $h1, array("expires"=>$cookie_expiration_time, "samesite"=>"Lax", "path"=>"/"));
 
        $h2 = random_bytes(32);
-       setcookie("theatre_h2", $h2, array("expires"=>$cookie_expiration_time, "samesite"=>"Strict", "path"=>"/"));
+       setcookie("theatre_h2", $h2, array("expires"=>$cookie_expiration_time, "samesite"=>"Lax", "path"=>"/"));
 
        $h1_hash = password_hash($h1, PASSWORD_BCRYPT);
        $h2_hash = password_hash($h2, PASSWORD_BCRYPT);
