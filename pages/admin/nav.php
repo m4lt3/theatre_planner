@@ -6,10 +6,10 @@
     <a href="./practices.php" class="item" id="nav_practices">Practices</a>
     <a href="./scenes.php" class="item" id="nav_scenes">Scenes</a>
     <a href="./roles.php" class="item" id="nav_roles">Roles</a>
-    <a href="./users.php" class="item" id="nav_users">Users</a>
+    <a href="./actors.php" class="item" id="nav_users">Actors</a>
     <div class="right menu">
       <div class="ui item">
-          <a href="/theatre_planner/pages/dashboard.php" class="mini ui icon button" title="Change to User Dashboard"><i class="user icon"></i></a>
+          <a href="/theatre_planner/pages/dashboard.php" class="mini ui icon button" title="Change to Actor Dashboard"><i class="user icon"></i></a>
       </div>
       <div class="ui item">
         <form action="/theatre_planner/php/auth/logout.php" method="post">

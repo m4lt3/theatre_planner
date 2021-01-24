@@ -43,13 +43,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | User Management</title>
+    <title>Theatre Planner | Actor Management</title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-      <h1 class="ui large header">User management</h1>
+      <h1 class="ui large header">Actor management</h1>
       <form class="ui form" action="" method="post">
         <div class="three fields">
           <div class="required field">
@@ -73,7 +73,7 @@
             Oops! That Address is already taken.
           </div>
         </div>
-        <input class="ui primary button" type="submit" name="addUser" value="Create User">
+        <input class="ui primary button" type="submit" name="addUser" value="Create Actor">
       </form>
 
       <br/>
