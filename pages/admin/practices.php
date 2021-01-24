@@ -3,6 +3,9 @@
   if(!$loggedIn){
     header("location:../../index.php");
   }
+  if(!$_SESSION["Admin"]){
+    header("location:../dashboard.php");
+  }
   require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
   require_once dirname(dirname(__DIR__)) . "/php/utils/practice.php";
 

@@ -4,6 +4,9 @@ require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
 if(!$loggedIn){
   header("location:../../index.php");
 }
+if(!$_SESSION["Admin"]){
+  header("location:../dashboard.php");
+}
 
 $db = new DBHandler();
 $roles = $db->baseQuery("SELECT COUNT(RoleID) AS RoleCount FROM ROLES")[0]["RoleCount"];
