@@ -23,7 +23,7 @@ TODO
 - [x] Create Practice overview for director
 
 ### Should
-- [ ] Let users change the Password
+- [x] Let users change the Password
 - [ ] Add Dashboards for Users and Admins
 - [ ] Provide central config
   - database?
