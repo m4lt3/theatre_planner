@@ -1,5 +1,8 @@
 <?php
   require_once $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/php/auth/sessionValidate.php";
+  if(!$loggedIn){
+    header("location:/theatre_planner/index.php");
+  }
   require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/database.php";
   require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/practice.php";
 

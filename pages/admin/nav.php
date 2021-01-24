@@ -9,7 +9,7 @@
     <a href="./users.php" class="item" id="nav_users">Users</a>
     <div class="right menu">
       <div class="ui item">
-          <a href="/theatre_planner/dashboard.php" class="mini ui icon button" title="Change to User Dashboard"><i class="user icon"></i></a>
+          <a href="/theatre_planner/pages/dashboard.php" class="mini ui icon button" title="Change to User Dashboard"><i class="user icon"></i></a>
       </div>
       <div class="ui item">
         <form action="/theatre_planner/php/auth/logout.php" method="post">

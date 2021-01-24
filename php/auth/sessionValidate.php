@@ -12,7 +12,7 @@ if(isset($_SESSION["UserID"])){
   $eVerified = false;
 
   $db = new DBHandler();
-  $token = $db->prepareQuery("SELECT * FROM TOKENS WHERE TokenID=?","i", $_COOKIE["theatreID"]);
+  $token = $db->prepareQuery("SELECT * FROM TOKENS WHERE UserID=?","i", array($_COOKIE["theatreID"]))[0];
 
   if(password_verify($_COOKIE["theatre_h1"], $token["Password"])){
     $pVerified = true;
@@ -43,8 +43,5 @@ if(isset($_SESSION["UserID"])){
     setcookie("theatre_h1", "", time() - 3600);
     setcookie("theatre_h2", "", time() - 3600);
   }
-}
-if(!$loggedIn){
-  header("location:/theatre_planner/index.php");
 }
 ?>
