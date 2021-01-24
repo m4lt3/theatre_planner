@@ -12,7 +12,7 @@ if (isset($_POST["reject"])){
 } elseif (isset($_POST["accept"])){
   $db->update("INSERT INTO ATTENDS VALUES (NULL, ?, ?)", "ii", array($_POST["reqID"], $_SESSION["UserID"]));
 } elseif (isset($_POST["toggleValue"])){
-  setcookie("theatre_past", ($_POST["toggleValue"]=="true"), time() + 2592000);
+  setcookie("theatre_past", ($_POST["toggleValue"]=="true"), array("expires"=>time() + 2592000, "samesite"=>"Strict"));
   header("location:./practices.php");
 }
 
@@ -35,7 +35,7 @@ if (isset($_POST["reject"])){
         <div class="ui toggle checkbox">
           <input type="checkbox" name="toggle_past" id="toggle_past"
           <?php
-          if(isset($_COOKIE["theatre_past"]) && $_COOKIE["theatre_past"]){
+          if(!empty($_COOKIE["theatre_past"])){
             echo "checked";
           }
            ?>
@@ -47,10 +47,11 @@ if (isset($_POST["reject"])){
       <div class="ui two stacked cards">
         <?php
         $practiceQuery = "SELECT PRACTICES.*, ME.AttendsID FROM PRACTICES LEFT JOIN (SELECT * FROM ATTENDS WHERE UserID = ?) AS ME ON ME.PracticeID = PRACTICES.PracticeID";
-        $divided = true;
-        if (isset($_COOKIE["theatre_past"]) && !$_COOKIE["theatre_past"]) {
+        $divided = false;
+        if (empty($_COOKIE["theatre_past"])) {
           $practiceQuery .= " WHERE PRACTICES.Start > NOW()";
-          $divided = false;
+
+          $divided = true;
         }
         $practiceQuery .= " ORDER BY PRACTICES.Start";
 

@@ -7,7 +7,6 @@
   require_once $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/php/utils/practice.php";
 
   $db = new DBHandler();
-  $past = false;
 
   if(isset($_POST["addDate"])){
     $db->update("INSERT INTO PRACTICES VALUES (NULL, ?, ?)", "ss", array($_POST["titleInput"], $_POST["dateInput"]));
@@ -20,7 +19,8 @@
       $db->update("DELETE FROM PRACTICES WHERE PracticeID=?", "i", array($_POST["rm_date"]));
     }
   } elseif (isset($_POST["toggleValue"])){
-    $past = $_POST["toggleValue"];
+    setcookie("theatre_past", ($_POST["toggleValue"]=="true"), array("expires"=>time() + 2592000, "samesite"=>"Strict"));
+    header("location:./practices.php");
   }
 ?>
 <!DOCTYPE html>
@@ -56,7 +56,7 @@
         <div class="ui toggle checkbox">
           <input type="checkbox" name="toggle_past" id="toggle_past"
           <?php
-          if($past == "true"){
+          if(!empty($_COOKIE["theatre_past"])){
             echo "checked";
           }
            ?>
@@ -68,12 +68,14 @@
       <div class="ui two stacked cards">
         <?php
         $practiceQuery = "SELECT PRACTICES.PracticeID, PRACTICES.Title, PRACTICES.Start, USERS.UserID, USERS.Name, ROLES.RoleID, ROLES.Name AS Role FROM PRACTICES LEFT JOIN ATTENDS ON PRACTICES.PracticeID = ATTENDS.PracticeID LEFT JOIN USERS ON USERS.UserID = ATTENDS.UserID LEFT JOIN PLAYS ON PLAYS.UserID = USERS.UserID LEFT JOIN ROLES ON PLAYS.RoleID = ROLES.RoleID";
-        if(!($past == "true")){
+
+        $divided=false;
+        if(empty($_COOKIE["theatre_past"])){
           $practiceQuery .= " WHERE PRACTICES.Start > NOW()";
+          $divided=true;
         }
         $practiceQuery .= " ORDER BY PRACTICES.Start, USERS.UserID";
         $practices = $db->baseQuery($practiceQuery);
-        $divided = !($past == "true");
         $practice_collection = new Practice(-1,"","");
         $allScenes= $db->baseQuery("SELECT FEATURES.SceneID, FEATURES.RoleID, FEATURES.Mandatory, SCENES.Name FROM FEATURES JOIN SCENES ON FEATURES.SceneID = SCENES.SceneID ORDER BY FEATURES.SceneID ");
         foreach ($practices as $practice) {
@@ -82,7 +84,7 @@
               $practice_collection->detectScenes($allScenes);
 
               createCard($practice_collection);
-              if ($practice["Start"] > date("Y-m-d H:i:s") && !$divided){
+              if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
                 echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards" style="margin-top:-14px">';
                 $divided = !$divided;
               }
