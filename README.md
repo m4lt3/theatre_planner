@@ -19,7 +19,7 @@ TODO
   - Some roles can be optional for a scene
 - [x] Assign Roles to scenes
 - [x] Create Dates
-- [ ] Create Date planner for users
+- [x] Create Date planner for users
 - [x] Create Practice overview for director
 
 ### Should
@@ -36,6 +36,7 @@ TODO
 - [x] Remember me
 - [ ] Reverse dates (Director says which scenes are practiced when, others get a schedule)
 - [ ] Provide translations
+- [ ] Onboarding process?
 
 ## License
 
