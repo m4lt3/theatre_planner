@@ -31,12 +31,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Scenes</title>
+    <title>Theatre Planner | Scene Management</title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
+      <h1 class="ui large header">Scene management</h1>
       <form action="" method="post" class="ui form">
         <div class="required field">
           <label for="sceneName">Scene Name</label>

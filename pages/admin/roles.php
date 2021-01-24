@@ -24,12 +24,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Roles</title>
+    <title>Theatre Planner | Role Management</title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
+      <h1 class="ui large header">Role management</h1>
       <form action="" method="post" class="ui form">
         <div class="required field">
           <label for="roleName">Role Name</label>

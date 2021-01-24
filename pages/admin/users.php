@@ -26,7 +26,7 @@
    $password = uniqid();
    $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], password_hash($password, PASSWORD_BCRYPT), ($_POST["userAdmin"] == "on") ? 1 : 0));
    if($inserted){
-     // TODO mail($_POST["userMail"], "Hello " . $_POST["userName"] . "! Your Password is '" . $password . "'. Please change it after your first login at " . $_SERVER["SERVER_NAME"]);
+     mail($_POST["userMail"], "Hello " . $_POST["userName"] . "! Your Password is '" . $password . "'. Please change it after your first login at " . $_SERVER["SERVER_NAME"]);
    }
  } elseif (isset($_POST["rm_plays"])){
    $db->update("DELETE FROM PLAYS WHERE PlaysID=?", "i", array($_POST["rm_plays"]));
@@ -43,12 +43,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Users</title>
+    <title>Theatre Planner | User Management</title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
+      <h1 class="ui large header">User management</h1>
       <form class="ui form" action="" method="post">
         <div class="three fields">
           <div class="required field">

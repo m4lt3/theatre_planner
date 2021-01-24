@@ -27,13 +27,14 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Practices</title>
+    <title>Theatre Planner | Practice Management</title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
     <link rel="stylesheet" href="/theatre_planner/css/jquery.datetimepicker.min.css">
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
+      <h1 class="ui large header">Practice date management</h1>
       <form class="ui form" action="" method="post">
         <div class="two fields">
           <div class="field">

@@ -9,13 +9,13 @@ if(!$loggedIn){
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Users</title>
+    <title>Theatre Planner | Admin Dashboard</title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui container">
-
+      <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?>'s Admin Dashboard</h1>
     </main>
     <?php include $_SERVER["DOCUMENT_ROOT"] . "/theatre_planner/pages/footer.html" ?>
     <script type="text/javascript">
