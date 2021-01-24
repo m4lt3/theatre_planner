@@ -11,5 +11,5 @@ setcookie("theatre_h1", "", array("expires"=>time() - 3600, "samesite"=>"Strict"
 setcookie("theatre_h2", "", array("expires"=>time() - 3600, "samesite"=>"Strict", "path"=>"/"));
 setcookie("PHPSESSID","", array("expires"=>time() - 3600, "samesite"=>"Strict", "path"=>"/"));
 
-header("location:/theatre_planner/index.php");
+header("location:../../index.php");
 ?>

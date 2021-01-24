@@ -2,7 +2,7 @@
 require_once dirname(__DIR__) . "/php/auth/sessionValidate.php";
 require_once dirname(__DIR__) . "/php/utils/database.php";
 if(!$loggedIn){
-  header("location:/theatre_planner/index.php");
+  header("location:../index.php");
 }
 $db = new DBHandler();
 $roles = $db->prepareQuery("SELECT ROLES.RoleID, ROLES.Name, ROLES.Description FROM ROLES, USERS, PLAYS WHERE PLAYS.UserID = ? AND PLAYS.RoleID = ROLES.RoleID AND PLAYS.UserID = USERS.UserID", "s", array($_SESSION["UserID"]));

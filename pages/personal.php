@@ -3,7 +3,7 @@ require_once dirname(__DIR__) . "/php/auth/sessionValidate.php";
 require_once dirname(__DIR__) . "/php/utils/database.php";
 
 if(!$loggedIn){
-  header("location:/theatre_planner/index.php");
+  header("location:../index.php");
 }
 $failure = "";
 $success = "";

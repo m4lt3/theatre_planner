@@ -7,6 +7,7 @@
     <a href="./scenes.php" class="item" id="nav_scenes">Scenes</a>
     <a href="./roles.php" class="item" id="nav_roles">Roles</a>
     <a href="./actors.php" class="item" id="nav_users">Actors</a>
+    <a href="./config.php" class="item" id="nav_config">Server Configuration</a>
     <div class="right menu">
       <div class="ui item">
           <a href="/theatre_planner/pages/dashboard.php" class="mini ui icon button" title="Change to Actor Dashboard"><i class="user icon"></i></a>

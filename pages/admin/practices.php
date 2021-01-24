@@ -1,7 +1,7 @@
 <?php
   require_once dirname(dirname(__DIR__)) . "/php/auth/sessionValidate.php";
   if(!$loggedIn){
-    header("location:/theatre_planner/index.php");
+    header("location:../../index.php");
   }
   require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
   require_once dirname(dirname(__DIR__)) . "/php/utils/practice.php";
@@ -29,7 +29,7 @@
     <meta charset="utf-8">
     <title>Theatre Planner | Practice Management</title>
     <?php include dirname(dirname(__DIR__)) . "/pages/head.html"; ?>
-    <link rel="stylesheet" href="/theatre_planner/css/jquery.datetimepicker.min.css">
+    <link rel="stylesheet" href="../../css/jquery.datetimepicker.min.css">
   </head>
   <body>
     <?php include "nav.php" ?>
@@ -154,7 +154,7 @@ EOT;
       </div>
     </main>
     <?php include dirname(dirname(__DIR__)) . "/pages/footer.html" ?>
-    <script src="/theatre_planner/js/jquery.datetimepicker.full.min.js" charset="utf-8"></script>
+    <script src="../../js/jquery.datetimepicker.full.min.js" charset="utf-8"></script>
     <script type="text/javascript">
     $(document).ready(function(){
       $('#dateInput').datetimepicker({

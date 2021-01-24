@@ -1,9 +1,8 @@
 <?php
 require_once dirname(dirname(__DIR__)) . "/php/auth/sessionValidate.php";
 require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
-$config = require dirname(dirname(__DIR__))."/php/config.php";
 if(!$loggedIn){
-  header("location:/theatre_planner/index.php");
+  header("location:../../index.php");
 }
 
 $db = new DBHandler();
