@@ -33,7 +33,7 @@ TODO
 
 ### Could
 - [ ] Forgot Password link
-- [ ] Remember me
+- [x] Remember me
 - [ ] Reverse dates (Director says which scenes are practiced when, others get a schedule)
 - [ ] Provide translations
 
