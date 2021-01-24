@@ -5,6 +5,7 @@ body{
 }
 body > main {
   flex-grow: 1;
+  margin-bottom: 15px;
 }
 .ui.selection.dropdown{
   min-width: 0;
@@ -16,7 +17,11 @@ footer{
  display: flex;
  flex-wrap: wrap;
  justify-content: center;
+ box-shadow: 0 3px 3px 0 grey inset;
 }
 footer > span:not(:last-child)::after{
   content:'\a0\a0|\a0\a0'
+}
+nav {
+  flex-shrink: 0;
 }
