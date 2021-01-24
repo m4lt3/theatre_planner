@@ -20,13 +20,13 @@ if($loggedIn){
 
      if(isset($_POST["rememberMe"])){
        $cookie_expiration_time = time() + (30 * 24 * 60 * 60);
-       setcookie("theatreID", $creds["UserID"], $cookie_expiration_time);
+       setcookie("theatreID", $creds["UserID"], array("expires"=>$cookie_expiration_time, "samesite"=>"Strict", "path"=>"/"));
 
        $h1 = random_bytes(16);
-       setcookie("theatre_h1", $h1, $cookie_expiration_time);
+       setcookie("theatre_h1", $h1, array("expires"=>$cookie_expiration_time, "samesite"=>"Strict", "path"=>"/"));
 
        $h2 = random_bytes(32);
-       setcookie("theatre_h2", $h2, $cookie_expiration_time);
+       setcookie("theatre_h2", $h2, array("expires"=>$cookie_expiration_time, "samesite"=>"Strict", "path"=>"/"));
 
        $h1_hash = password_hash($h1, PASSWORD_BCRYPT);
        $h2_hash = password_hash($h2, PASSWORD_BCRYPT);
@@ -39,9 +39,9 @@ if($loggedIn){
          $db->update("UPDATE TOKENS SET Password=?, Selector=?, Expires=? WHERE UserID=?","sssi", array($h1_hash, $h2_hash, $expiry_date, $creds["UserID"]));
        }
      } else {
-       setcookie("theatreID", "", time() - 3600);
-       setcookie("theatre_h1", "", time() - 3600);
-       setcookie("theatre_h2", "", time() - 3600);
+       setcookie("theatreID", "", array("expires"=>time() - 3600, "samesite"=>"Strict", "path"=>"/"));
+       setcookie("theatre_h1", "", array("expires"=>time() - 3600, "samesite"=>"Strict", "path"=>"/"));
+       setcookie("theatre_h2", "", array("expires"=>time() - 3600, "samesite"=>"Strict", "path"=>"/"));
      }
      header("location:./pages/dashboard.php");
    } else {

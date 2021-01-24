@@ -12,7 +12,7 @@ if (isset($_POST["reject"])){
 } elseif (isset($_POST["accept"])){
   $db->update("INSERT INTO ATTENDS VALUES (NULL, ?, ?)", "ii", array($_POST["reqID"], $_SESSION["UserID"]));
 } elseif (isset($_POST["toggleValue"])){
-  setcookie("theatre_past", ($_POST["toggleValue"]=="true"), array("expires"=>time() + 2592000, "samesite"=>"Strict"));
+  setcookie("theatre_past", ($_POST["toggleValue"]=="true"), array("expires"=>time() + 2592000, "samesite"=>"Strict", "path"=>"/"));
   header("location:./practices.php");
 }
 
