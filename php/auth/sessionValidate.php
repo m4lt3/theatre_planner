@@ -12,7 +12,7 @@ if(isset($_SESSION["UserID"])){
   $eVerified = false;
 
   $db = new DBHandler();
-  $token = $db->prepareQuery("SELECT * FROM TOKENS WHERE UserID=?","i", array($_COOKIE["theatreID"]))[0];
+  $token = $db->prepareQuery("SELECT * FROM TOKENS WHERE TokenID=?","i", array($_COOKIE["theatreID"]))[0];
 
   if(password_verify($_COOKIE["theatre_h1"], $token["Password"])){
     $pVerified = true;
@@ -39,9 +39,9 @@ if(isset($_SESSION["UserID"])){
       $db->update("DELETE FROM TOKENS WHERE TokenID=?","i",array($token["TokenID"]));
     }
 
-    setcookie("theatreID", "", time() - 3600);
-    setcookie("theatre_h1", "", time() - 3600);
-    setcookie("theatre_h2", "", time() - 3600);
+    setcookie("theatreID", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_h1", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_h2", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
   }
 }
 ?>
