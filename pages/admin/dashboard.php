@@ -11,6 +11,16 @@ if(!$loggedIn){
     <meta charset="utf-8">
     <title>Theatre Planner | Admin Dashboard</title>
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/theatre_planner/pages/head.html"; ?>
+    <style media="screen">
+      main > .grid > .column {
+        display: flex!important;
+        justify-content: center;
+        flex-direction: column;
+      }
+      main > .grid{
+        height:100%;
+      }
+    </style>
   </head>
   <body>
     <?php include "nav.php" ?>

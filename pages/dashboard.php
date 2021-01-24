@@ -21,6 +21,9 @@ $date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES L
         justify-content: center;
         flex-direction: column;
       }
+      main > .grid{
+        height:100%;
+      }
     </style>
   </head>
   <body>
