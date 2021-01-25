@@ -19,6 +19,8 @@ return (object) array(
   "imprint_text" => "Custom text to be shown in the imprint",
   "data_protection_officer" => "Name and address",
   "custom_privacy_text" => "",
-  "disable_standard_privacy" => false
+  "disable_standard_privacy" => false,
+
+  "header_tags" => ""
 );
 ?>

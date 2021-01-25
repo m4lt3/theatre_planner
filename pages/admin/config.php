@@ -26,6 +26,9 @@ error_reporting(E_ALL);
     $config->custom_privacy_text = $_POST["custom_privacy_text"];
     $config->disable_standard_privacy = isset($_POST["disable_standard_privacy"]);
     file_put_contents("../../php/config.php", "<?php\n\nreturn " . var_export($config, true) . "\n\n?>");
+  } elseif(isset($_POST["tags_changed"])){
+    $config->header_tags = $_POST["header_tags"];
+    file_put_contents("../../php/config.php", "<?php\n\nreturn " . var_export($config, true) . "\n\n?>");
   }
 ?>
 <!DOCTYPE html>
@@ -128,6 +131,15 @@ error_reporting(E_ALL);
         </div><br/><br/>
         <input class="ui primary button" type="submit" name="privacy_imprint_changed" value="Save Privacy & Imprint settings">
       </form>
+      <div class="ui divider"></div>
+      <h2 class="ui medium header">Miscellaneous</h2>
+      <form class="ui form" action="" method="post">
+        <div class="ui field">
+          <label for="header_tags">Header Tags <div class="ui circular label" id="header_help"><i class="fitted question icon"></i></div></label>
+          <textarea name="header_tags" rows="8" cols="80"><?php echo $config->header_tags ?></textarea>
+        </div>
+        <input class="ui primary button" type="submit" name="tags_changed" value="Save information">
+      </form>
     </main>
     <?php
     include dirname(dirname(__DIR__)) . "/pages/footer.html";
@@ -161,7 +173,7 @@ error_reporting(E_ALL);
         } else {
           this.className="ui circular label";
           this.innerHTML='<i class="fitted question icon"></i>';
-          this.id="custom_help"
+          this.id="custom_help";
         }
       });
       document.getElementById("officer_help").addEventListener("click", function(){
@@ -172,7 +184,7 @@ error_reporting(E_ALL);
         } else {
           this.className="ui circular label";
           this.innerHTML='<i class="fitted question icon"></i>';
-          this.id="officer_help"
+          this.id="officer_help";
         }
       });
       document.getElementById("imprint_help").addEventListener("click", function(){
@@ -183,7 +195,7 @@ error_reporting(E_ALL);
         } else {
           this.className="ui circular label";
           this.innerHTML='<i class="fitted question icon"></i>';
-          this.id="imprint_help"
+          this.id="imprint_help";
         }
       });
       document.getElementById("contact_help").addEventListener("click", function(){
@@ -194,7 +206,18 @@ error_reporting(E_ALL);
         } else {
           this.className="ui circular label";
           this.innerHTML='<i class="fitted question icon"></i>';
-          this.id="contact_help"
+          this.id="contact_help";
+        }
+      });
+      document.getElementById("header_help").addEventListener("click", function(){
+        if(this.id=="header_help"){
+          this.className = "ui left pointing label";
+          this.innerHTML="The tags you enter here will be inserted into every page header";
+          this.id="header_help_expanded";
+        } else {
+          this.className="ui circular label";
+          this.innerHTML='<i class="fitted question icon"></i>';
+          this.id="header_help";
         }
       });
 
