@@ -14,8 +14,16 @@
 
     if(!$db->update("DELETE FROM ROLES WHERE RoleID=?", "i", array($_POST["rm_role"]))){
       $dependencies = $db->prepareQuery("SELECT PlaysID FROM PLAYS WHERE RoleID=?", "i", array($_POST["rm_role"]));
-      foreach ($dependencies as $dependency) {
-        $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i", array($dependency["PlaysID"]));
+      if(!empty($dependencies)){
+        foreach ($dependencies as $dependency) {
+          $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i", array($dependency["PlaysID"]));
+        }
+      }
+      $dependencies = $db->prepareQuery("SELECT FeatureID FROM FEATURES WHERE RoleID=?","i", array($_POST["rm_role"]));
+      if(!empty($dependencies)){
+        foreach ($dependencies as $dependency) {
+          $db->update("DELETE FROM FEATURES WHERE FeatureID=?","i", array($dependency["FeatureID"]));
+        }
       }
       $db->update("DELETE FROM ROLES WHERE RoleID=?", "i", array($_POST["rm_role"]));
     }
