@@ -14,7 +14,9 @@ return (object) array(
   // are practiced when and the acters will get informed on which dates they
   // need to be present
   "user_focused" => true,
-  "imprint_text" => "Text to be shown in the imprint",
+
+  "contact_info" => "Contact information to be shown in imprint and privacy declaration",
+  "imprint_text" => "Custom text to be shown in the imprint",
   "data_protection_officer" => "Name and address",
   "custom_privacy_text" => "",
   "disable_standard_privacy" => false
