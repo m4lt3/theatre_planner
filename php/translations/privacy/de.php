@@ -55,13 +55,61 @@
 </ul>
 <h3>Speicherdauer und eingesetzte Cookies:</h3>
 <p>Soweit Sie uns durch Ihre Browsereinstellungen oder Zustimmung die Verwendung von Cookies erlauben, können folgende Cookies auf unseren Webseiten zum Einsatz kommen:</p>
-<p>Cookie-Liste inkl-Speicher-dauer</p>
+<p>
+<!-- custom text -->
+<table class="ui very basic table">
+  <thead>
+    <th>Cookie</th>
+    <th>Speicher-Dauer</th>
+    <th>Notwendig</th>
+    <th>Beschreibung</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PHPSESSID</td>
+      <td>Session</td>
+      <td><i class="check icon"></i></td>
+      <td>Speichern des "Eingeloggt" Status und Funktionalität während der Nutzung</td>
+    </tr>
+    <tr>
+      <td>theatre_past</td>
+      <td>30 Tage</td>
+      <td><i class="close icon"></i></td>
+      <td>Speichern der Nutzerpräferenz "Vergangene Termine anzeigen"</td>
+    </tr>
+    <tr>
+      <td>theatreID</td>
+      <td>30 Tage</td>
+      <td><i class="close icon"></i></td>
+      <td>Cookie 1 von 3 für die "Eingeloggt bleiben"-Funktion</td>
+    </tr>
+    <tr>
+      <td>theatre_h1</td>
+      <td>30 Tage</td>
+      <td><i class="close icon"></i></td>
+      <td>Cookie 2 von 3 für die "Eingeloggt bleiben"-Funktion</td>
+    </tr>
+    <tr>
+      <td>theatre_h2</td>
+      <td>30 Tage</td>
+      <td><i class="close icon"></i></td>
+      <td>Cookie 3 von 3 für die "Eingeloggt bleiben"-Funktion</td>
+    </tr>
+    <tr>
+      <td>theatre_lang</td>
+      <td>30 Tage</td>
+      <td><i class="close icon"></i></td>
+      <td>Cookie zum speichern der UI-Sprache, falls von der Browser-Sprache abweichend</td>
+    </tr>
+  </tbody>
+</table>
+<!-- end custom text -->
+</p>
 <h2>Technisch notwendige Cookies </h2>
 <h3>Art und Zweck der Verarbeitung: </h3>
 <p>Wir setzen Cookies ein, um unsere Website nutzerfreundlicher zu gestalten. Einige Elemente unserer Internetseite erfordern es, dass der aufrufende Browser auch nach einem Seitenwechsel identifiziert werden kann.</p>
 <p>Der Zweck der Verwendung technisch notwendiger Cookies ist, die Nutzung von Websites für die Nutzer zu vereinfachen. Einige Funktionen unserer Internetseite können ohne den Einsatz von Cookies nicht angeboten werden. Für diese ist es erforderlich, dass der Browser auch nach einem Seitenwechsel wiedererkannt wird.</p>
-<p>Für folgende Anwendungen benötigen wir Cookies:</p>
-<p>Übernahme von Spracheinstellungen</p>
+<p>Welche Cookies technisch notwendig sind und warum, kann obiger Tabelle entnommen werden.</p>
 <h3>Rechtsgrundlage und berechtigtes Interesse: </h3>
 <p>Die Verarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. f DSGVO auf Basis unseres berechtigten Interesses an einer nutzerfreundlichen Gestaltung unserer Website.</p>
 <h3>Empfänger: </h3>
