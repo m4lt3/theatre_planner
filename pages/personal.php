@@ -38,7 +38,7 @@ if(isset($_POST["newPassword"])){
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Personal Data</title>
-    <?php include dirname(__DIR__) . "/pages/head.html"; ?>
+    <?php include dirname(__DIR__) . "/head.php"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
@@ -126,7 +126,7 @@ if(isset($_POST["newPassword"])){
         </div>
       </form>
     </main>
-    <?php include dirname(__DIR__) . "/pages/footer.html" ?>
+    <?php include dirname(__DIR__) . "/footer.php" ?>
     <script type="text/javascript">
       document.getElementById("nav_personal").className="active item";
     </script>

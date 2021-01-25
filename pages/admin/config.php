@@ -36,7 +36,7 @@ error_reporting(E_ALL);
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Server Configuration</title>
-    <?php include dirname(dirname(__DIR__)) . "/pages/head.html"; ?>
+    <?php include dirname(dirname(__DIR__)) . "/head.php"; ?>
     <style media="screen">
       .segment {
         width: 50%!important;
@@ -142,7 +142,7 @@ error_reporting(E_ALL);
       </form>
     </main>
     <?php
-    include dirname(dirname(__DIR__)) . "/pages/footer.html";
+    include dirname(dirname(__DIR__)) . "/footer.php";
     ?>
     <script type="text/javascript">
       document.getElementById("nav_scenes").className="active item";

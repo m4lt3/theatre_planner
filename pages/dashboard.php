@@ -14,7 +14,7 @@ $date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES L
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Dashboard</title>
-    <?php include dirname(__DIR__) . "/pages/head.html"; ?>
+    <?php include dirname(__DIR__) . "/head.php"; ?>
     <style media="screen">
       main > .grid > .column {
         display: flex!important;
@@ -103,7 +103,7 @@ EOT;
           </div>
         </div>
     </main>
-    <?php include dirname(__DIR__) . "/pages/footer.html" ?>
+    <?php include dirname(__DIR__) . "/footer.php" ?>
     <script type="text/javascript">
       document.getElementById("nav_dashboard").className="active item";
     </script>

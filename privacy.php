@@ -9,7 +9,7 @@ $config = require_once __DIR__ . "/php/config.php";
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Privacy</title>
-    <?php include __DIR__ . "/pages/head.html"; ?>
+    <?php include __DIR__ . "/head.php"; ?>
   </head>
   <body>
     <div class="ui secondary pointing menu">
@@ -28,7 +28,7 @@ $config = require_once __DIR__ . "/php/config.php";
       <?php echo $config->custom_privacy_text ?>
     </main>
     <?php
-    include __DIR__ . "/pages/footer.html";
+    include __DIR__ . "/footer.php";
     ?>
   </body>
 </html>

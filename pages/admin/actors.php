@@ -47,7 +47,7 @@
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Actor Management</title>
-    <?php include dirname(dirname(__DIR__)) . "/pages/head.html"; ?>
+    <?php include dirname(dirname(__DIR__)) . "/head.php";?>
   </head>
   <body>
     <?php include "nav.php" ?>
@@ -187,7 +187,7 @@ EOT;
       </div>
     </main>
     <?php
-    include dirname(dirname(__DIR__)) . "/pages/footer.html";
+    include dirname(dirname(__DIR__)) . "/footer.php";
     if($inserted){
       echo '<script>document.getElementById("mailError").style.display="none";</script>';
     } else {

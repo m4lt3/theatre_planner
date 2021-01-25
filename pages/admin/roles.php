@@ -36,7 +36,7 @@
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Role Management</title>
-    <?php include dirname(dirname(__DIR__)) . "/pages/head.html"; ?>
+    <?php include dirname(dirname(__DIR__)) . "/head.php"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
@@ -88,7 +88,7 @@ EOT;
         ?>
       </div>
     </main>
-    <?php include dirname(dirname(__DIR__)) . "/pages/footer.html"; ?>
+    <?php include dirname(dirname(__DIR__)) . "/footer.php"; ?>
     <script type="text/javascript">
       document.getElementById("nav_roles").className="active item";
     </script>

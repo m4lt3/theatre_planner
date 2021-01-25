@@ -23,7 +23,7 @@ if (isset($_POST["reject"])){
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Practices</title>
-    <?php include dirname(__DIR__) . "/pages/head.html"; ?>
+    <?php include dirname(__DIR__) . "/head.php"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
@@ -110,7 +110,7 @@ EOT;
         ?>
       </div>
     </main>
-    <?php include dirname(__DIR__) . "/pages/footer.html" ?>
+    <?php include dirname(__DIR__) . "/footer.php" ?>
     <script type="text/javascript">
       document.getElementById("nav_practices").className="active item";
     </script>
