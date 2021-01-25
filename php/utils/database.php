@@ -1,12 +1,10 @@
 <?php
 class DBHandler {
-  private $servername = "localhost";
-  private $username = "planner";
-  private $password = "dC5*nn%phW!LuGiZ";
-  private $dbname = "theatre_planner";
+  private $config;
   private $conn;
 
   function __construct(){
+    $this->config = require dirname(__DIR__) . "/config.php";
     $this->conn = $this->connectDB();
   }
 
@@ -15,7 +13,7 @@ class DBHandler {
   }
 
   private function connectDB(){
-    $temp_conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+    $temp_conn = new mysqli($this->config->db_server, $this->config->db_user, $this->config->db_pwd, $this->config->db_name);
 
     if ($temp_conn->connect_error) {
       die("Connection failed: " . $temp_conn->connect_error);
