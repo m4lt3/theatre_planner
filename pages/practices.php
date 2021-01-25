@@ -55,7 +55,7 @@ if (isset($_POST["reject"])){
         }
         $practiceQuery .= " ORDER BY PRACTICES.Start";
 
-        foreach($db->prepareQuery($practiceQuery, "i", array($_SESSION["UserID"])) as $practice){
+        foreach($db->prepareQuery($practiceQuery, "i", array($_SESSION["UserID"])) ?? array() as $practice){
           if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
             echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards" style="margin-top:-14px">';
             $divided = !$divided;

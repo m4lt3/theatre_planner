@@ -59,24 +59,28 @@
         <?php
           $currentScene = array("SceneID"=>-1);
           $FreeRoles = array();
-          foreach ($db->baseQuery("SELECT SCENES.*, FEATURES.FeatureID, FEATURES.Mandatory, ROLES.RoleID, ROLES.Name AS Role FROM SCENES LEFT JOIN FEATURES ON SCENES.SceneID = FEATURES.SceneID LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID ORDER BY SCENES.SceneID") as $scene) {
-            if($currentScene["SceneID"] != $scene["SceneID"]){
-              if($currentScene["SceneID"] != -1){
-                $FreeRoles = $db->prepareQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT ROLES.RoleID FROM ROLES, FEATURES WHERE ROLES.RoleID = FEATURES.RoleID AND FEATURES.SceneID = ?)", "i", array($currentScene["SceneID"]));
-                createCard($currentScene["SceneID"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
+          $scenes = $db->baseQuery("SELECT SCENES.*, FEATURES.FeatureID, FEATURES.Mandatory, ROLES.RoleID, ROLES.Name AS Role FROM SCENES LEFT JOIN FEATURES ON SCENES.SceneID = FEATURES.SceneID LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID ORDER BY SCENES.SceneID");
+          if(!empty($scenes)){
+            foreach ($scenes as $scene) {
+              if($currentScene["SceneID"] != $scene["SceneID"]){
+                if($currentScene["SceneID"] != -1){
+                  $FreeRoles = $db->prepareQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT ROLES.RoleID FROM ROLES, FEATURES WHERE ROLES.RoleID = FEATURES.RoleID AND FEATURES.SceneID = ?)", "i", array($currentScene["SceneID"]));
+                  createCard($currentScene["SceneID"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
+                }
+                $currentScene = $scene;
+                $currentScene["Role"] = array($currentScene["Role"]);
+                $currentScene["Mandatory"] = array($currentScene["Mandatory"]);
+                $currentScene["FeatureID"] = array($currentScene["FeatureID"]);
+              } else {
+                array_push($currentScene["Role"], $scene["Role"]);
+                array_push($currentScene["Mandatory"], $scene["Mandatory"]);
+                array_push($currentScene["FeatureID"], $scene["FeatureID"]);
               }
-              $currentScene = $scene;
-              $currentScene["Role"] = array($currentScene["Role"]);
-              $currentScene["Mandatory"] = array($currentScene["Mandatory"]);
-              $currentScene["FeatureID"] = array($currentScene["FeatureID"]);
-            } else {
-              array_push($currentScene["Role"], $scene["Role"]);
-              array_push($currentScene["Mandatory"], $scene["Mandatory"]);
-              array_push($currentScene["FeatureID"], $scene["FeatureID"]);
             }
+            $FreeRoles = $db->prepareQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT ROLES.RoleID FROM ROLES, FEATURES WHERE ROLES.RoleID = FEATURES.RoleID AND FEATURES.SceneID = ?)", "i", array($currentScene["SceneID"]));
+            createCard($currentScene["SceneID"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
+
           }
-          $FreeRoles = $db->prepareQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT ROLES.RoleID FROM ROLES, FEATURES WHERE ROLES.RoleID = FEATURES.RoleID AND FEATURES.SceneID = ?)", "i", array($currentScene["SceneID"]));
-          createCard($currentScene["SceneID"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
 
           function createCard($SceneID, $Name, $Description, $Roles, $Features, $Mandatory, $FreeRoles){
             $role_rows = "";

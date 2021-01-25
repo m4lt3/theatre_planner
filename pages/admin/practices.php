@@ -82,28 +82,33 @@
         $practices = $db->baseQuery($practiceQuery);
         $practice_collection = new Practice(-1,"","");
         $allScenes= $db->baseQuery("SELECT FEATURES.SceneID, FEATURES.RoleID, FEATURES.Mandatory, SCENES.Name FROM FEATURES JOIN SCENES ON FEATURES.SceneID = SCENES.SceneID ORDER BY FEATURES.SceneID ");
-        foreach ($practices as $practice) {
-          if($practice["PracticeID"] != $practice_collection->id){
-            if($practice_collection->id != -1){
-              $practice_collection->detectScenes($allScenes);
+        if(!empty($practices)){
+          foreach ($practices as $practice) {
+            if($practice["PracticeID"] != $practice_collection->id){
+              if($practice_collection->id != -1){
+                $practice_collection->detectScenes($allScenes);
 
-              createCard($practice_collection);
-              if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
-                echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards" style="margin-top:-14px">';
-                $divided = !$divided;
+                createCard($practice_collection);
+                if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
+                  echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards" style="margin-top:-14px">';
+                  $divided = !$divided;
+                }
               }
+              $practice_collection = new Practice($practice["PracticeID"], $practice["Title"], $practice["Start"]);
             }
-            $practice_collection = new Practice($practice["PracticeID"], $practice["Title"], $practice["Start"]);
+            if(count($practice_collection->attendees) == 0){
+              array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
+            } elseif($practice["UserID"] != $practice_collection->attendees[count($practice_collection->attendees)-1]["id"]){
+              array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
+            }
+            array_push($practice_collection->roles, $practice["RoleID"]);
           }
-          if(count($practice_collection->attendees) == 0){
-            array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
-          } elseif($practice["UserID"] != $practice_collection->attendees[count($practice_collection->attendees)-1]["id"]){
-            array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
+          $practice_collection->detectScenes($allScenes);
+          createCard($practice_collection);
+          if(!$divided){
+            echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards">';
           }
-          array_push($practice_collection->roles, $practice["RoleID"]);
         }
-        $practice_collection->detectScenes($allScenes);
-        createCard($practice_collection);
 
         function createCard($practice_collection){
           $format = new DateTime($practice_collection->date);
