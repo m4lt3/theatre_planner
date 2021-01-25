@@ -62,6 +62,9 @@ if (isset($_POST["reject"])){
           }
           createCard($practice["PracticeID"], $practice["Title"], $practice["Start"], $practice["AttendsID"]);
         }
+        if(!$divided){
+          echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards">';
+        }
 
         function createCard($id, $title, $date, $attends){
           $format = new DateTime($date);

@@ -31,7 +31,7 @@
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Practice Management</title>
-    <?php include dirname(dirname(__DIR__)) . "/pages/head.html"; ?>
+    <?php include dirname(dirname(__DIR__)) . "/head.php"; ?>
     <link rel="stylesheet" href="../../css/jquery.datetimepicker.min.css">
   </head>
   <body>
@@ -161,7 +161,7 @@ EOT;
         ?>
       </div>
     </main>
-    <?php include dirname(dirname(__DIR__)) . "/pages/footer.html" ?>
+    <?php include dirname(dirname(__DIR__)) . "/footer.php" ?>
     <script src="../../js/jquery.datetimepicker.full.min.js" charset="utf-8"></script>
     <script type="text/javascript">
     $(document).ready(function(){

@@ -41,7 +41,7 @@ $date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES L
                 } ?>
               </div>
               <div class="label">
-                Role<?php if (!empty($roles)&&count($roles)>1) {
+                Role<?php if (empty($roles)||count($roles)>1) {
                   echo "s";
                 } ?>
               </div>

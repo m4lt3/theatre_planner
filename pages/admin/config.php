@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
   require_once dirname(dirname(__DIR__)) . "/php/auth/sessionValidate.php";
   if(!$loggedIn){
     header("location:../../index.php");
@@ -145,7 +142,7 @@ error_reporting(E_ALL);
     include dirname(dirname(__DIR__)) . "/footer.php";
     ?>
     <script type="text/javascript">
-      document.getElementById("nav_scenes").className="active item";
+      document.getElementById("nav_config").className="active item";
     </script>
     <script type="text/javascript">
       document.getElementById("show_pwd").addEventListener("mousedown", function(){
