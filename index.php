@@ -49,7 +49,7 @@ if($loggedIn){
   <head>
     <meta charset="utf-8">
     <title>Theatre Planner | Login</title>
-    <?php include __DIR__ . "/pages/head.html"; ?>
+    <?php include __DIR__ . "/head.php"; ?>
     <style type="text/css">
     body{
       background-image: url("/theatre_planner/images/login.jpg");
@@ -102,7 +102,7 @@ if($loggedIn){
         </div>
       </div>
     </main>
-    <?php include __DIR__ . "/pages/footer.html" ?>
+    <?php include __DIR__ . "/footer.php" ?>
     <script type="text/javascript">
       $(document).ready(function(){
         $('.ui.checkbox').checkbox();
