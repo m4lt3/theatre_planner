@@ -45,5 +45,13 @@ return (object) array(
   "scenes" => "Szenen",
   "actors" => "Schauspieler",
   "roleless" => "Ohne Rolle",
+  "title_practice_management" => "Probenverwaltung",
+  "practice_management_title_input" => "Probentitel",
+  "practice_date" => "Probendatum",
+  "add_date" => "Probe einstellen",
+  "show_past" => "Vergangene Daten anzeigen",
+  "today" => "Heute",
+  "attendees" => "Teilnehmer",
+  "available_scenes" => "Probbare Szenen",
 );
 ?>

@@ -45,5 +45,13 @@ return (object) array(
   "scenes" => "Scenes",
   "actors" => "Actors",
   "roleless" => "Without Role",
+  "title_practice_management" => "Practice Management",
+  "practice_management_title_input" => "Practice Title",
+  "practice_date" => "Date of the practice",
+  "add_date" => "Add Practice",
+  "show_past" => "Show past dates",
+  "today" => "Today",
+  "attendees" => "Attendees",
+  "available_scenes" => "Available Scenes",
 );
 ?>

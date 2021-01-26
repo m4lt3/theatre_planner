@@ -28,32 +28,32 @@
   }
 ?>
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Practice Management</title>
+    <title><?php echo $lang->title ?> | <?php echo $lang->title_practice_management ?></title>
     <?php include dirname(dirname(__DIR__)) . "/head.php"; ?>
     <link rel="stylesheet" href="../../css/jquery.datetimepicker.min.css">
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-      <h1 class="ui large header">Practice date management</h1>
+      <h1 class="ui large header"><?php echo $lang->title_practice_management ?></h1>
       <form class="ui form" action="" method="post">
         <div class="two fields">
           <div class="field">
-            <label for="titleInput">Practice Title</label>
+            <label for="titleInput"><?php echo $lang->practice_management_title_input ?></label>
             <input type="text" name="titleInput" maxlength="32">
           </div>
           <div class="required field">
-            <label for="dateInput">Date of the practice</label>
+            <label for="dateInput"><?php echo $lang->practice_date ?></label>
             <div class="ui action input">
               <input id="dateInput" type="text" name="dateInput" value="">
               <button type="button" class="ui icon button" name="button" onclick="openPicker()"><i class="calendar alternate outline icon"></i></button>
             </div>
           </div>
         </div>
-        <input type="submit" class="ui primary button" name="addDate" value="Add Practice">
+        <input type="submit" class="ui primary button" name="addDate" value="<?php echo $lang->add_date ?>">
       </form>
       <br/>
       <form id="toggleForm" action="" method="post">
@@ -66,7 +66,7 @@
           }
            ?>
           >
-          <label>Show past dates</label>
+          <label><?php echo $lang->show_past ?></label>
         </div>
       </form>
       <br/>
@@ -91,7 +91,7 @@
 
                 createCard($practice_collection);
                 if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
-                  echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards" style="margin-top:-14px">';
+                  echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards" style="margin-top:-14px">';
                   $divided = !$divided;
                 }
               }
@@ -107,11 +107,12 @@
           $practice_collection->detectScenes($allScenes);
           createCard($practice_collection);
           if(!$divided){
-            echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards">';
+            echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards">';
           }
         }
 
         function createCard($practice_collection){
+          global $lang;
           $format = new DateTime($practice_collection->date);
           $button=<<<EOT
           <form method="POST" action="" style="margin-bottom:0;">
@@ -143,13 +144,13 @@ EOT;
               </div>
             </div>
             <div class="content">
-              <div class="sub header">Attendees</div>
+              <div class="sub header">{$lang->attendees}</div>
               <table class="ui very basic table">
                 $attendee_rows
               </table>
             </div>
             <div class="content">
-              <div class="sub header">Available Scenes</div>
+              <div class="sub header">{$lang->available_scenes}</div>
               <table class="ui very basic table">
                 $scene_rows
               </table>
