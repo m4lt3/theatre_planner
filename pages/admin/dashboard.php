@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 require_once dirname(dirname(__DIR__)) . "/php/auth/sessionValidate.php";
 require_once dirname(dirname(__DIR__)) . "/php/utils/loadPreferences.php";
 require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";

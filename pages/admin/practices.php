@@ -121,6 +121,7 @@
           </form>
 EOT;
           $attendee_rows = "";
+          if(!empty($practice_collection->attendees[0]["id"]))
           foreach ($practice_collection->attendees as $attendee) {
             $attendee_rows .= '<tr><td>' . $attendee["name"] .'<div class="right floated meta">#' . $attendee["id"] . '</div></td></tr>';
           }

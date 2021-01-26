@@ -17,23 +17,27 @@ class Practice{
   }
 
   function detectScenes($allScenes){
-    $currentScene = $allScenes[0];
-    $possible = true;
-    foreach ($allScenes as $scene) {
-      if($currentScene["SceneID"] != $scene["SceneID"]){
-        if($possible){
-          array_push($this->scenes, array("SceneID"=> $currentScene["SceneID"], "Name"=> $currentScene["Name"]));
+    if(empty($allScenes)){
+      $this->scenes = array();
+    } else {
+      $currentScene = $allScenes[0];
+      $possible = true;
+      foreach ($allScenes as $scene) {
+        if($currentScene["SceneID"] != $scene["SceneID"]){
+          if($possible){
+            array_push($this->scenes, array("SceneID"=> $currentScene["SceneID"], "Name"=> $currentScene["Name"]));
+          }
+          $possible = true;
+          $currentScene = $scene;
         }
-        $possible = true;
-        $currentScene = $scene;
+        if(!in_array($scene["RoleID"], $this->roles) && $scene["Mandatory"]){
+          $possible = false;
+        }
       }
-      if(!in_array($scene["RoleID"], $this->roles) && $scene["Mandatory"]){
-        $possible = false;
+      if($possible){
+        array_push($this->scenes, array("SceneID"=> $currentScene["SceneID"], "Name"=> $currentScene["Name"]));
       }
     }
-    if($possible){
-      array_push($this->scenes, array("SceneID"=> $currentScene["SceneID"], "Name"=> $currentScene["Name"]));
     }
-  }
 }
 ?>
