@@ -30,10 +30,10 @@
   }
 ?>
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Server Configuration</title>
+    <title><?php echo $lang->title ?> | <?php echo $lang->title_server_configuration ?></title>
     <?php include dirname(dirname(__DIR__)) . "/head.php"; ?>
     <style media="screen">
       .segment {
@@ -51,92 +51,92 @@
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-      <h1 class="ui large header">Server Configuration</h1>
-      <h2 class="ui medium header">Database Connection</h2>
+      <h1 class="ui large header"><?php echo $lang->title_server_configuration ?></h1>
+      <h2 class="ui medium header"><?php echo $lang->db_connection ?></h2>
       <form class="ui form" action="" method="post">
         <div class="two fields">
           <div class="field">
-            <label for="db_server">Databse Server</label>
+            <label for="db_server"><?php echo $lang->db_server ?></label>
             <input type="text" name="db_server" value="<?php echo $config->db_server ?>">
           </div>
           <div class="field">
-            <label for="db_name">Database Name</label>
+            <label for="db_name"><?php echo $lang->db_name ?></label>
             <input type="text" name="db_name" value="<?php echo $config->db_name ?>">
           </div>
         </div>
         <div class="two fields">
           <div class="field">
-            <label for="db_user">Database User</label>
+            <label for="db_user"><?php echo $lang->db_user ?></label>
             <input type="text" name="db_user" value="<?php echo $config->db_user ?>">
           </div>
           <div class="field">
-            <label for="db_pwd">Database User Password</label>
+            <label for="db_pwd"><?php echo $lang->db_pwd ?></label>
             <div class="ui action input">
               <input type="password" name="db_pwd" value="<?php echo $config->db_pwd ?>" id="db_pwd">
               <button class="ui icon button" type="button" name="button" id="show_pwd"><i class="low vision icon"></i></button>
             </div>
           </div>
         </div>
-        <input class="ui primary button" type="submit" name="db_changed" value="Save">
+        <input class="ui primary button" type="submit" name="db_changed" value="<?php echo $lang->save ?>">
       </form>
       <div class="ui divider"></div>
-      <h2 class="ui medium header">Planning Mode</h2>
+      <h2 class="ui medium header"><?php echo $lang->planning_mode ?></h2>
       <div class="ui horizontal segments">
         <div class="ui <?php if($config->user_focused){echo "teal";} ?> segment" id="actor_segment">
-          <h3 class="ui small sub header">Actor Focused</h3>
-          If theatre planner is actor focused, it means that every actor can reject or decline a certain date. Based on the attendees, admins can look up which scenes they can practice.
+          <h3 class="ui small sub header"><?php echo $lang->title_actor_focused ?></h3>
+          <?php echo $lang->description_actor_focused ?>
         </div>
         <div class="ui vertical divider">
-          Or
+          <?php echo $lang->or ?>
         </div>
         <div class="ui right aligned <?php if(!$config->user_focused){echo "teal";} ?> segment" id="admin_segment">
-          <h3 class="ui small right aligned sub header">Admin Focused</h3>
-          If theatre planner is admin focused, it means that admins can decide which scenes are practiced when. Actors can then look up when they are required.
+          <h3 class="ui small right aligned sub header"><?php echo $lang->title_admin_focused ?></h3>
+          <?php echo $lang->description_admin_focused ?>
         </div>
       </div>
       <form action="" method="post" id="focus_form">
         <input type="hidden" name="mode_changed" id="focus_value" value="undefined">
       </form>
       <div class="ui divider"></div>
-      <h2 class="ui medium header">Privacy & Imprint</h2>
+      <h2 class="ui medium header"><?php echo $lang->privacy_imprint ?></h2>
       <div class="ui info icon message">
         <i class="code icon"></i>
-        All text below is in stored as HTML. This means, if you want to display a line break on the web, you need to write &lt;br/&gt; here
+        <?php echo $lang->html_notice ?>
       </div>
       <form class="ui form" action="" method="post">
         <div class="field">
-          <label for="contact_info">Contact information <div class="ui circular label" id="contact_help"><i class="fitted question icon"></i></div></label>
+          <label for="contact_info"><?php echo $lang->contact_info ?> <div class="ui circular label" id="contact_help"><i class="fitted question icon"></i></div></label>
           <textarea name="contact_info" rows="2" cols="80"><?php echo $config->contact_info ?></textarea>
         </div>
         <div class="field">
-          <label for="imprint_text">Imprint text <div class="ui circular label" id="imprint_help"><i class="fitted question icon"></i></div></label>
+          <label for="imprint_text"><?php echo $lang->imprint_text ?> <div class="ui circular label" id="imprint_help"><i class="fitted question icon"></i></div></label>
           <textarea name="imprint_text" rows="8" cols="80"><?php echo $config->imprint_text ?></textarea>
         </div>
         <div class="field">
-          <label for="data_protection_officer">Name and Address of Data protection officer <div class="ui circular label" id="officer_help"><i class="fitted question icon"></i></div></label>
+          <label for="data_protection_officer"><?php echo $lang->contact_gdpr ?> <div class="ui circular label" id="officer_help"><i class="fitted question icon"></i></div></label>
           <textarea name="data_protection_officer" rows="2" cols="80"><?php echo $config->data_protection_officer ?></textarea>
         </div>
         <div class="field">
           <label for="custom_privacy_text">
-            Custom privacy text
+            <?php echo $lang->custom_privacy ?>
             <div class="ui circular label" id="custom_help"><i class="fitted question icon"></i></div>
           </label>
           <textarea name="custom_privacy_text" rows="8" cols="80"><?php echo $config->custom_privacy_text ?></textarea>
         </div>
         <div class="ui toggle checkbox">
-          <label for="disable_standard_privacy">Show only the custom privacy text</label>
+          <label for="disable_standard_privacy"><?php echo $lang->disable_privacy ?></label>
           <input type="checkbox" name="disable_standard_privacy" <?php if($config->disable_standard_privacy){echo "checked";} ?>>
         </div><br/><br/>
-        <input class="ui primary button" type="submit" name="privacy_imprint_changed" value="Save Privacy & Imprint settings">
+        <input class="ui primary button" type="submit" name="privacy_imprint_changed" value="<?php echo $lang->save_imprint_privacy ?>">
       </form>
       <div class="ui divider"></div>
-      <h2 class="ui medium header">Miscellaneous</h2>
+      <h2 class="ui medium header"><?php echo $lang->misc ?></h2>
       <form class="ui form" action="" method="post">
         <div class="ui field">
-          <label for="header_tags">Header Tags <div class="ui circular label" id="header_help"><i class="fitted question icon"></i></div></label>
+          <label for="header_tags"><?php echo $lang->header_tags ?> <div class="ui circular label" id="header_help"><i class="fitted question icon"></i></div></label>
           <textarea name="header_tags" rows="8" cols="80"><?php echo $config->header_tags ?></textarea>
         </div>
-        <input class="ui primary button" type="submit" name="tags_changed" value="Save information">
+        <input class="ui primary button" type="submit" name="tags_changed" value="<?php echo $lang->save ?>">
       </form>
     </main>
     <?php
@@ -166,7 +166,7 @@
       document.getElementById("custom_help").addEventListener("click", function(){
         if(this.id=="custom_help"){
           this.className = "ui left pointing label";
-          this.innerHTML="Text to be displayed after the standard privacy text";
+          this.innerHTML="<?php echo $lang->custom_privacy_help ?>";
           this.id="custom_help_expanded";
         } else {
           this.className="ui circular label";
@@ -177,7 +177,7 @@
       document.getElementById("officer_help").addEventListener("click", function(){
         if(this.id=="officer_help"){
           this.className = "ui left pointing label";
-          this.innerHTML="To be shown in the standard privacy notice";
+          this.innerHTML="<?php echo $lang->contact_gdpr_help ?>";
           this.id="officer_help_expanded";
         } else {
           this.className="ui circular label";
@@ -188,7 +188,7 @@
       document.getElementById("imprint_help").addEventListener("click", function(){
         if(this.id=="imprint_help"){
           this.className = "ui left pointing label";
-          this.innerHTML="Text to be displayed in the imprint after the contact information";
+          this.innerHTML="<?php echo $lang->imprint_help ?>";
           this.id="imprint_help_expanded";
         } else {
           this.className="ui circular label";
@@ -199,7 +199,7 @@
       document.getElementById("contact_help").addEventListener("click", function(){
         if(this.id=="contact_help"){
           this.className = "ui left pointing label";
-          this.innerHTML="Contact information to be displayed in the privacy notice and the imprint";
+          this.innerHTML="<?php echo $lang->contact_info_help ?>";
           this.id="contact_help_expanded";
         } else {
           this.className="ui circular label";
@@ -210,7 +210,7 @@
       document.getElementById("header_help").addEventListener("click", function(){
         if(this.id=="header_help"){
           this.className = "ui left pointing label";
-          this.innerHTML="The tags you enter here will be inserted into every page header";
+          this.innerHTML="<?php echo $lang->header_help ?>";
           this.id="header_help_expanded";
         } else {
           this.className="ui circular label";
