@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <nav class="ui secondary pointing stackable menu">
   <div class="ui container">
     <div class="header item">Theatre Planner</div>
