@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/php/auth/sessionValidate.php";
+require_once __DIR__ . "/php/utils/loadPreferences.php";
 require_once __DIR__ . "/php/utils/database.php";
 
 if($loggedIn){

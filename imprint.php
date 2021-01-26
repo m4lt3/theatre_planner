@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/php/utils/loadPreferences.php";
 $config = require_once __DIR__ . "/php/config.php";
 ?>
 <!DOCTYPE html>

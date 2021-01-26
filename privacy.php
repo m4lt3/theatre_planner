@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/php/utils/loadPreferences.php";
 $config = require_once __DIR__ . "/php/config.php";
 ?>
 <!DOCTYPE html>
@@ -18,8 +19,13 @@ $config = require_once __DIR__ . "/php/config.php";
     </div>
     <main class="ui text container">
       <?php if(!$config->disable_standard_privacy){
-        //TODO insert switch for language as soon as translation is supported
-        include "php/translations/privacy/de.php";
+        switch($lang->lang){
+          case "de":
+            include "php/translations/privacy/de.php";
+            break;
+          default:
+            include "php/translations/privacy/en.php";
+        }
       } ?>
       <br/><br/>
       <?php echo $config->custom_privacy_text ?>
