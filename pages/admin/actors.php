@@ -28,7 +28,7 @@
    }
  } elseif (isset($_POST["addUser"])) {
    $password = uniqid();
-   $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], password_hash($password, PASSWORD_BCRYPT), ($_POST["userAdmin"] == "on") ? 1 : 0));
+   $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], password_hash($password, PASSWORD_BCRYPT), (($_POST["userAdmin"]??0)==0)?0:1));
    if($inserted){
      mail($_POST["userMail"], "Hello " . $_POST["userName"] . "! Your Password is '" . $password . "'. Please change it after your first login at " . $_SERVER["SERVER_NAME"]);
    }
@@ -47,37 +47,37 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Actor Management</title>
+    <title><?php echo $lang->title ?> | <?php echo $lang->title_actor_management ?></title>
     <?php include dirname(dirname(__DIR__)) . "/head.php";?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-      <h1 class="ui large header">Actor management</h1>
+      <h1 class="ui large header"><?php echo $lang->title_actor_management ?></h1>
       <form class="ui form" action="" method="post">
         <div class="three fields">
           <div class="required field">
-            <label for="userName">Name</label>
+            <label for="userName"><?php echo $lang->name ?></label>
             <input required="true" type="text" name="userName" maxlength="32">
           </div>
           <div class="required field">
-            <label for="userMail">E-Mail</label>
+            <label for="userMail"><?php echo $lang->email ?></label>
             <input required="true" type="email" name="userMail" maxlength="64">
           </div>
           <div class="field">
             <label>&nbsp;</label>
             <div class="ui toggle checkbox">
               <input type="checkbox" name="userAdmin">
-              <label for="userAdmin">Admin</label>
+              <label for="userAdmin"><?php echo $lang->admin ?></label>
             </div>
           </div>
         </div>
-        <div class="ui error message" id="mailError" style="">
+        <div class="ui error message" id="mailError" <?php if(!$inserted){echo 'style="display:block"';} ?>>
           <div class="header">
-            Oops! That Address is already taken.
+            <?php echo $lang->email_taken ?>
           </div>
         </div>
-        <input class="ui primary button" type="submit" name="addUser" value="Create Actor">
+        <input class="ui primary button" type="submit" name="addUser" value="<?php echo $lang->create_actor ?>">
       </form>
 
       <br/>
@@ -102,6 +102,7 @@
           createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles, $currentUser["Admin"]);
 
           function createCard($UserID, $name, $mail, $roles, $PlaysID, $FreeRoles, $admin){
+            global $lang;
             $role_rows = "";
             foreach ($roles as $index => $role) {
               if($role == ""){
@@ -134,7 +135,7 @@ EOT;
                     <div class="ui selection dropdown">
                       <input type="hidden" name="newPlay">
                       <i class="dropdown icon"></i>
-                      <div class="default text">Role</div>
+                      <div class="default text">{$lang->role}</div>
                         <div class="menu">
                           $dialog_options
                         </div>
@@ -156,7 +157,7 @@ EOT;
 EOT;
 
           $adminColour = "";
-          $admin_appendix = " no";
+          $admin_appendix = $lang->admin_appendix;
           if($admin){
             $adminColour = "orange";
             $admin_appendix = "";
@@ -168,12 +169,12 @@ EOT;
       <div class="header">
         $name
         <div class="right floated meta">#$UserID</div>
-        <form action="" method="post"><input type="hidden" name="toggle_admin" value ="$UserID"><button title="Is$admin_appendix admin" type="submit" style="cursor:pointer" class="ui right floating $adminColour icon label"><i class="fitted chess queen icon"></i></button></form>
+        <form action="" method="post"><input type="hidden" name="toggle_admin" value ="$UserID"><button title="{$lang->admin_prefix}$admin_appendix{$lang->admin}" type="submit" style="cursor:pointer" class="ui right floating $adminColour icon label"><i class="fitted chess queen icon"></i></button></form>
       </div>
       <div class="meta"><a href="mailto:$mail">$mail</a></div>
     </div>
     <div class="content">
-      <div class="ui sub header">Roles</div>
+      <div class="ui sub header">{$lang->roles}</div>
         <table class="ui very basic table">
           $role_rows
           $role_dialog
@@ -189,11 +190,6 @@ EOT;
     </main>
     <?php
     include dirname(dirname(__DIR__)) . "/footer.php";
-    if($inserted){
-      echo '<script>document.getElementById("mailError").style.display="none";</script>';
-    } else {
-      echo '<script>document.getElementById("mailError").style.display="block";</script>';
-    }
     ?>
     <script type="text/javascript">
     $(document).ready(function(){
