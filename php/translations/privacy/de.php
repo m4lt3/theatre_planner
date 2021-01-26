@@ -101,6 +101,12 @@
       <td><i class="close icon"></i></td>
       <td>Cookie zum speichern der UI-Sprache, falls von der Browser-Sprache abweichend</td>
     </tr>
+    <tr>
+      <td>theatre_cookies</td>
+      <td>30 Tage</td>
+      <td><i class="close icon"></i></td>
+      <td>Cookie zum speichern, ob Cookies gespeichert werden dürfen. (Wird nur gespeichert, wenn erlaubt)</td>
+    </tr>
   </tbody>
 </table>
 <!-- end custom text -->
