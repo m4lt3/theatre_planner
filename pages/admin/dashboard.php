@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once dirname(dirname(__DIR__)) . "/php/auth/sessionValidate.php";
 require_once dirname(dirname(__DIR__)) . "/php/utils/loadPreferences.php";
 require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
@@ -18,10 +21,10 @@ $roleless_actors = $db->baseQuery("SELECT UserID, Name, Mail FROM USERS WHERE Us
 ?>
 
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Admin Dashboard</title>
+    <title><?php echo $lang->title ?> | <?php echo $lang->admin ?> <?php echo $lang->title_dashboard ?></title>
     <?php include dirname(dirname(__DIR__)) . "/head.php"; ?>
     <style media="screen">
       main > .grid > .column {
@@ -37,7 +40,7 @@ $roleless_actors = $db->baseQuery("SELECT UserID, Name, Mail FROM USERS WHERE Us
   <body>
     <?php include "nav.php" ?>
     <main class="ui container">
-      <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?>'s Admin Dashboard</h1>
+      <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?>'s <?php echo $lang->admin ?> <?php echo $lang->title_dashboard ?></h1>
       <div class="ui stackable three column grid">
         <div class="column">
           <div class="ui huge statistic">
@@ -45,7 +48,7 @@ $roleless_actors = $db->baseQuery("SELECT UserID, Name, Mail FROM USERS WHERE Us
               <?php echo $roles ?>
             </div>
             <div class="label">
-              Roles
+              <?php echo $lang->roles ?>
             </div>
           </div>
           <?php
@@ -57,7 +60,7 @@ $roleless_actors = $db->baseQuery("SELECT UserID, Name, Mail FROM USERS WHERE Us
                 $count
               </div>
               <div class="label">
-                Without actor
+                {$lang->without_roles}
               </div>
             </div>
 EOT;
@@ -91,7 +94,7 @@ EOT;
               <?php echo $scenes ?>
             </div>
             <div class="label">
-              Scenes
+              <?php echo $lang->scenes ?>
             </div>
           </div>
         </div>
@@ -101,7 +104,7 @@ EOT;
               <?php echo $actors ?>
             </div>
             <div class="label">
-              Actors
+              <?php echo $lang->actors ?>
             </div>
           </div>
           <?php
@@ -113,7 +116,7 @@ EOT;
                 $count
               </div>
               <div class="label">
-                Without Role
+                {$lang->roleless}
               </div>
             </div>
 EOT;

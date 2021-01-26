@@ -40,6 +40,10 @@ return (object) array(
   "misc" => "Miscellaneous",
   "header_tags" => "Header Tags",
   "header_help" => "The tags you enter here will be inserted into every page header",
-
+  "title_dashboard" => "Dashboard",
+  "without_roles" => "Without actor",
+  "scenes" => "Scenes",
+  "actors" => "Actors",
+  "roleless" => "Without Role",
 );
 ?>

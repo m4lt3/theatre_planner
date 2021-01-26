@@ -40,5 +40,10 @@ return (object) array(
   "misc" => "Verschiedenes",
   "header_tags" => "Header Tags",
   "header_help" => "Die hier eingegebenen Tags werden in jedem Seitenheader eingefügt",
+  "title_dashboard" => "Dashboard",
+  "without_roles" => "Ohne Schauspieler",
+  "scenes" => "Szenen",
+  "actors" => "Schauspieler",
+  "roleless" => "Ohne Rolle",
 );
 ?>
