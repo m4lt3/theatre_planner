@@ -44,7 +44,7 @@
  }
 ?>
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title><?php echo $lang->title ?> | <?php echo $lang->title_actor_management ?></title>
