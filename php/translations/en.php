@@ -53,5 +53,10 @@ return (object) array(
   "today" => "Today",
   "attendees" => "Attendees",
   "available_scenes" => "Available Scenes",
+  "title_role_management" => "Role Management",
+  "role_name" => "Role Name",
+  "role_description" => "Role Description",
+  "create_role" => "Create Role",
+  "description" => "Description",
 );
 ?>

@@ -33,26 +33,26 @@
   }
 ?>
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Role Management</title>
+    <title><?php echo $lang->title ?> | <?php echo $lang->title_role_management ?></title>
     <?php include dirname(dirname(__DIR__)) . "/head.php"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-      <h1 class="ui large header">Role management</h1>
+      <h1 class="ui large header"><?php echo $lang->title_role_management ?></h1>
       <form action="" method="post" class="ui form">
         <div class="required field">
-          <label for="roleName">Role Name</label>
+          <label for="roleName"><?php echo $lang->role_name ?></label>
           <input required="true" type="text" name="roleName" maxlength="32">
         </div>
         <div class="field">
-          <label for="roleDescription">Role Description</label>
+          <label for="roleDescription"><?php echo $lang->role_description ?></label>
           <textarea name="roleDescription" rows="8" cols="64" maxlength="512"></textarea>
         </div>
-        <input class="ui primary button" type="submit" name="addRole" value="Create Role">
+        <input class="ui primary button" type="submit" name="addRole" value="<?php echo $lang->create_role ?>">
       </form>
 
       <br/>
@@ -63,6 +63,7 @@
           create_card($role["RoleID"], $role["Name"], $role["Description"]);
         }
         function create_card($id, $name, $description){
+          global $lang;
           $button =<<<EOT
           <form method="POST" action="" style="margin-bottom:0;">
             <input type="hidden" name="rm_role" value="$id">
@@ -78,7 +79,7 @@ EOT;
     </div>
   </div>
   <div class="content">
-    <div class="ui sub header">Description</div>
+    <div class="ui sub header">{$lang->description}</div>
     $description
   </div>
   $button

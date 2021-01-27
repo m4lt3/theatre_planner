@@ -53,5 +53,10 @@ return (object) array(
   "today" => "Heute",
   "attendees" => "Teilnehmer",
   "available_scenes" => "Probbare Szenen",
+  "title_role_management" => "Rollenverwaltung",
+  "role_name" => "Rollenname",
+  "role_description" => "Rollenbeschribung",
+  "create_role" => "Rolle erstellen",
+  "description" => "Beschreibung",
 );
 ?>
