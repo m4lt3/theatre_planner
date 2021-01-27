@@ -65,5 +65,6 @@ return (object) array(
   "mandatory_appendix" => "nicht ",
   "mandatory" => "zwingend benötigt",
   "features" => "Beinhaltet",
+  "change_to_actor" => "Zu Schauspieler-Dashboard wechseln",
 );
 ?>

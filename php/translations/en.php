@@ -65,5 +65,6 @@ return (object) array(
   "mandatory_appendix" => "not ",
   "mandatory" => "mandatory",
   "features" => "Features",
+  "change_to_actor" => "Change to Actor Dashboard",
 );
 ?>
