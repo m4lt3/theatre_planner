@@ -32,26 +32,26 @@
  }
 ?>
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Scene Management</title>
+    <title><?php echo $lang->title  ?> | <?php echo $lang->title_scene_management ?></title>
     <?php include dirname(dirname(__DIR__)) . "/head.php"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-      <h1 class="ui large header">Scene management</h1>
+      <h1 class="ui large header"><?php echo $lang->title_scene_management ?></h1>
       <form action="" method="post" class="ui form">
         <div class="required field">
-          <label for="sceneName">Scene Name</label>
+          <label for="sceneName"><?php echo $lang->scene_name ?></label>
           <input required="true" type="text" name="sceneName" maxlength="32">
         </div>
         <div class="field">
-          <label for="sceneDescription">Scene Description</label>
+          <label for="sceneDescription"><?php echo $lang->scene_description ?></label>
           <textarea name="sceneDescription" rows="8" cols="64" maxlength="512"></textarea>
         </div>
-        <input class="ui primary button" type="submit" name="addScene" value="Create Scene">
+        <input class="ui primary button" type="submit" name="addScene" value="<?php echo $lang->create_scene ?>">
       </form>
 
       <br/>
@@ -84,13 +84,14 @@
           }
 
           function createCard($SceneID, $Name, $Description, $Roles, $Features, $Mandatory, $FreeRoles){
+            global $lang;
             $role_rows = "";
             foreach ($Roles as $index => $role) {
               if($role == ""){
                 continue;
               }
               $mandatoryColour = "";
-              $mandatory_appendix = " not";
+              $mandatory_appendix = $lang->mandatory_appendix;
               if($Mandatory[$index]){
                 $mandatoryColour = "orange";
                 $mandatory_appendix = "";
@@ -101,7 +102,7 @@
                 <td>
                   <form action="" method="post">
                     <input type="hidden" name="toggle_mandatory" value ="$Features[$index]">
-                    <button title="Is$mandatory_appendix mandatory" type="submit" style="cursor:pointer" class="ui $mandatoryColour label">
+                    <button title="{$lang->admin_prefix}$mandatory_appendix{$lang->mandatory}" type="submit" style="cursor:pointer" class="ui $mandatoryColour label">
                       <i class="fitted exclamation icon"></i>
                     </button>
                   </form>
@@ -131,7 +132,7 @@ EOT;
                   <div class="ui selection dropdown">
                     <input type="hidden" name="newFeature">
                     <i class="dropdown icon"></i>
-                    <div class="default text">Features</div>
+                    <div class="default text">{$lang->features}</div>
                       <div class="menu">
                         $dialog_options
                       </div>
@@ -167,10 +168,11 @@ EOT;
               </div>
             </div>
             <div class="content">
-              <div class="ui sub header">Description</div>
+              <div class="ui sub header">{$lang->description}</div>
               $Description
             </div>
             <div class="content">
+              <div class="ui sub header">{$lang->roles}</div>
               <table class="ui very basic table">
                 $role_rows
                 $role_dialog

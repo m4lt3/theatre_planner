@@ -58,5 +58,12 @@ return (object) array(
   "role_description" => "Rollenbeschribung",
   "create_role" => "Rolle erstellen",
   "description" => "Beschreibung",
+  "title_scene_management" => "Szenenverwaltung",
+  "scene_name" => "Szenenname",
+  "scene_description" => "Szenenbeschreibung",
+  "create_scene" => "Szene erstellen",
+  "mandatory_appendix" => "nicht ",
+  "mandatory" => "zwingend benötigt",
+  "features" => "Beinhaltet",
 );
 ?>

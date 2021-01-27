@@ -58,5 +58,12 @@ return (object) array(
   "role_description" => "Role Description",
   "create_role" => "Create Role",
   "description" => "Description",
+  "title_scene_management" => "Scene Management",
+  "scene_name" => "Scene Name",
+  "scene_description" => "Scene Description",
+  "create_scene" => "Create Scene",
+  "mandatory_appendix" => "not ",
+  "mandatory" => "mandatory",
+  "features" => "Features",
 );
 ?>
