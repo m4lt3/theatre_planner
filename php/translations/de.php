@@ -87,5 +87,6 @@ return (object) array(
   "new_name" => "Neuer Anzeigename",
   "name_changed" => "Anzeigename wurde erfolgreich geändert!",
   "title_practices" => "Deine Probentermine",
+  "change_to_admin" => "Zu Admin-Dashboard wechseln"
 );
 ?>
