@@ -17,7 +17,7 @@ if($loggedIn){
      $_SESSION["Admin"] = $creds["Admin"];
 
      if(isset($_POST["rememberMe"])){
-       $cookie_expiration_time = time() + (30 * 24 * 60 * 60);
+       $cookie_expiration_time = time() + 2592000;
 
 
        $h1 = random_bytes(16);
