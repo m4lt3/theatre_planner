@@ -31,6 +31,18 @@ if(isset($_POST["newPassword"])){
   $db->update("UPDATE USERS SET Name=? WHERE UserID=?", "si", array($_POST["newName"], $_SESSION["UserID"]));
   $success = "name";
   $_SESSION["UserName"] = $_POST["newName"];
+} elseif(isset($_POST["lang"])){
+  if($_POST["lang"] != $lang->lang){
+    if($_POST["lang"] != substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2)){
+      setcookie("theatre_lang", $_POST["lang"], array("expires"=>time() + 2592000, "samesite"=>"Lax", "path"=>"/"));
+      $lang = include dirname(__DIR__) . "/php/translations/" . $_POST["lang"]. ".php";
+      if(empty($lang)){
+        $lang = include dirname(__DIR__) . "/translations/en.php";
+      }
+    } else {
+      setcookie("theatre_lang", "", array("expires"=>time() - 3600, "samesite"=>"Lax", "path"=>"/"));
+    }
+  }
 }
 ?>
 
@@ -127,6 +139,27 @@ if(isset($_POST["newPassword"])){
           <?php echo $lang->name_changed ?>
         </div>
       </form>
+      <div class="ui divider"></div>
+      <h3 class="ui medium header"><?php echo $lang->preferences ?></h3>
+      <div class="ui two fields">
+        <div class="field">
+          <label for="lang"><?php echo $lang->ui_language ?></label>
+          <form class="" method="post" id="lang_form">
+            <div class="ui selection dropdown" id="lang_dropdown">
+              <input type="hidden" name="lang">
+              <i class="dropdown icon"></i>
+              <div class="default text"></div>
+              <div class="menu">
+                <?php
+                foreach ($langs_available as $lang_available) {
+                  echo '<div class="item" data-value="' . $lang_available . '">' . $lang->$lang_available . '</div>';
+                }
+                ?>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </main>
     <?php include dirname(__DIR__) . "/footer.php" ?>
     <script type="text/javascript">
@@ -154,6 +187,13 @@ if(isset($_POST["newPassword"])){
         }
         return false;
       };
+
+      $("#lang_dropdown").dropdown('set selected', "<?php echo $lang->lang ?>");
+      $("#lang_dropdown").dropdown({
+        onChange: function(value, text, $selecteditem){
+          $("#lang_form").submit();
+        }
+      });
     </script>
   </body>
 </html>

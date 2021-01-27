@@ -1,6 +1,8 @@
 <?php
 return (object) array(
   "lang"=>"en",
+  "en" => "English",
+  "de" => "German",
   "title"=>"Theatre Planner",
   "title_actor_management" => "Actor Management",
   "name" => "Name",
@@ -98,6 +100,7 @@ return (object) array(
   "password" => "Password",
   "remember_me" => "Keep me logged in",
   "photo_by" => "Photo by",
-
+  "preferences" => "Preferences",
+  "ui_language" => "Interface language",
 );
 ?>
