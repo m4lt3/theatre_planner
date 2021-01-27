@@ -66,5 +66,9 @@ return (object) array(
   "mandatory" => "mandatory",
   "features" => "Features",
   "change_to_actor" => "Change to Actor Dashboard",
+  "next_practice" => "Next Practice",
+  "unknown_date" => "Unknown",
+  "declined" => "Declined",
+  "accepted" => "Accepted",
 );
 ?>

@@ -66,5 +66,9 @@ return (object) array(
   "mandatory" => "zwingend benötigt",
   "features" => "Beinhaltet",
   "change_to_actor" => "Zu Schauspieler-Dashboard wechseln",
+  "next_practice" => "Nächste Probe",
+  "unknown_date" => "Unbekannt",
+  "declined" => "Nicht zugesagt",
+  "accepted" => "Zugesagt",
 );
 ?>

@@ -11,10 +11,10 @@ $date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES L
 ?>
 
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Dashboard</title>
+    <title><?php echo $lang->title ?> | <?php echo $lang->title_dashboard ?></title>
     <?php include dirname(__DIR__) . "/head.php"; ?>
     <style media="screen">
       main > .grid > .column {
@@ -30,7 +30,7 @@ $date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES L
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-        <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?>'s Dashboard</h1>
+        <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?>'s <?php echo $lang->title_dashboard ?></h1>
         <div class="ui mobile reversed stackable two column grid">
           <div class="column">
             <div class="ui huge statistic">
@@ -42,8 +42,10 @@ $date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES L
                 } ?>
               </div>
               <div class="label">
-                Role<?php if (empty($roles)||count($roles)>1) {
-                  echo "s";
+                <?php if (empty($roles)||count($roles)>1) {
+                  echo $lang->roles;
+                } else {
+                  echo $lang->role;
                 } ?>
               </div>
             </div>
@@ -60,7 +62,7 @@ $date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES L
                         </div>
                       </div>
                       <div class="content">
-                        <div class="ui sub header">Description</div>
+                        <div class="ui sub header">{$lang->description}</div>
                         {$role["Description"]}
                       </div>
                     </div>
@@ -75,12 +77,12 @@ EOT;
           <div class="column">
             <div class="ui large statistic">
               <div class="label">
-                Next Practice on
+                <?php echo $lang->next_practice ?>
               </div>
               <div class="value">
                 <?php
                 if(empty($date)){
-                  echo "Hold";
+                  echo $lang->unknown_date;
                 } else {
                   $format = new DateTime($date[0]["Start"]);
                   echo $format->format("d.m.Y");
@@ -89,13 +91,12 @@ EOT;
               </div>
               <div class="label">
                 <?php
-
                 if(!empty($date)){
                   echo $format->format("H:i");
                   if(empty($date[0]["AttendsID"])){
-                    echo ' <span class="ui red label">Declined</span>';
+                    echo ' <span class="ui red label">'. $lang->declined .'</span>';
                   } else {
-                    echo ' <span class="ui green label">Accepted</span>';
+                    echo ' <span class="ui green label">'. $lang->accepted .'</span>';
                   }
                 }
                  ?>
