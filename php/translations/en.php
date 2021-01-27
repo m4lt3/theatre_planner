@@ -92,5 +92,12 @@ return (object) array(
   "privacy" => "Privacy",
   "on" => "on",
   "to_main" => "Back to Main Page",
+  "login" => "Login",
+  "invalid_login" => "Invalid login credentials",
+  "email" => "E-mail address",
+  "password" => "Password",
+  "remember_me" => "Keep me logged in",
+  "photo_by" => "Photo by",
+
 );
 ?>

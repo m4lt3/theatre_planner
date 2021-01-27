@@ -92,5 +92,11 @@ return (object) array(
   "privacy" => "Datenschutzerklärung",
   "on" => "auf",
   "to_main" => "Zurück zur Hauptseite",
+  "login" => "Login",
+  "invalid_login" => "Ungültige Anmeldedaten",
+  "email" => "E-Mail-Adresse",
+  "password" => "Passwort",
+  "remember_me" => "Eingeloggt bleiben",
+  "photo_by" => "Foto von",
 );
 ?>

@@ -46,10 +46,10 @@ if($loggedIn){
  }
 ?>
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Login</title>
+    <title><?php echo $lang->title ?> | <?php echo $lang->login ?></title>
     <?php include __DIR__ . "/head.php"; ?>
     <style type="text/css">
     body{
@@ -70,35 +70,37 @@ if($loggedIn){
         <div class="column">
           <h2 class="ui header" style="color:white">
             <div class="content">
-              Theatre Planner
+              <?php echo $lang->title ?>
             </div>
           </h2>
           <form class="ui large form" action="" method="POST">
             <div class="ui error message" <?php if(!empty($message)){echo 'style="display:block"';} ?> >
-              Invalid login credentials
+              <?php echo $lang->invalid_login ?>
             </div>
             <div class="ui stacked  segment">
               <div class="field">
                 <div class="ui left icon input">
                   <i class="user icon"></i>
-                  <input required type="email" name="email" placeholder="E-mail address">
+                  <input required type="email" name="email" placeholder="<?php echo $lang->email ?>">
                 </div>
               </div>
               <div class="field">
                 <div class="ui left icon input">
                   <i class="lock icon"></i>
-                  <input required type="password" name="password" placeholder="Password">
+                  <input required type="password" name="password" placeholder="<?php echo $lang->password ?>">
                 </div>
               </div>
-              <div class="ui checkbox">
-                <label for="rememberMe">Keep me logged in</label>
-                <input type="checkbox" name="rememberMe">
+              <div class="field">
+                <div class="ui checkbox">
+                  <label for="rememberMe"><?php echo $lang->remember_me ?></label>
+                  <input type="checkbox" name="rememberMe">
+                </div>
               </div>
               <input class="ui fluid large teal submit button" type="submit" name="login" value="Login"></input>
             </div>
           </form>
           <div>
-            <span>Photo by <a href="https://unsplash.com/@kilyan_s?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Kilyan Sockalingum</a> on <a href="https://unsplash.com/s/photos/theatre?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
+            <span><?php echo $lang->photo_by ?> <a href="https://unsplash.com/@kilyan_s?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Kilyan Sockalingum</a> <?php echo $lang->on ?> <a href="https://unsplash.com/s/photos/theatre?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText">Unsplash</a></span>
           </div>
         </div>
       </div>
