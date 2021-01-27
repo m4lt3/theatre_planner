@@ -41,6 +41,10 @@ if(isset($_POST["newPassword"])){
       }
     } else {
       setcookie("theatre_lang", "", array("expires"=>time() - 3600, "samesite"=>"Lax", "path"=>"/"));
+      $lang = include dirname(__DIR__) . "/php/translations/" . $_POST["lang"]. ".php";
+      if(empty($lang)){
+        $lang = include dirname(__DIR__) . "/translations/en.php";
+      }
     }
   }
 }
