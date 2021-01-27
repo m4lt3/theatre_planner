@@ -35,95 +35,96 @@ if(isset($_POST["newPassword"])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Personal Data</title>
+    <title><?php echo $lang->title ?> | <?php echo $lang->title_personal ?></title>
     <?php include dirname(__DIR__) . "/head.php"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-      <h3 class="ui medium header">Change Password</h3>
+      <h1 class="ui large header"><?php echo $lang->title_personal ?></h1>
+      <h3 class="ui medium header"><?php echo $lang->change_pwd ?></h3>
       <form class="ui form" action="" method="post" id="passForm">
         <div class="ui error message" id="passEqual" style="">
-          Passwords do not match.
+          <?php echo $lang->pwd_mismatch ?>
         </div>
         <div class="two fields">
           <div class="required field">
-            <label for="newPassword">New Password</label>
+            <label for="newPassword"><?php echo $lang->new_pwd ?></label>
             <input required type="password" name="newPassword" id="newPassword" minlength="8">
           </div>
           <div class="required field">
-            <label for="repeatPassword">Confirm Password</label>
+            <label for="repeatPassword"><?php echo $lang->confirm_pwd ?></label>
             <input required type="password" name="repeatPassword" id="repeatPassword" minlength="8">
           </div>
         </div>
         <div class="required field">
-          <label for="oldPassword">Old Password</label>
+          <label for="oldPassword"><?php echo $lang->old_pwd ?></label>
           <input required type="password" name="oldPassword">
         </div>
         <div class="ui error message"
         <?php
         if($failure=="pass"){echo 'style="display:block"';}?> >
-          Password incorrect.
+          <?php echo $lang->wrong_pwd ?>
         </div>
         <div class="ui success message"
         <?php
         if($success=="pass"){echo 'style="display:block"';}?> >
-          Password successfully changed!
+          <?php echo $lang->pwd_changed ?>
         </div>
-        <input class="ui primary button" type="submit" name="changePassword" value="Change Password">
+        <input class="ui primary button" type="submit" name="changePassword" value="<?php echo $lang->change_pwd ?>">
       </form>
       <div class="ui divider"></div>
-      <h3 class="ui medium header">Change E-Mail</h3>
+      <h3 class="ui medium header"><?php echo $lang->change_email ?></h3>
       <form class="ui form" action="" method="post" id="mailForm">
         <div class="ui error message" id="mailEqual" style="">
-          Mails do not match.
+          <?php echo $lang->mail_mismatch ?>
         </div>
         <div class="two fields">
           <div class="required field">
-            <label for="newMail">New E-Mail</label>
+            <label for="newMail"><?php echo $lang->new_email ?></label>
             <input required type="email" name="newMail" id="newMail">
           </div>
           <div class="required field">
-            <label for="repeatMail">Confirm E-Mail</label>
+            <label for="repeatMail"><?php echo $lang->confirm_email ?></label>
             <input required type="email" name="repeatMail" id="repeatMail">
           </div>
         </div>
         <div class="required field">
-          <label for="mailPassword">Password</label>
+          <label for="mailPassword"><?php echo $lang->old_pwd ?></label>
           <input required type="password" name="mailPassword">
         </div>
         <div class="ui error message"
         <?php
         if($failure == "mail"){echo 'style="display:block"';}?> >
-          Password incorrect.
+          <lang->wrong_pwd ?>
         </div>
         <div class="ui success message"
         <?php
         if($success=="mail"){echo 'style="display:block"';}?> >
-          Mail successfully changed!
+          <?php echo $lang->email_changed ?>
         </div>
-        <input class="ui primary button" type="submit" name="changeMail" value="Change E-Mail-Address">
+        <input class="ui primary button" type="submit" name="changeMail" value="<?php echo $lang->change_email ?>">
       </form>
       <div class="ui divider"></div>
-      <h3 class="ui medium header">Change display name</h3>
+      <h3 class="ui medium header"><?php echo $lang->change_name ?></h3>
       <form class="ui form" action="" method="post">
         <div class="two fields">
           <div class="required field">
-            <label for="nameInput">New display name:</label>
+            <label for="nameInput"><?php echo $lang->new_name ?></label>
             <input required type="text" name="newName" maxlength="32">
           </div>
           <div class="field">
             <label>&nbsp;</label>
-            <input type="submit" name="changeName" value="Change Name" class="ui primary button">
+            <input type="submit" name="changeName" value="<?php echo $lang->change_name ?>" class="ui primary button">
           </div>
         </div>
         <div class="ui success message"
         <?php
         if($success=="name"){echo 'style="display:block"';}?> >
-          Name successfully changed!
+          <?php echo $lang->name_changed ?>
         </div>
       </form>
     </main>
