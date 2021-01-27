@@ -88,5 +88,8 @@ return (object) array(
   "name_changed" => "Name successfully changed!",
   "title_practices" => "Your Practices",
   "change_to_admin" => "Change to Admin Dashboard",
+  "imprint" => "Imprint",
+  "privacy" => "Privacy",
+  "on" => "on",
 );
 ?>
