@@ -39,9 +39,16 @@ if(isset($_SESSION["UserID"])){
       $db->update("DELETE FROM TOKENS WHERE TokenID=?","i",array($token["TokenID"]));
     }
 
+    delete_cookies();
+  }
+
+  function delete_cookies(){
     setcookie("theatreID", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
     setcookie("theatre_h1", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
     setcookie("theatre_h2", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_past", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_lang", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_cookies", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
   }
 }
 ?>

@@ -6,6 +6,7 @@ require_once dirname(__DIR__) . "/php/utils/database.php";
 if(!$loggedIn){
   header("location:../index.php");
 }
+
 $failure = "";
 $success = "";
 if(isset($_POST["newPassword"])){
@@ -34,7 +35,9 @@ if(isset($_POST["newPassword"])){
 } elseif(isset($_POST["lang"])){
   if($_POST["lang"] != $lang->lang){
     if($_POST["lang"] != substr($_SERVER["HTTP_ACCEPT_LANGUAGE"],0,2)){
-      setcookie("theatre_lang", $_POST["lang"], array("expires"=>time() + 2592000, "samesite"=>"Lax", "path"=>"/"));
+      if (isset($_SESSION["cookies_allowed"]) && $_SESSION["cookies_allowed"] == true) {
+        setcookie("theatre_lang", $_POST["lang"], array("expires"=>time() + 2592000, "samesite"=>"Lax", "path"=>"/"));
+      }
       $lang = include dirname(__DIR__) . "/php/translations/" . $_POST["lang"]. ".php";
       if(empty($lang)){
         $lang = include dirname(__DIR__) . "/translations/en.php";
@@ -46,6 +49,19 @@ if(isset($_POST["newPassword"])){
         $lang = include dirname(__DIR__) . "/translations/en.php";
       }
     }
+  }
+} elseif (isset($_POST["allow_cookies"])){
+  if($_POST["allow_cookies"]=="true"){
+    $_SESSION["cookies_allowed"] = true;
+    setcookie("theatre_cookies", "1", array("expires"=>time() + 2592000, "samesite"=>"Lax", "path"=>"/"));
+  } else {
+    $_SESSION["cookies_allowed"] = false;
+    setcookie("theatreID", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_h1", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_h2", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_past", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_lang", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_cookies", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
   }
 }
 ?>
@@ -115,7 +131,7 @@ if(isset($_POST["newPassword"])){
         <div class="ui error message"
         <?php
         if($failure == "mail"){echo 'style="display:block"';}?> >
-          <lang->wrong_pwd ?>
+          <?php echo $lang->wrong_pwd ?>
         </div>
         <div class="ui success message"
         <?php
@@ -145,7 +161,6 @@ if(isset($_POST["newPassword"])){
       </form>
       <div class="ui divider"></div>
       <h3 class="ui medium header"><?php echo $lang->preferences ?></h3>
-      <div class="ui two fields">
         <div class="field">
           <label for="lang"><?php echo $lang->ui_language ?></label>
           <form class="" method="post" id="lang_form">
@@ -163,7 +178,17 @@ if(isset($_POST["newPassword"])){
             </div>
           </form>
         </div>
-      </div>
+        <br/>
+        <form class="" action="" method="post" id="toggle_cookies">
+          <input type="hidden" name="allow_cookies" id="cookie_value" value="">
+          <div class="field">
+          <label><?php echo $lang->allow_cookies ?></label>
+          <div class="ui toggle checkbox">
+            <label>&nbsp;</label>
+            <input type="checkbox" value="" id="cookie_checkbox" <?php if ($_SESSION["cookies_allowed"]){echo "checked";} ?>>
+          </div>
+          </div>
+        </form>
     </main>
     <?php
     include dirname(__DIR__) . "/footer.php";
@@ -194,6 +219,12 @@ if(isset($_POST["newPassword"])){
         }
         return false;
       };
+
+      document.getElementById("cookie_checkbox").addEventListener("change", function(){
+        document.getElementById("cookie_value").value = this.checked;
+        console.log(this.value);
+        document.getElementById("toggle_cookies").submit();
+      });
 
       $("#lang_dropdown").dropdown('set selected', "<?php echo $lang->lang ?>");
       $("#lang_dropdown").dropdown({

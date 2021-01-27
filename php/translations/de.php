@@ -115,5 +115,6 @@ return (object) array(
   "cookie_text" => "Zum Beispiel unsere Webseite. Wenn du FUnktionale Cookies zulässt, Ist die Webseite einfacher zu bedienen. Mehr Infos findest du in unserer Datenschutzerklärung.",
   "necessary" => "Notwendig",
   "functional" => "Funktional",
+  "allow_cookies" => "Funktionale Cookies erlauben",
 );
 ?>

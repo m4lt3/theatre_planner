@@ -23,7 +23,10 @@
       $db->update("DELETE FROM PRACTICES WHERE PracticeID=?", "i", array($_POST["rm_date"]));
     }
   } elseif (isset($_POST["toggleValue"])){
-    setcookie("theatre_past", ($_POST["toggleValue"]=="true"), array("expires"=>time() + 2592000, "samesite"=>"Strict", "path"=>"/"));
+    if(isset($_SESSION["cookies_allowed"]) && $_SESSION["cookies_allowed"]){
+      setcookie("theatre_past", ($_POST["toggleValue"]=="true"), array("expires"=>time() + 2592000, "samesite"=>"Strict", "path"=>"/"));
+    }
+    $_SESSION["theatre_past"] = ($_POST["toggleValue"]=="true");
     header("location:./practices.php");
   }
 ?>
@@ -61,7 +64,7 @@
         <div class="ui toggle checkbox">
           <input type="checkbox" name="toggle_past" id="toggle_past"
           <?php
-          if(!empty($_COOKIE["theatre_past"])){
+          if(!empty($_SESSION["theatre_past"]) && $_SESSION["theatre_past"]){
             echo "checked";
           }
            ?>
@@ -75,7 +78,7 @@
         $practiceQuery = "SELECT PRACTICES.PracticeID, PRACTICES.Title, PRACTICES.Start, USERS.UserID, USERS.Name, ROLES.RoleID, ROLES.Name AS Role FROM PRACTICES LEFT JOIN ATTENDS ON PRACTICES.PracticeID = ATTENDS.PracticeID LEFT JOIN USERS ON USERS.UserID = ATTENDS.UserID LEFT JOIN PLAYS ON PLAYS.UserID = USERS.UserID LEFT JOIN ROLES ON PLAYS.RoleID = ROLES.RoleID";
 
         $divided=false;
-        if(empty($_COOKIE["theatre_past"])){
+        if(empty($_SESSION["theatre_past"]) || $_SESSION["theatre_past"]){
           $practiceQuery .= " WHERE PRACTICES.Start > NOW()";
           $divided=true;
         }

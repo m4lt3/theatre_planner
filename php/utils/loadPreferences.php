@@ -13,9 +13,12 @@ if(empty($lang)){
   $lang = include dirname(__DIR__) . "/translations/en.php";
 }
 
-if(isset($_COOKIE["theatre_cookies"])){
-  $_SESSION["show_cookie_dialouge"] = false;
-} else {
-  $_SESSION["show_cookie_dialouge"] = isset($_SESSION["show_cookie_dialouge"])?$_SESSION["show_cookie_dialouge"]:true;
+if(!isset($_SESSION["cookies_allowed"])){
+  if(isset($_COOKIE["theatre_cookies"])){
+    $_SESSION["show_cookie_dialouge"] = false;
+    $_SESSION["cookies_allowed"] = true;
+  } else {
+    $_SESSION["show_cookie_dialouge"] = isset($_SESSION["show_cookie_dialouge"])?$_SESSION["show_cookie_dialouge"]:true;
+  }
 }
 ?>

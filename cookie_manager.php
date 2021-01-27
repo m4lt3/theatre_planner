@@ -2,6 +2,7 @@
 if(isset($_POST["cookie_manager"])){
   if(isset($_POST["cookies"])){
     setcookie("theatre_cookies", "1", array("expires"=>time() + 2592000, "samesite"=>"Lax", "path"=>"/"));
+    $_SESSION["cookies_allowed"] = true;
   }
   $_SESSION["show_cookie_dialouge"] = false;
 }
