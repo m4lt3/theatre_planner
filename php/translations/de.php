@@ -91,5 +91,6 @@ return (object) array(
   "imprint" => "Impressum",
   "privacy" => "Datenschutzerklärung",
   "on" => "auf",
+  "to_main" => "Zurück zur Hauptseite",
 );
 ?>

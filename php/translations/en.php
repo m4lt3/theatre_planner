@@ -91,5 +91,6 @@ return (object) array(
   "imprint" => "Imprint",
   "privacy" => "Privacy",
   "on" => "on",
+  "to_main" => "Back to Main Page",
 );
 ?>
