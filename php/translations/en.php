@@ -86,5 +86,6 @@ return (object) array(
   "change_name" => "Change display name",
   "new_name" => "New display name",
   "name_changed" => "Name successfully changed!",
+  "title_practices" => "Your Practices",
 );
 ?>

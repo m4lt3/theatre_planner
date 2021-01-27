@@ -86,5 +86,6 @@ return (object) array(
   "change_name" => "Anzeigenamen ändern",
   "new_name" => "Neuer Anzeigename",
   "name_changed" => "Anzeigename wurde erfolgreich geändert!",
+  "title_practices" => "Deine Probentermine",
 );
 ?>

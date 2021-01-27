@@ -20,16 +20,16 @@ if (isset($_POST["reject"])){
 ?>
 
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="<?php echo $lang->lang ?>" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Theatre Planner | Practices</title>
+    <title><?php echo $lang->title ?> | <?php echo $lang->title_practices ?></title>
     <?php include dirname(__DIR__) . "/head.php"; ?>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-      <h1 class="ui large header">Your practices</h1>
+      <h1 class="ui large header"><?php echo $lang->title_practices ?></h1>
       <br/>
       <form id="toggleForm" action="" method="post">
         <input id="toggleValue" type="hidden" name="toggleValue" value="">
@@ -41,7 +41,7 @@ if (isset($_POST["reject"])){
           }
            ?>
           >
-          <label>Show past dates</label>
+          <label><?php echo $lang->show_past ?></label>
         </div>
       </form>
       <br/>
@@ -58,13 +58,13 @@ if (isset($_POST["reject"])){
 
         foreach($db->prepareQuery($practiceQuery, "i", array($_SESSION["UserID"])) ?? array() as $practice){
           if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
-            echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards" style="margin-top:-14px">';
+            echo '</div><div class="ui horizontal divider">'.$lang->today.'</div><div class="ui two stacked cards" style="margin-top:-14px">';
             $divided = !$divided;
           }
           createCard($practice["PracticeID"], $practice["Title"], $practice["Start"], $practice["AttendsID"]);
         }
         if(!$divided){
-          echo '</div><div class="ui horizontal divider">Today</div><div class="ui two stacked cards">';
+          echo '</div><div class="ui horizontal divider">'.$lang->today.'</div><div class="ui two stacked cards">';
         }
 
         function createCard($id, $title, $date, $attends){
