@@ -105,7 +105,11 @@ if($loggedIn){
         </div>
       </div>
     </main>
-    <?php include __DIR__ . "/footer.php" ?>
+    <?php
+    include __DIR__ . "/footer.php";
+    require __DIR__ . "/cookie_manager.php";
+     ?>
+
     <script type="text/javascript">
       $(document).ready(function(){
         $('.ui.checkbox').checkbox();

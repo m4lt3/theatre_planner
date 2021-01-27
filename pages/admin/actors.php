@@ -216,6 +216,7 @@ EOT;
     </main>
     <?php
     include dirname(dirname(__DIR__)) . "/footer.php";
+    require dirname(dirname(__DIR__)) . "/cookie_manager.php";
     ?>
     <script type="text/javascript">
     $(document).ready(function(){

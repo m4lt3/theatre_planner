@@ -164,7 +164,10 @@ EOT;
         ?>
       </div>
     </main>
-    <?php include dirname(dirname(__DIR__)) . "/footer.php" ?>
+    <?php
+    include dirname(dirname(__DIR__)) . "/footer.php";
+    require dirname(dirname(__DIR__)) . "/cookie_manager.php";
+     ?>
     <script src="../../js/jquery.datetimepicker.full.min.js" charset="utf-8"></script>
     <script type="text/javascript">
     $(document).ready(function(){

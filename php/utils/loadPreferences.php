@@ -12,4 +12,10 @@ $lang = include dirname(__DIR__) . "/translations/" . $lang . ".php";
 if(empty($lang)){
   $lang = include dirname(__DIR__) . "/translations/en.php";
 }
+
+if(isset($_COOKIE["theatre_cookies"])){
+  $_SESSION["show_cookie_dialouge"] = false;
+} else {
+  $_SESSION["show_cookie_dialouge"] = isset($_SESSION["show_cookie_dialouge"])?$_SESSION["show_cookie_dialouge"]:true;
+}
 ?>

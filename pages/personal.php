@@ -165,7 +165,10 @@ if(isset($_POST["newPassword"])){
         </div>
       </div>
     </main>
-    <?php include dirname(__DIR__) . "/footer.php" ?>
+    <?php
+    include dirname(__DIR__) . "/footer.php";
+    require dirname(__DIR__) . "/cookie_manager.php";
+     ?>
     <script type="text/javascript">
       document.getElementById("nav_personal").className="active item";
     </script>

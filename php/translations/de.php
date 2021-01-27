@@ -111,5 +111,9 @@ return (object) array(
   "mail_sub" => "Wenn du Probleme mit dem Knopf hast, kopiere einfach die untenstehende Adresse und füge sie in die Adressleiste deines Browsers ein",
   "mail_lang" => "E-Mail Sprache",
   "email_lang_help" => "Eine E-Mail, die berichtet, dass du einen Account angelegt hast wird in angegebener Sprache versandt.",
+  "cookie_header" => "Cookies machen vieles besser",
+  "cookie_text" => "Zum Beispiel unsere Webseite. Wenn du FUnktionale Cookies zulässt, Ist die Webseite einfacher zu bedienen. Mehr Infos findest du in unserer Datenschutzerklärung.",
+  "necessary" => "Notwendig",
+  "functional" => "Funktional",
 );
 ?>

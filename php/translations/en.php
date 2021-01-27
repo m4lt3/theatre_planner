@@ -111,5 +111,9 @@ return (object) array(
   "mail_sub" => "If you’re having trouble with the button above, copy and paste the URL below into your web browser",
   "mail_lang" => "E-Mail language",
   "email_lang_help" => "An e-mail, telling that you've created this account will be sent in the given language",
+  "cookie_header" => "Cookies improve many things",
+  "cookie_text" => "For example our website. If you allow functinal cookies, this website will be easier to handle. More information can be found in our privacy statement.",
+  "necessary" => "Necessary",
+  "functional" => "Functional",
 );
 ?>
