@@ -14,6 +14,7 @@ return (object) array(
   // are practiced when and the acters will get informed on which dates they
   // need to be present
   "user_focused" => true,
+  "admin_mail" => "admin@theatre-planner.org",
 
   "contact_info" => "Contact information to be shown in imprint and privacy declaration",
   "imprint_text" => "Custom text to be shown in the imprint",

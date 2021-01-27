@@ -30,7 +30,13 @@
    $password = uniqid();
    $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], password_hash($password, PASSWORD_BCRYPT), (($_POST["userAdmin"]??0)==0)?0:1));
    if($inserted){
-     mail($_POST["userMail"], "Hello " . $_POST["userName"] . "! Your Password is '" . $password . "'. Please change it after your first login at " . $_SERVER["SERVER_NAME"]);
+     $config = require dirname(dirname(__DIR__)) . "/php/config.php";
+     $header = "MIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\nReply-to: " . $config->admin_mail . "\r\nX-Mailer: PHP " . phpversion();
+     $mail_lang = require dirname(dirname(__DIR__)) . "/php/translations/" . $_POST["lang"] . ".php";
+     $url = ((!empty($_SERVER["HTTPS"]) && $_SERVER['HTTPS'] !== 'off')?"https://":"http://") . $_SERVER['SERVER_NAME'] . dirname(dirname($_SERVER["PHP_SELF"])).'/index.php';
+     require dirname(dirname(__DIR__)) . "/php/ui/mail_template.php";
+     $message = createMail($mail_lang, $_POST["userName"], $_SESSION["UserName"], $password, $url, $config->contact_info, "create");
+     mail($_POST["userMail"], $_SESSION["UserName"] . " " . $mail_lang->create_title, $message, $header);
    }
  } elseif (isset($_POST["rm_plays"])){
    $db->update("DELETE FROM PLAYS WHERE PlaysID=?", "i", array($_POST["rm_plays"]));
@@ -49,26 +55,46 @@
     <meta charset="utf-8">
     <title><?php echo $lang->title ?> | <?php echo $lang->title_actor_management ?></title>
     <?php include dirname(dirname(__DIR__)) . "/head.php";?>
+    <style media="screen">
+    .label{
+      cursor:help;
+    }
+    </style>
   </head>
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
       <h1 class="ui large header"><?php echo $lang->title_actor_management ?></h1>
       <form class="ui form" action="" method="post">
-        <div class="three fields">
+        <div class="four fields">
           <div class="required field">
-            <label for="userName"><?php echo $lang->name ?></label>
+            <label for="userName"><?php echo $lang->name ?><div class="ui circular label" style="visibility:hidden;"><i class="fitted question icon"></i></div></label>
             <input required="true" type="text" name="userName" maxlength="32">
           </div>
           <div class="required field">
-            <label for="userMail"><?php echo $lang->email ?></label>
+            <label for="userMail"><?php echo $lang->email ?><div class="ui circular label" style="visibility:hidden;"><i class="fitted question icon"></i></div></label>
             <input required="true" type="email" name="userMail" maxlength="64">
           </div>
           <div class="field">
-            <label>&nbsp;</label>
+            <label for="lang"><?php echo $lang->mail_lang ?> <div class="ui circular label" id="lang_help"><i class="fitted question icon"></i></div></label>
+            <div class="ui selection dropdown" id="mail_lang">
+              <input type="hidden" name="lang">
+              <i class="dropdown icon"></i>
+              <div class="default text"></div>
+              <div class="menu">
+                <?php
+                foreach ($langs_available as $lang_available) {
+                  echo '<div class="item" data-value="' . $lang_available . '">' . $lang->$lang_available . '</div>';
+                }
+                ?>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label for="userAdmin"><?php echo $lang->admin ?><div class="ui circular label" style="visibility:hidden;"><i class="fitted question icon"></i></div></label>
             <div class="ui toggle checkbox">
               <input type="checkbox" name="userAdmin">
-              <label for="userAdmin"><?php echo $lang->admin ?></label>
+              <label>&nbsp;</label>
             </div>
           </div>
         </div>
@@ -194,6 +220,18 @@ EOT;
     <script type="text/javascript">
     $(document).ready(function(){
       $('.ui.dropdown').dropdown();
+      $("#mail_lang").dropdown('set selected', "<?php echo $lang->lang ?>");
+    });
+    document.getElementById("lang_help").addEventListener("click", function(){
+      if(this.id=="lang_help"){
+        this.className = "ui left pointing label";
+        this.innerHTML="<?php echo $lang->email_lang_help ?>";
+        this.id="lang_help_expanded";
+      } else {
+        this.className="ui circular label";
+        this.innerHTML='<i class="fitted question icon"></i>';
+        this.id="lang_help";
+      }
     });
     </script>
     <script type="text/javascript">

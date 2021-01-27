@@ -42,6 +42,7 @@ return (object) array(
   "misc" => "Verschiedenes",
   "header_tags" => "Header Tags",
   "header_help" => "Die hier eingegebenen Tags werden in jedem Seitenheader eingefügt",
+  "admail_help" => "Die &quot;Antworten an&quot; E-Mail-Adresse für automatisch versandte E-Mails",
   "title_dashboard" => "Dashboard",
   "without_roles" => "Ohne Schauspieler",
   "scenes" => "Szenen",
@@ -102,5 +103,13 @@ return (object) array(
   "photo_by" => "Foto von",
   "preferences" => "Einstellungen",
   "ui_language" => "Oberflächensprache",
+  "hello" => "Hallo",
+  "create_title" => "hat einen Account bei Theater-Planer für dich angelegt!",
+  "create_text" => "hat einen Account bei Theater-Planer für dich angelegt!<br/>Logge dich am besten gleich ein und ändere dein Initialpasswort:<br/>",
+  "get_started" => "Leg Los!",
+  "closure" => "Liebe Grüße,<br/>Dein Admin-Team",
+  "mail_sub" => "Wenn du Probleme mit dem Knopf hast, kopiere einfach die untenstehende Adresse und füge sie in die Adressleiste deines Browsers ein",
+  "mail_lang" => "E-Mail Sprache",
+  "email_lang_help" => "Eine E-Mail, die berichtet, dass du einen Account angelegt hast wird in angegebener Sprache versandt.",
 );
 ?>

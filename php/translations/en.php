@@ -42,6 +42,7 @@ return (object) array(
   "misc" => "Miscellaneous",
   "header_tags" => "Header Tags",
   "header_help" => "The tags you enter here will be inserted into every page header",
+  "admail_help" => "The &quot;Reply to&quot; E-Mail Address for automatically sent E-Mails",
   "title_dashboard" => "Dashboard",
   "without_roles" => "Without actor",
   "scenes" => "Scenes",
@@ -102,5 +103,13 @@ return (object) array(
   "photo_by" => "Photo by",
   "preferences" => "Preferences",
   "ui_language" => "Interface language",
+  "hello" => "Hello",
+  "create_title" => "created a theatre planner account for you!",
+  "create_text" => "created a theatre planner account for you!<br/>Log right in and change your initial password:<br/>",
+  "get_started" => "Get Started!",
+  "closure" => "Kind Regards,<br/>Your Admin team",
+  "mail_sub" => "If you’re having trouble with the button above, copy and paste the URL below into your web browser",
+  "mail_lang" => "E-Mail language",
+  "email_lang_help" => "An e-mail, telling that you've created this account will be sent in the given language",
 );
 ?>

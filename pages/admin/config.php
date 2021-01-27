@@ -24,8 +24,9 @@
     $config->custom_privacy_text = $_POST["custom_privacy_text"];
     $config->disable_standard_privacy = isset($_POST["disable_standard_privacy"]);
     file_put_contents("../../php/config.php", "<?php\n\nreturn " . var_export($config, true) . "\n\n?>");
-  } elseif(isset($_POST["tags_changed"])){
+  } elseif(isset($_POST["misc_changed"])){
     $config->header_tags = $_POST["header_tags"];
+    $config->admin_mail = $_POST["admin_mail"];
     file_put_contents("../../php/config.php", "<?php\n\nreturn " . var_export($config, true) . "\n\n?>");
   }
 ?>
@@ -132,11 +133,15 @@
       <div class="ui divider"></div>
       <h2 class="ui medium header"><?php echo $lang->misc ?></h2>
       <form class="ui form" action="" method="post">
-        <div class="ui field">
+        <div class="field">
           <label for="header_tags"><?php echo $lang->header_tags ?> <div class="ui circular label" id="header_help"><i class="fitted question icon"></i></div></label>
           <textarea name="header_tags" rows="8" cols="80"><?php echo $config->header_tags ?></textarea>
         </div>
-        <input class="ui primary button" type="submit" name="tags_changed" value="<?php echo $lang->save ?>">
+        <div class="field">
+          <label for="admin_mail"><?php echo $lang->admin . " " . $lang->email ?> <div class="ui circular label" id="admail_help"><i class="fitted question icon"></i></div></label>
+          <input type="email" name="admin_mail" value="<?php echo $config->admin_mail ?>">
+        </div>
+        <input class="ui primary button" type="submit" name="misc_changed" value="<?php echo $lang->save ?>">
       </form>
     </main>
     <?php
@@ -216,6 +221,17 @@
           this.className="ui circular label";
           this.innerHTML='<i class="fitted question icon"></i>';
           this.id="header_help";
+        }
+      });
+      document.getElementById("admail_help").addEventListener("click", function(){
+        if(this.id=="admail_help"){
+          this.className = "ui left pointing label";
+          this.innerHTML="<?php echo $lang->admail_help ?>";
+          this.id="admail_help_expanded";
+        } else {
+          this.className="ui circular label";
+          this.innerHTML='<i class="fitted question icon"></i>';
+          this.id="admail_help";
         }
       });
 
