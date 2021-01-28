@@ -1,4 +1,17 @@
 <?php
+/**
+* Fills out a mail template with standard text and given info.
+*
+* @param object $lang The language to compose the message in
+* @param string $actor The name of the recipient
+* @param string $admin The name of the admin; Relevant when it is a notification about account creation
+* @param string $password The newly generated password; Only relevant when new account mail
+* @param string $url The url for the requested action
+* @param string $contact_info Contact information for the mail imprint
+* @param string $reason REason for the mail determines the content; can be "create" for account creation or "password" for password reset
+*
+* @return string Dilled out mail template
+*/
 function createMail($lang, $actor, $admin, $password, $url, $contact_info, $reason){
   $title = "";
   $text = "";

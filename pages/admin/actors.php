@@ -13,8 +13,10 @@
   $inserted = true;
 
  if(isset($_POST["rm_user"])){
+   // User shall be deleted
    if($_SESSION["UserID"] != $_POST["rm_user"]){
      if(!$db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_POST["rm_user"]))){
+       // If deleting fails, resolve all possible foreign key reference issues
        $dependencies = $db->prepareQuery("SELECT PlaysID FROM PLAYS WHERE UserID=?", "i", array($_POST["rm_user"]));
        foreach ($dependencies as $dependency) {
          $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i", array($dependency["PlaysID"]));
@@ -23,13 +25,16 @@
        foreach ($dependencies as $dependency) {
          $db->update("DELETE FROM ATTENDS WHERE AttendsID=?","i", array($dependency["AttendsID"]));
        }
+       // delete again
        $db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_POST["rm_user"]));
      }
    }
  } elseif (isset($_POST["addUser"])) {
+   // user shall be created with a random password
    $password = uniqid();
    $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], password_hash($password, PASSWORD_BCRYPT), (($_POST["userAdmin"]??0)==0)?0:1));
    if($inserted){
+     // generating a mail to notify the new user
      $config = require dirname(dirname(__DIR__)) . "/php/config.php";
      $header = "MIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\nReply-to: " . $config->admin_mail . "\r\nX-Mailer: PHP " . phpversion();
      $mail_lang = require dirname(dirname(__DIR__)) . "/php/translations/" . $_POST["lang"] . ".php";
@@ -110,107 +115,28 @@
 
       <div class="ui two stackable cards">
         <?php
+          require dirname(dirname(__DIR__)) . "/php/ui/admin/userCard.php";
           $currentUser = array("UserID" => -1);
           $FreeRoles = $db->baseQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT RoleID FROM PLAYS)");
           foreach ($db->baseQuery("SELECT PLAYS.PlaysID, USERS.UserID, USERS.Name, USERS.Mail, USERS.Admin , ROLES.Name AS Role FROM USERS LEFT JOIN PLAYS ON USERS.UserId = PLAYS.UserID LEFT JOIN ROLES ON ROLES.RoleID = PLAYS.RoleID ORDER BY USERS.UserID") as $user) {
+            // Due to multiple roles assigned, an User can appear multiple times with different roles. This is aggregated here
             if($currentUser["UserID"] != $user["UserID"]){
               if($currentUser["UserID"] != -1){
-                createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles, $currentUser["Admin"]);
+                // If the user has changed (not for the first time), print card
+                echo createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles, $currentUser["Admin"]);
               }
+              // initialize aggregation variables
               $currentUser = $user;
               $currentUser["Role"] = array($currentUser["Role"]);
               $currentUser["PlaysID"] = array($currentUser["PlaysID"]);
             } else {
+              // Add information to the array on existing actor
               array_push($currentUser["Role"], $user["Role"]);
               array_push($currentUser["PlaysID"], $user["PlaysID"]);
             }
           }
-          createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles, $currentUser["Admin"]);
-
-          function createCard($UserID, $name, $mail, $roles, $PlaysID, $FreeRoles, $admin){
-            global $lang;
-            $role_rows = "";
-            foreach ($roles as $index => $role) {
-              if($role == ""){
-                continue;
-              }
-              $role_rows .= <<<EOT
-              <tr>
-                <td>$role</td>
-                <td>
-                  <form action="" method="POST">
-                    <input type="hidden" value="$PlaysID[$index]" name="rm_plays">
-                      <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
-                    </form>
-                  </td>
-              </tr>
-EOT;
-            }
-
-            $dialog_options = "";
-            if(count($FreeRoles==null?array():$FreeRoles)>0){
-              foreach($FreeRoles as $freeRole){
-                $dialog_options .= '<div class="item" data-value ="' . $freeRole["RoleID"] . '">' . $freeRole["Name"] . '</div>';
-              }
-            }
-            $role_dialog =<<<EOT
-            <tr>
-              <form action="" method="post">
-                <td>
-                  <div class="field">
-                    <div class="ui selection dropdown">
-                      <input type="hidden" name="newPlay">
-                      <i class="dropdown icon"></i>
-                      <div class="default text">{$lang->role}</div>
-                        <div class="menu">
-                          $dialog_options
-                        </div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <input type="hidden" name="UserID" value="$UserID">
-                  <button class="ui primary icon button" type="submit" name="addPlay"><i class="plus icon"></i></button>
-                </td>
-              </form>
-            </tr>
-EOT;
-            $button =<<<EOT
-            <form method="POST" action="" style="margin-bottom:0;">
-              <input type="hidden" name="rm_user" value="$UserID">
-              <button class="ui bottom attached red button" style="width:100%" type="submit"><i class="trash icon"></i></button>
-            </form>
-EOT;
-
-          $adminColour = "";
-          $admin_appendix = $lang->admin_appendix;
-          if($admin){
-            $adminColour = "orange";
-            $admin_appendix = "";
-          }
-
-            $card =<<<EOT
-  <div class="ui card">
-    <div class="content">
-      <div class="header">
-        $name
-        <div class="right floated meta">#$UserID</div>
-        <form action="" method="post"><input type="hidden" name="toggle_admin" value ="$UserID"><button title="{$lang->admin_prefix}$admin_appendix{$lang->admin}" type="submit" style="cursor:pointer" class="ui right floating $adminColour icon label"><i class="fitted chess queen icon"></i></button></form>
-      </div>
-      <div class="meta"><a href="mailto:$mail">$mail</a></div>
-    </div>
-    <div class="content">
-      <div class="ui sub header">{$lang->roles}</div>
-        <table class="ui very basic table">
-          $role_rows
-          $role_dialog
-        </table>
-      </div>
-      $button
-  </div>
-EOT;
-          echo $card;
-          }
+          // Creat the last card since it didn't get triggered
+          echo createCard($currentUser["UserID"], $currentUser["Name"], $currentUser["Mail"], $currentUser["Role"], $currentUser["PlaysID"], $FreeRoles, $currentUser["Admin"]);
         ?>
       </div>
     </main>
