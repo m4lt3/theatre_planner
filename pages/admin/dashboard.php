@@ -15,6 +15,8 @@ $unplayed_roles = $db->baseQuery("SELECT RoleID, Name, Description FROM ROLES WH
 $scenes = $db->baseQuery("SELECT COUNT(SceneID) AS SceneCount FROM SCENES")[0]["SceneCount"];
 $actors = $db->baseQuery("SELECT COUNT(UserID) AS UserCount FROM USERS")[0]["UserCount"];
 $roleless_actors = $db->baseQuery("SELECT UserID, Name, Mail FROM USERS WHERE UserID NOT IN (SELECT UserID FROM PLAYS)");
+
+require dirname(dirname(__DIR__))."/php/ui/admin/dashboardCards.php"
 ?>
 
 <!DOCTYPE html>
@@ -70,21 +72,7 @@ EOT;
             echo $unplayed_stat;
             echo '<div class="ui cards" style="margin-top:5px">';
             foreach ($unplayed_roles as $unplayed_role) {
-              $unplayed_card =<<<EOT
-                <div class="ui card">
-                  <div class="content">
-                    <div class="header">
-                      {$unplayed_role["Name"]}
-                      <div class="right floated meta">#{$unplayed_role["RoleID"]}</div>
-                    </div>
-                  </div>
-                  <div class="content">
-                    <div class="ui sub header">Description</div>
-                    {$unplayed_role["Description"]}
-                  </div>
-                </div>
-EOT;
-              echo $unplayed_card;
+              echo generateUnplayedCard($unplayedRole);
             }
             echo '</div>';
           }
@@ -139,18 +127,7 @@ EOT;
 
             echo '<div class="ui cards" style="margin-top:5px">';
             foreach ($roleless_actors as $roleless_actor) {
-              $roleless_card =<<<EOT
-                <div class="ui card">
-                  <div class="content">
-                    <div class="header">
-                      {$roleless_actor["Name"]}
-                      <div class="right floated meta">#{$roleless_actor["UserID"]}</div>
-                    </div>
-                    <div class="meta"><a href="mailto:{$roleless_actor["Mail"]}">{$roleless_actor["Mail"]}</a></div>
-                  </div>
-                </div>
-EOT;
-              echo $roleless_card;
+              echo generateRolelessCard($roleless_actor);
             }
             echo '</div>';
           }
