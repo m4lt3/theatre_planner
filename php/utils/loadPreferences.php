@@ -21,4 +21,6 @@ if(!isset($_SESSION["cookies_allowed"])){
     $_SESSION["show_cookie_dialouge"] = isset($_SESSION["show_cookie_dialouge"])?$_SESSION["show_cookie_dialouge"]:true;
   }
 }
+
+$config = require dirname(__DIR__) . "/config.php";
 ?>

@@ -118,5 +118,6 @@ return (object) array(
   "allow_cookies" => "Funktionale Cookies erlauben",
   "og_description" => "Theater-Planer ist ein kostenloses un einfach zu benutzendes Tool, um Proben für die eigene Theatergruppe zu organisiern. Leg gleich los!",
   "third_party_content" => "Inhalte Dritter",
+  "actor" => "Schauspieler",
 );
 ?>
