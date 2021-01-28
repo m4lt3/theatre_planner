@@ -28,6 +28,14 @@ $config = require_once __DIR__ . "/php/config.php";
       echo $config->imprint_text;
       ?>
 
+      <br/><br/>
+      <h2 class="ui medium header"><?php echo $lang->third_party_content ?></h2>
+      <ul>
+        <li><a href="https://github.com/xdan/datetimepicker" target="_blank">Datepicker</a></li>
+        <li><a href="https://semantic-ui.com" target="_blank">Semantic UI</a></li>
+        <li><a href="https://assets.wildbit.com/postmark/templates/dist/password_reset.html" target="_blank">Mail template</a></li>
+        <li><a href="https://fontawesome.com/license/free" target="_blank">Cookie & Masks by fontawesome</a></li>
+      </ul>
     </main>
     <?php
     include __DIR__ . "/footer.php";
