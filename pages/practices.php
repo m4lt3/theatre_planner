@@ -122,21 +122,6 @@ EOT;
     require dirname(__DIR__) . "/cookie_manager.php";
      ?>
     <script type="text/javascript">
-    for (let nav_item of document.getElementsByClassName("nav_practices item")) {
-      nav_item.className = "nav_practices active item";
-    }
-
-    document.getElementById("hamburger").addEventListener("click",function(){
-
-      if (this.className == "bars icon"){
-        this.className = "close icon";
-      } else {
-        this.className = "bars icon";
-      }
-      document.getElementById("mobile_menu").classList.toggle("expanded");
-    });
-    </script>
-    <script type="text/javascript">
       $(document).ready(function(){
         $('.ui.checkbox').checkbox();
 
