@@ -31,3 +31,40 @@ nav {
   flex-wrap: wrap;
   justify-content: space-between;
 }
+@media only screen and (max-width:1411px) {
+  .computer.only{
+    display:none;
+  }
+
+}
+@media only screen and (min-width:1412px) {
+  .computer.hidden{
+    display:none;
+  }
+}
+
+.computer.hidden.menu{
+  flex-direction:column;
+  justify-content: flex-start;
+}
+
+nav#mobile_menu.computer.hidden.menu > div{
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+nav#mobile_menu.computer.hidden.menu > * > *{
+  width:100%;
+}
+
+nav#mobile_menu.computer.hidden.menu > * > *:not(:first-child){
+  display:none;
+}
+
+nav#mobile_menu.computer.hidden.expanded.menu > * > *{
+  display:inherit;
+}
+
+#hamburger{
+  cursor:pointer;
+}
