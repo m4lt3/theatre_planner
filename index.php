@@ -72,7 +72,8 @@ if($loggedIn){
     <main id="loginScreen">
       <div class="ui middle aligned center aligned grid">
         <div class="column">
-          <h2 class="ui header" style="color:white">
+          <h2 class="ui image header" style="color:white">
+            <img class="image" src="./images/favicon.svg" alt="Masks">
             <div class="content">
               <?php echo $lang->title ?>
             </div>
