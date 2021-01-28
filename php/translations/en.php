@@ -46,6 +46,7 @@ return (object) array(
   "title_dashboard" => "Dashboard",
   "without_roles" => "Without actor",
   "scenes" => "Scenes",
+  "scene" => "Scene",
   "actors" => "Actors",
   "roleless" => "Without Role",
   "title_practice_management" => "Practice Management",

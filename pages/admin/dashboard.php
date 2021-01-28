@@ -45,7 +45,13 @@ $roleless_actors = $db->baseQuery("SELECT UserID, Name, Mail FROM USERS WHERE Us
               <?php echo $roles ?>
             </div>
             <div class="label">
-              <?php echo $lang->roles ?>
+              <?php
+              if($roles == 1){
+                echo $lang->role;
+              } else {
+                echo $lang->roles;
+              }
+              ?>
             </div>
           </div>
           <?php
@@ -91,7 +97,13 @@ EOT;
               <?php echo $scenes ?>
             </div>
             <div class="label">
-              <?php echo $lang->scenes ?>
+              <?php
+              if($scenes==1){
+                echo $lang->scene;
+              } else {
+                echo $lang->scenes;
+              }
+              ?>
             </div>
           </div>
         </div>
@@ -101,7 +113,13 @@ EOT;
               <?php echo $actors ?>
             </div>
             <div class="label">
-              <?php echo $lang->actors ?>
+              <?php
+              if($actors == 1){
+                echo $lang->actor;
+              } else {
+                echo $lang->actors;
+              }
+              ?>
             </div>
           </div>
           <?php
