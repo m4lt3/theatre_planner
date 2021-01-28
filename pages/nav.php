@@ -1,6 +1,9 @@
 <nav class="ui secondary pointing stackable menu">
   <div class="ui container">
-    <div class="header item"><?php echo $lang->title ?></div>
+    <div class="header item">
+      <img src="<?php echo str_replace($_SERVER["DOCUMENT_ROOT"], "", dirname(__DIR__)) ?>/images/favicon.svg" alt="" style="margin-right:7px">
+      <?php echo $lang->title ?>
+    </div>
     <a href="./dashboard.php" class="item" id="nav_dashboard"><?php echo $lang->title_dashboard ?></a>
     <a href="./practices.php" class="item" id="nav_practices"><?php echo $lang->title_practices ?></a>
     <a href="./personal.php" class="item" id="nav_personal"><?php echo $lang->title_personal ?></a>
