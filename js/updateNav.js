@@ -8,7 +8,6 @@ document.getElementById("hamburger").addEventListener("click",function(){
 });
 
 function updateNav(page){
-  console.log("updateNac called with param: " + page);
   for (let nav_item of document.getElementsByClassName("nav_" + page + " item")) {
     nav_item.className = "nav_" + page + " active item";
   }
