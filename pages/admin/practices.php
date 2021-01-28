@@ -13,21 +13,26 @@
   $db = new DBHandler();
 
   if(isset($_POST["addDate"])){
+    // A practice date is to be inserted
     $db->update("INSERT INTO PRACTICES VALUES (NULL, ?, ?)", "ss", array($_POST["titleInput"], $_POST["dateInput"]));
   } elseif (isset($_POST["rm_date"])){
+    // Remove a practice date
     if(!$db->update("DELETE FROM PRACTICES WHERE PracticeID=?", "i", array($_POST["rm_date"]))){
+      // If deletion fails due to foreign key references, delete dependencies first
       $dependencies = $db->prepareQuery("SELECT AttendsID FROM ATTENDS WHERE PracticeID=?", "i", array($_POST["rm_date"]));
       foreach ($dependencies as $dependency) {
         $db->update("DELETE FROM ATTENDS WHERE AttendsID=?","i", array($dependency["AttendsID"]));
       }
+      // delete again
       $db->update("DELETE FROM PRACTICES WHERE PracticeID=?", "i", array($_POST["rm_date"]));
     }
   } elseif (isset($_POST["toggleValue"])){
+    // Toggling whether past dates are shown or not.
     if(isset($_SESSION["cookies_allowed"]) && $_SESSION["cookies_allowed"]){
+      // Only save preference in cookie if allowed
       setcookie("theatre_past", ($_POST["toggleValue"]=="true"), array("expires"=>time() + 2592000, "samesite"=>"Strict", "path"=>"/"));
     }
     $_SESSION["theatre_past"] = ($_POST["toggleValue"]=="true");
-    header("location:./practices.php");
   }
 ?>
 <!DOCTYPE html>
@@ -75,6 +80,8 @@
       <br/>
       <div class="ui two stacked cards">
         <?php
+        require dirname(dirname(__DIR__))."/php/ui/admin/practiceCard.php";
+        //Query of hell; It actually just misses one relation table until it reaches back to itself.
         $practiceQuery = "SELECT PRACTICES.PracticeID, PRACTICES.Title, PRACTICES.Start, USERS.UserID, USERS.Name, ROLES.RoleID, ROLES.Name AS Role FROM PRACTICES LEFT JOIN ATTENDS ON PRACTICES.PracticeID = ATTENDS.PracticeID LEFT JOIN USERS ON USERS.UserID = ATTENDS.UserID LEFT JOIN PLAYS ON PLAYS.UserID = USERS.UserID LEFT JOIN ROLES ON PLAYS.RoleID = ROLES.RoleID";
 
         $divided=false;
@@ -85,84 +92,42 @@
         $practiceQuery .= " ORDER BY PRACTICES.Start, USERS.UserID";
         $practices = $db->baseQuery($practiceQuery);
         $practice_collection = new Practice(-1,"","");
-        $allScenes= $db->baseQuery("SELECT FEATURES.SceneID, FEATURES.RoleID, FEATURES.Mandatory, SCENES.Name FROM FEATURES JOIN SCENES ON FEATURES.SceneID = SCENES.SceneID ORDER BY FEATURES.SceneID ");
+        $allScenes= $db->baseQuery("SELECT FEATURES.SceneID, FEATURES.RoleID, FEATURES.Mandatory, SCENES.Name FROM FEATURES JOIN SCENES ON FEATURES.SceneID = SCENES.SceneID ORDER BY FEATURES.SceneID");
         if(!empty($practices)){
           foreach ($practices as $practice) {
+            // as with the user, due to the massive joins, a practice can (and most likely will) appear multiple times, so the values are stored together until the are ready to display.
             if($practice["PracticeID"] != $practice_collection->id){
               if($practice_collection->id != -1){
+                // Detect all practiceable scenes before displaying
                 $practice_collection->detectScenes($allScenes);
 
-                createCard($practice_collection);
+                echo createPracticeCard($practice_collection);
                 if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
+                  // If new practice is in the future and past dates are enabled and not yet separated, draw a line
                   echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards" style="margin-top:-14px">';
                   $divided = !$divided;
                 }
               }
+              // initialize new Collection for the next practice
               $practice_collection = new Practice($practice["PracticeID"], $practice["Title"], $practice["Start"]);
             }
             if(count($practice_collection->attendees) == 0){
+              // if array is empty, then simply add user
               array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
             } elseif($practice["UserID"] != $practice_collection->attendees[count($practice_collection->attendees)-1]["id"]){
+              // if a new user attends the practice, add it to the list
               array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
             }
+            // add the Role to the list
             array_push($practice_collection->roles, $practice["RoleID"]);
           }
+          // print last practice as it didn't get triggered
           $practice_collection->detectScenes($allScenes);
-          createCard($practice_collection);
+          echo createPracticeCard($practice_collection);
           if(!$divided){
+            // If all datas have been in the past, at least indicate that now
             echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards">';
           }
-        }
-
-        function createCard($practice_collection){
-          global $lang;
-          $format = new DateTime($practice_collection->date);
-          $button=<<<EOT
-          <form method="POST" action="" style="margin-bottom:0;">
-            <input type="hidden" name="rm_date" value="$practice_collection->id">
-            <button class="ui bottom attached red button" style="width:100%" type="submit"><i class="trash icon"></i></button>
-          </form>
-EOT;
-          $attendee_rows = "";
-          if(!empty($practice_collection->attendees[0]["id"]))
-          foreach ($practice_collection->attendees as $attendee) {
-            $attendee_rows .= '<tr><td>' . $attendee["name"] .'<div class="right floated meta">#' . $attendee["id"] . '</div></td></tr>';
-          }
-
-          $scene_rows = "";
-          foreach ($practice_collection->scenes as $scene) {
-            $scene_rows .= '<tr><td>' . $scene["Name"] .'<div class="right floated meta">#' . $scene["SceneID"] . '</div></td></tr>';
-          }
-
-          $card=<<<EOT
-          <div class="ui card">
-            <div class="content">
-              <div class="header">
-                $practice_collection->title
-                <div class="right floated meta">
-                  #$practice_collection->id
-                </div>
-              </div>
-              <div class="meta">
-                {$format->format("d.m.Y H:i")}
-              </div>
-            </div>
-            <div class="content">
-              <div class="sub header">{$lang->attendees}</div>
-              <table class="ui very basic table">
-                $attendee_rows
-              </table>
-            </div>
-            <div class="content">
-              <div class="sub header">{$lang->available_scenes}</div>
-              <table class="ui very basic table">
-                $scene_rows
-              </table>
-            </div>
-            $button
-          </div>
-EOT;
-          echo $card;
         }
         ?>
       </div>
