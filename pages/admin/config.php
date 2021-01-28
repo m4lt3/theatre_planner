@@ -8,6 +8,7 @@
     header("location:../dashboard.php");
   }
   $config = require dirname(dirname(__DIR__))."/php/config.php";
+  //save the config form data to file if anything has been changed
   if (isset($_POST["db_changed"])) {
     $config->db_server = $_POST["db_server"];
     $config->db_name = $_POST["db_name"];
@@ -149,6 +150,7 @@
     require dirname(dirname(__DIR__)) . "/cookie_manager.php";
     ?>
     <script type="text/javascript">
+      //Password display functionality
       document.getElementById("show_pwd").addEventListener("mousedown", function(){
         document.getElementById('db_pwd').type='text';
       });
@@ -158,6 +160,7 @@
       document.getElementById("show_pwd").addEventListener("mouseout", function(){
         document.getElementById('db_pwd').type='password'
       });
+      //Special form implementation of planning mode
       document.getElementById("actor_segment").addEventListener("click", function(){
         document.getElementById("focus_value").value="true";
         document.getElementById("focus_form").submit();
@@ -166,6 +169,8 @@
         document.getElementById("focus_value").value="false";
         document.getElementById("focus_form").submit();
       });
+
+      //Code responsible for tooltips
       document.getElementById("custom_help").addEventListener("click", function(){
         if(this.id=="custom_help"){
           this.className = "ui left pointing label";
