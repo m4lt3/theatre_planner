@@ -12,8 +12,9 @@
   $db = new DBHandler();
 
   if(isset($_POST["rm_role"])){
-
+    // Remove a role
     if(!$db->update("DELETE FROM ROLES WHERE RoleID=?", "i", array($_POST["rm_role"]))){
+      // If delete fails due to foreign key references, delete all dependencies first
       $dependencies = $db->prepareQuery("SELECT PlaysID FROM PLAYS WHERE RoleID=?", "i", array($_POST["rm_role"]));
       if(!empty($dependencies)){
         foreach ($dependencies as $dependency) {
@@ -26,11 +27,14 @@
           $db->update("DELETE FROM FEATURES WHERE FeatureID=?","i", array($dependency["FeatureID"]));
         }
       }
+      // delete role again
       $db->update("DELETE FROM ROLES WHERE RoleID=?", "i", array($_POST["rm_role"]));
     }
   } elseif (isset($_POST["addRole"])) {
+    // Add a Role
     $db->update("INSERT INTO ROLES VALUES (NULL, ?, ?)", "ss", array($_POST["roleName"], $_POST["roleDescription"]));
   } elseif (isset($_POST["newPlay"])){
+    //(Re)Assign a role to an actor
     $db->update("DELETE FROM PLAYS WHERE RoleID = ?", "i", array($_POST["RoleID"]));
     $db->update("INSERT INTO PLAYS VALUES(NULL, ?, ?)", "ii", array($_POST["newPlay"], $_POST["RoleID"]));
   }
@@ -64,60 +68,9 @@
         <?php
         $actors = $db->baseQuery("SELECT USERS.UserID, USERS.Name FROM USERS") ?? array();
         $roles = $db->baseQuery("SELECT * FROM ROLES") ?? array();
+        require dirname(dirname(__DIR__))."/php/ui/admin/createRoleCard.php";
         foreach ($roles as $role) {
-          create_card($role["RoleID"], $role["Name"], $role["Description"], $actors);
-        }
-        function create_card($id, $name, $description, $actors){
-          global $lang;
-
-          $dialog_options = "";
-          if(count($actors)>0){
-            foreach($actors as $actor){
-              $dialog_options .= '<div class="item" data-value ="' . $actor["UserID"] . '">' . $actor["Name"] . '</div>';
-            }
-          }
-          $actor_dialog =<<<EOT
-            <form action="" method="post" id="form_$id">
-              <input type="hidden" name="RoleID" value="$id">
-              <div class="field">
-                <div class="ui selection dropdown" id="dropdown_$id">
-                  <input type="hidden" name="newPlay" id="input_$id">
-                  <i class="dropdown icon"></i>
-                  <div class="default text">{$lang->actor}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                    <div class="menu">
-                      $dialog_options
-                    </div>
-                </div>
-              </div>
-            </form>
-EOT;
-
-          $button =<<<EOT
-          <form method="POST" action="" style="margin-bottom:0;">
-            <input type="hidden" name="rm_role" value="$id">
-            <button class="ui bottom attached red button" style="width:100%" type="submit"><i class="trash icon"></i></button>
-          </form>
-EOT;
-          $card =<<<EOT
-<div class="ui card">
-  <div class="content">
-    <div class="header">
-      $name
-      <div class="right floated meta">#$id</div>
-    </div>
-  </div>
-  <div class="content">
-    <div class="ui sub header">{$lang->description}</div>
-    $description
-  </div>
-  <div class="content">
-    <div class="ui sub header">{$lang->actor}</div>
-    $actor_dialog
-  </div>
-  $button
-</div>
-EOT;
-        echo $card;
+          echo createRoleCard($role["RoleID"], $role["Name"], $role["Description"], $actors);
         }
         ?>
       </div>
@@ -135,11 +88,13 @@ EOT;
       $actors = $db->baseQuery("SELECT USERS.UserID, USERS.Name, PLAYS.RoleID FROM USERS LEFT JOIN PLAYS ON PLAYS.UserID = USERS.UserID ") ?? array();
       foreach ($actors as $actor) {
         if(isset($actor["RoleID"])){
+          // Set the dropdown forms to the current value, if any (no, this was not possible in the generation of the forms)
           echo '$("#dropdown_'. $actor["RoleID"] .'").dropdown("set selected", "'.$actor["UserID"].'");'.PHP_EOL;
         }
       }
 
       foreach($roles as $role){
+        // Add a change listener toisntantly react on selections
         echo 'document.getElementById("input_'.$role["RoleID"].'").addEventListener("change", function(){document.getElementById("form_'.$role["RoleID"].'").submit();});';
       }
       ?>
