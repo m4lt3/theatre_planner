@@ -16,7 +16,7 @@ if($loggedIn){
      $_SESSION["UserName"] = $creds["Name"];
      $_SESSION["Admin"] = $creds["Admin"];
 
-     if(isset($_POST["rememberMe"])){
+     if(isset($_POST["rememberMe"]) && isset($_SESSION["cookies_allowed"]) && $_SESSION["cookies_allowed"] == true){
        $cookie_expiration_time = time() + 2592000;
 
 
@@ -29,15 +29,14 @@ if($loggedIn){
        $h2_hash = password_hash($h2, PASSWORD_BCRYPT);
        $expiry_date = date("Y-m-d H:i:s", $cookie_expiration_time);
 
-       $db->update("INSERT INTO TOKENS VALUES (NULL, ?, ?, ?, ?)", "isss", array($creds["UserID"], $h1_hash, $h2_hash, $expiry_date));
-
+       $db->update("INSERT INTO TOKENS VALUES (NULL, ?, ?, ?, ?)", "isss", array($_SESSION["UserID"], $h1_hash, $h2_hash, $expiry_date));
        $tokenID = $db->prepareQuery("SELECT TokenID FROM TOKENS WHERE Selector=?","s", array($h2_hash))[0]["TokenID"];
 
-       if (isset($_SESSION["cookies_allowed"]) && $_SESSION["cookies_allowed"] == true) {
-         setcookie("theatre_h1", $h1, array("expires"=>$cookie_expiration_time, "samesite"=>"Lax", "path"=>"/"));
-         setcookie("theatre_h2", $h2, array("expires"=>$cookie_expiration_time, "samesite"=>"Lax", "path"=>"/"));
-         setcookie("theatreID", $tokenID, array("expires"=>$cookie_expiration_time, "samesite"=>"Lax", "path"=>"/"));
-       }
+       $db->update("DELETE FROM TOKENS WHERE Expires < NOW()", "", array());
+
+       setcookie("theatre_h1", $h1, array("expires"=>$cookie_expiration_time, "samesite"=>"Lax", "path"=>"/"));
+       setcookie("theatre_h2", $h2, array("expires"=>$cookie_expiration_time, "samesite"=>"Lax", "path"=>"/"));
+       setcookie("theatreID", $tokenID, array("expires"=>$cookie_expiration_time, "samesite"=>"Lax", "path"=>"/"));
      } else {
        setcookie("theatreID", "", array("expires"=>time() - 3600, "samesite"=>"Lax", "path"=>"/"));
        setcookie("theatre_h1", "", array("expires"=>time() - 3600, "samesite"=>"Lax", "path"=>"/"));

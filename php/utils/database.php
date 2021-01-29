@@ -48,6 +48,9 @@ class DBHandler {
   }
 
   public function update($query, $param_type, $param_value_array) {
+    if(empty($param_type) && empty($param_value_array)){
+      return $this->conn->query($query);
+    }
     $sql = $this->conn->prepare($query);
     $this->bindQueryParams($sql, $param_type, $param_value_array);
     return $sql->execute();

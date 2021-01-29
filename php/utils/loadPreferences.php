@@ -20,5 +20,11 @@ if(!isset($_SESSION["cookies_allowed"])){
   } else {
     $_SESSION["show_cookie_dialouge"] = isset($_SESSION["show_cookie_dialouge"])?$_SESSION["show_cookie_dialouge"]:true;
   }
+} else {
+  if($_SESSION["cookies_allowed"]){
+    if(!isset($_COOKIE["theatre_cookies"])){
+      setcookie("theatre_cookies", "1", array("expires"=>time() + 2592000, "samesite"=>"Lax", "path"=>"/"));
+    }
+  }
 }
 ?>
