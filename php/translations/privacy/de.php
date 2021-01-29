@@ -149,8 +149,8 @@
 <p>
   Bei der Registrierung:
   <ul>
-    <li>Name</li>
-    <li>E-Mail-Adresse</li>
+    <li>Name (einsehbar für Administratoren)</li>
+    <li>E-Mail-Adresse (einsehbar für Administratoren)</li>
     <li>Passwort-Hash</li>
   </ul>
   Während der Nutzung:

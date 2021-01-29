@@ -149,8 +149,8 @@ You can lodge a complaint with a supervisory authority at any time, e.g. the com
 <p>
   At the time of registration:
   <ul>
-    <li>Name</li>
-    <li>E-Mail-Address</li>
+    <li>Name (visible for admins)</li>
+    <li>E-Mail-Address (visible for admins)</li>
     <li>Password-Hash</li>
   </ul>
   During use:
