@@ -7,7 +7,7 @@
 * @return string card template
 */
 function generateUnplayedCard($unplayedRole){
-  global $lang
+  global $lang;
   $unplayed_card =<<<EOT
     <div class="ui card">
       <div class="content">
@@ -32,7 +32,7 @@ EOT;
 *
 * @return string card template
 */
-function generateRolelessCard($rolelesss_actor){
+function generateRolelessCard($roleless_actor){
   $roleless_card =<<<EOT
     <div class="ui card">
       <div class="content">
