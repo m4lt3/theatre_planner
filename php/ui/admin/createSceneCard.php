@@ -102,6 +102,8 @@ EOT;
 *
 * @param array $FreeRoles Array of Role ID and Name of Roles that have not yet been assigned to the scene
 * @param int|string $SceneID ID of the Scene
+*
+* @return string template for dialogue
 */
 function createRoleDialogue($FreeRoles, $SceneID){
   global $lang;
