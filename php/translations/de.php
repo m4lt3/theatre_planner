@@ -121,5 +121,9 @@ return (object) array(
   "third_party_content" => "Inhalte Dritter",
   "actor" => "Schauspieler",
   "practices" => "Proben",
+  "your_presence" => "Deine Anwesenheit ist",
+  "actor_required" => "benötigt",
+  "actor_requested" => "erwünscht",
+  "actor_not_required" => "nicht benötigt",
 );
 ?>

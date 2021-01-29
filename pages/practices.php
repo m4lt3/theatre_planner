@@ -50,7 +50,14 @@ if (isset($_POST["reject"])){
       <br/>
       <div class="ui two stacked cards">
         <?php
-        $practiceQuery = "SELECT PRACTICES.*, ME.AttendsID FROM PRACTICES LEFT JOIN (SELECT * FROM ATTENDS WHERE UserID = ?) AS ME ON ME.PracticeID = PRACTICES.PracticeID";
+        $practiceQuery = "";
+        if($config->user_focused){
+          $practiceQuery = "SELECT PRACTICES.*, ME.AttendsID FROM PRACTICES LEFT JOIN (SELECT * FROM ATTENDS WHERE UserID = ?) AS ME ON ME.PracticeID = PRACTICES.PracticeID";
+        } else {
+          // Another query from hell, man I love SQL.
+
+          $practiceQuery = "SELECT PRACTICES.*, ME.Mandatory AS AttendsID FROM PRACTICES LEFT JOIN PLANNED_ON ON PRACTICES.PracticeID = PLANNED_ON.PracticeID LEFT JOIN SCENES ON PLANNED_ON.SceneID = SCENES.SceneID LEFT JOIN (SELECT FEATURES.SceneID, FEATURES.Mandatory FROM FEATURES LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID LEFT JOIN PLAYS ON PLAYS.RoleID = ROLES.RoleID LEFT JOIN USERS ON USERS.UserID = PLAYS.UserID WHERE USERS.UserID = ?) AS ME ON ME.SceneID = SCENES.SceneID";
+        }
         $divided = false;
         if (empty($_SESSION["theatre_past"]) || !$_SESSION["theatre_past"]) {
           $practiceQuery .= " WHERE PRACTICES.Start > NOW()";
@@ -59,7 +66,26 @@ if (isset($_POST["reject"])){
         }
         $practiceQuery .= " ORDER BY PRACTICES.Start";
 
-        foreach($db->prepareQuery($practiceQuery, "i", array($_SESSION["UserID"])) ?? array() as $practice){
+        if(!$config->user_focused){
+          $practiceQuery .= ", ME.Mandatory DESC";
+        }
+
+        require dirname(__DIR__) . "/php/ui/practiceCards.php";
+
+        $practices = $db->prepareQuery($practiceQuery, "i", array($_SESSION["UserID"]));
+
+        if(!$config->user_focused){
+          // Remove duplicates caused by mandatory join
+          $previousID = -1;
+          foreach ($practices as $index => $practice) {
+            if($practice["PracticeID"] == $previousID){
+              unset($practices[$index]);
+            }
+            $previousID = $practice["PracticeID"];
+          }
+        }
+
+        foreach($practices??array() as $practice){
           if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
             echo '</div><div class="ui horizontal divider">'.$lang->today.'</div><div class="ui two stacked cards" style="margin-top:-14px">';
             $divided = !$divided;
@@ -68,51 +94,6 @@ if (isset($_POST["reject"])){
         }
         if(!$divided){
           echo '</div><div class="ui horizontal divider">'.$lang->today.'</div><div class="ui two stacked cards">';
-        }
-
-        function createCard($id, $title, $date, $attends){
-          $format = new DateTime($date);
-          $disabled = ($date < date("Y-m-d H:i:s"))?"disabled":"";
-          $buttons = "";
-          $reqID = $id;
-          if(!empty($attends)){
-            $reqID = $attends;
-          }
-
-          if (empty($attends)) {
-            $buttons=<<<EOT
-            <button type="button" class="ui red $disabled icon button" name="reject"><i class="close icon"></i></button>
-            <button type="submit" class="ui basic green $disabled icon button" name="accept"><i class="check icon"></i></button>
-EOT;
-          } else {
-            $buttons=<<<EOT
-            <button type="submit" class="ui basic red $disabled icon button" name="reject"><i class="close icon"></i></button>
-            <button type="button" class="ui green $disabled icon button" name="accept"><i class="check icon"></i></button>
-EOT;
-          }
-
-          $card=<<<EOT
-          <div class="ui card">
-            <div class="content">
-              <div class="header">
-                $title
-                <div class="right floated meta">#$id</div>
-              </div>
-              <div class="meta">
-                {$format->format("d.m.Y H:i")}
-              </div>
-            </div>
-            <div class="extra content">
-              <form action="" method="POST">
-                <input type="hidden" name="reqID" value ="$reqID">
-                <div class="ui two buttons">
-                  $buttons
-                </div>
-              </form>
-            </div>
-          </div>
-EOT;
-          echo $card;
         }
         ?>
       </div>
