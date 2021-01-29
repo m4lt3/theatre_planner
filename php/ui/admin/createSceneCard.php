@@ -108,7 +108,7 @@ function createRoleDialogue($FreeRoles, $SceneID){
   $dialogue_options = "";
   if(count($FreeRoles??array())>0){
     foreach($FreeRoles as $freeRole){
-      $dialog_options .= '<div class="item" data-value ="' . $freeRole["RoleID"] . '">' . $freeRole["Name"] . '</div>';
+      $dialogue_options .= '<div class="item" data-value ="' . $freeRole["RoleID"] . '">' . $freeRole["Name"] . '</div>';
     }
   }
 
