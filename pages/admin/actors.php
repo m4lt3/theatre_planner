@@ -18,11 +18,11 @@
      if(!$db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_POST["rm_user"]))){
        // If deleting fails, resolve all possible foreign key reference issues
        $dependencies = $db->prepareQuery("SELECT PlaysID FROM PLAYS WHERE UserID=?", "i", array($_POST["rm_user"]));
-       foreach ($dependencies as $dependency) {
+       foreach ($dependencies??array() as $dependency) {
          $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i", array($dependency["PlaysID"]));
        }
        $dependencies = $db->prepareQuery("SELECT AttendsID FROM ATTENDS WHERE UserID=?", "i", array($_POST["rm_user"]));
-       foreach ($dependencies as $dependency) {
+       foreach ($dependencies??array() as $dependency) {
          $db->update("DELETE FROM ATTENDS WHERE AttendsID=?","i", array($dependency["AttendsID"]));
        }
        // delete again
