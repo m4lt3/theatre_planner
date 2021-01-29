@@ -88,13 +88,14 @@ if($loggedIn){
                   <input required type="email" name="email" placeholder="<?php echo $lang->email ?>">
                 </div>
               </div>
-              <div class="field">
+              <div class="field" style="text-align:right">
                 <div class="ui left icon input">
                   <i class="lock icon"></i>
                   <input required type="password" name="password" placeholder="<?php echo $lang->password ?>">
                 </div>
+                <a href="pages/utils/resetPassword.php"><?php echo $lang->forgot_password ?></a>
               </div>
-              <div class="field">
+              <div class="field" style="text-align:left;">
                 <div class="ui checkbox">
                   <label for="rememberMe"><?php echo $lang->remember_me ?></label>
                   <input type="checkbox" name="rememberMe">

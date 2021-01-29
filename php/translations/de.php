@@ -125,5 +125,13 @@ return (object) array(
   "actor_required" => "benötigt",
   "actor_requested" => "erwünscht",
   "actor_not_required" => "nicht benötigt",
+  "reset_password" => "Passwort zurücksetzen",
+  "reset_link_sent" => "Wenn diese E-Mail adresse mit einem Konto verknüpft ist, wurde ein Link zum zurücksetzen des Passworts versandt",
+  "reset_title" => "Setze dein Theater-Planer Passwort zurück",
+  "reset_text" => "bei uns ist eine Anfrage zum Zurücksetzen deines Passwortes eingegangen. Wenn du unten auf den Link klickst, kannst du dein Passwort zurücksetzen - aber achtung, es ist nur 24 Stunden gültig!<br/>Falls du kein neues Passwort angefordert hast, ignoriere diese E-Mail einfach.",
+  "logo_alt" => "Theater-Planer Logo",
+  "invalid_token" => "Dieser Link ist entweder ungültig oder abgelaufen",
+  "reset_success" => "Passwort erfolgreich geändert!<br/>Der Link wurde entwertet.",
+  "forgot_password" => "Passwort vergessen",
 );
 ?>

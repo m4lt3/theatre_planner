@@ -125,5 +125,13 @@ return (object) array(
   "actor_required" => "required",
   "actor_requested" => "requested",
   "actor_not_required" => "not required",
+  "reset_password" => "Reset Password",
+  "reset_link_sent" => "If there is an account associated with this e-mail address, a password reset link has been sent",
+  "reset_title" => "Reset your theatre planner account password",
+  "reset_text" => "we recieved a request to reset your password. If you click on the link down below, you can reset your password - but beware, the link is only valid for 24 hours!<br/>If you haven't requested a reset, simply ignore this mail.",
+  "logo_alt" => "Theatre planner Logo",
+  "invalid_token" => "This link seems to be either invalid or expired",
+  "reset_success" => "Password changed successfully!<br/>The link has been invalidated.",
+  "forgot_password" => "Forgot password",
 );
 ?>
