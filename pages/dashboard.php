@@ -7,7 +7,14 @@ if(!$loggedIn){
 }
 $db = new DBHandler();
 $roles = $db->prepareQuery("SELECT ROLES.RoleID, ROLES.Name, ROLES.Description FROM ROLES, USERS, PLAYS WHERE PLAYS.UserID = ? AND PLAYS.RoleID = ROLES.RoleID AND PLAYS.UserID = USERS.UserID", "s", array($_SESSION["UserID"]));
-$date = $db->prepareQuery("SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES LEFT JOIN (SELECT * FROM ATTENDS WHERE UserID = ?) AS ME ON PRACTICES.PracticeID = ME.PracticeID WHERE PRACTICES.Start > NOW() ORDER BY PRACTICES.Start LIMIT 1", "i", array($_SESSION["UserID"]));
+$config = require dirname(__DIR__)."/php/config.php";
+$query = "";
+if($config->user_focused){
+  $query = "SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES LEFT JOIN (SELECT * FROM ATTENDS WHERE UserID = ?) AS ME ON PRACTICES.PracticeID = ME.PracticeID WHERE PRACTICES.Start > NOW() ORDER BY PRACTICES.Start LIMIT 1";
+} else {
+  $query = "SELECT PRACTICES.*, ME.Mandatory FROM PRACTICES LEFT JOIN PLANNED_ON ON PRACTICES.PracticeID = PLANNED_ON.PracticeID LEFT JOIN SCENES ON PLANNED_ON.SceneID = SCENES.SceneID LEFT JOIN (SELECT FEATURES.SceneID, FEATURES.Mandatory FROM FEATURES LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID LEFT JOIN PLAYS ON PLAYS.RoleID = ROLES.RoleID LEFT JOIN USERS ON USERS.UserID = PLAYS.UserID WHERE USERS.UserID = ?) AS ME ON ME.SceneID = SCENES.SceneID WHERE PRACTICES.Start > NOW() ORDER BY PRACTICES.Start, ME.Mandatory DESC LIMIT 1";
+}
+$date = $db->prepareQuery($query, "i", array($_SESSION["UserID"]));
 ?>
 
 <!DOCTYPE html>
@@ -92,11 +99,16 @@ EOT;
               <div class="label">
                 <?php
                 if(!empty($date)){
-                  echo $format->format("H:i");
-                  if(empty($date[0]["AttendsID"])){
-                    echo ' <span class="ui red label">'. $lang->declined .'</span>';
+                  echo $format->format("H:i") . "<br/>";
+                  if($config->user_focused){
+                    if(empty($date[0]["AttendsID"])){
+                      echo ' <span class="ui red label">'. $lang->declined .'</span>';
+                    } else {
+                      echo ' <span class="ui green label">'. $lang->accepted .'</span>';
+                    }
                   } else {
-                    echo ' <span class="ui green label">'. $lang->accepted .'</span>';
+                    require dirname(__DIR__) . "/php/ui/practiceCards.php";
+                    echo generateAdminContent($date[0]["Mandatory"], $date[0]["Start"]);
                   }
                 }
                  ?>
