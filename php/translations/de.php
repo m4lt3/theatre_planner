@@ -133,5 +133,14 @@ return (object) array(
   "invalid_token" => "Dieser Link ist entweder ungültig oder abgelaufen",
   "reset_success" => "Passwort erfolgreich geändert!<br/>Der Link wurde entwertet.",
   "forgot_password" => "Passwort vergessen",
+  "setup" => "Einrichtung",
+  "setup_db" => "Datenbankeinrichtung",
+  "setup_db_text" => "Verbinden und Strukturieren der Datenbank",
+  "setup_user" => "Nutzer erstellen",
+  "setup_user_text" => "Erstelle deinen allerersten Nutzer",
+  "setup_settings" => "Einstellungen bearbeiten",
+  "setup_settings_text" => "Das kannst du auch später machen",
+  "setup_done" => "Alles fertig!",
+  "setup_done_text" => "Weitere Einstellungen kannst du in der normalen Server-Konfiguration vornehmen",
 );
 ?>

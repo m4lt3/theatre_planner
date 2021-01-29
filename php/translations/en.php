@@ -133,5 +133,14 @@ return (object) array(
   "invalid_token" => "This link seems to be either invalid or expired",
   "reset_success" => "Password changed successfully!<br/>The link has been invalidated.",
   "forgot_password" => "Forgot password",
+  "setup" => "Setup",
+  "setup_db" => "Database setup",
+  "setup_db_text" => "Connecting and structuring the database",
+  "setup_user" => "Create user",
+  "setup_user_text" => "Create your very first user",
+  "setup_settings" => "Adjust settings",
+  "setup_settings_text" => "You can also do that later",
+  "setup_done" => "All done!",
+  "setup_done_text" => "Further settings can be made in the server configurations",
 );
 ?>

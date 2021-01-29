@@ -6,6 +6,12 @@ require_once __DIR__ . "/php/utils/database.php";
 if($loggedIn){
   header("location:./pages/dashboard.php");
 }
+
+$config = require __DIR__ . "/php/config.php";
+if($config->setup_guide){
+  header("location:./pages/utils/setup.php");
+}
+
  if(isset($_POST["login"])){
 
    $db= new DBHandler();

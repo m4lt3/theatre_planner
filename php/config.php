@@ -1,5 +1,7 @@
 <?php
 return (object) array(
+  // set to fals if you don't need any help setting up theatre planner
+  "setup_guide" => true,
   // Database Connection can be edited here
   "db_server" => "localhost",
   "db_name" => "theatre_planner",

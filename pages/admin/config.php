@@ -59,22 +59,22 @@
         <div class="two fields">
           <div class="field">
             <label for="db_server"><?php echo $lang->db_server ?></label>
-            <input type="text" name="db_server" value="<?php echo $config->db_server ?>">
+            <input required type="text" name="db_server" value="<?php echo $config->db_server ?>">
           </div>
           <div class="field">
             <label for="db_name"><?php echo $lang->db_name ?></label>
-            <input type="text" name="db_name" value="<?php echo $config->db_name ?>">
+            <input required type="text" name="db_name" value="<?php echo $config->db_name ?>">
           </div>
         </div>
         <div class="two fields">
           <div class="field">
             <label for="db_user"><?php echo $lang->db_user ?></label>
-            <input type="text" name="db_user" value="<?php echo $config->db_user ?>">
+            <input required type="text" name="db_user" value="<?php echo $config->db_user ?>">
           </div>
           <div class="field">
             <label for="db_pwd"><?php echo $lang->db_pwd ?></label>
             <div class="ui action input">
-              <input type="password" name="db_pwd" value="<?php echo $config->db_pwd ?>" id="db_pwd">
+              <input required type="password" name="db_pwd" value="<?php echo $config->db_pwd ?>" id="db_pwd" minlength="8">
               <button class="ui icon button" type="button" name="button" id="show_pwd"><i class="low vision icon"></i></button>
             </div>
           </div>
