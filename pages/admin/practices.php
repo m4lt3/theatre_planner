@@ -85,7 +85,7 @@
         $practiceQuery = "SELECT PRACTICES.PracticeID, PRACTICES.Title, PRACTICES.Start, USERS.UserID, USERS.Name, ROLES.RoleID, ROLES.Name AS Role FROM PRACTICES LEFT JOIN ATTENDS ON PRACTICES.PracticeID = ATTENDS.PracticeID LEFT JOIN USERS ON USERS.UserID = ATTENDS.UserID LEFT JOIN PLAYS ON PLAYS.UserID = USERS.UserID LEFT JOIN ROLES ON PLAYS.RoleID = ROLES.RoleID";
 
         $divided=false;
-        if(empty($_SESSION["theatre_past"]) || $_SESSION["theatre_past"]){
+        if(empty($_SESSION["theatre_past"]) || !$_SESSION["theatre_past"]){
           $practiceQuery .= " WHERE PRACTICES.Start > NOW()";
           $divided=true;
         }

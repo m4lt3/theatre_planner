@@ -52,7 +52,7 @@ if (isset($_POST["reject"])){
         <?php
         $practiceQuery = "SELECT PRACTICES.*, ME.AttendsID FROM PRACTICES LEFT JOIN (SELECT * FROM ATTENDS WHERE UserID = ?) AS ME ON ME.PracticeID = PRACTICES.PracticeID";
         $divided = false;
-        if (empty($_SESSION["theatre_past"]) || $_SESSION["theatre_past"]) {
+        if (empty($_SESSION["theatre_past"]) || !$_SESSION["theatre_past"]) {
           $practiceQuery .= " WHERE PRACTICES.Start > NOW()";
 
           $divided = true;
