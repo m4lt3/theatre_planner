@@ -120,5 +120,6 @@ return (object) array(
   "og_description" => "Theatre Planner is a free and easy to use tool for organizing practices for your theatre group. Get started now!",
   "third_party_content" => "Third party content",
   "actor" => "Actor",
+  "practices" => "Practices",
 );
 ?>
