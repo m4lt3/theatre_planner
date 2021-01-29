@@ -6,13 +6,14 @@
 * @param string $actor The name of the recipient
 * @param string $admin The name of the admin; Relevant when it is a notification about account creation
 * @param string $password The newly generated password; Only relevant when new account mail
-* @param string $url The url for the requested action
+* @param string $base_url The url with servername and documentroot (e.g. https://example.com/theatreplanner)
+* @param string $action:url The url after the document root (e.g. index.php)
 * @param string $contact_info Contact information for the mail imprint
 * @param string $reason REason for the mail determines the content; can be "create" for account creation or "password" for password reset
 *
 * @return string Dilled out mail template
 */
-function createMail($lang, $actor, $admin, $password, $url, $contact_info, $reason){
+function createMail($lang, $actor, $admin, $password, $base_url, $action_url, $contact_info, $reason){
   $title = "";
   $text = "";
   $action = "";
@@ -20,6 +21,10 @@ function createMail($lang, $actor, $admin, $password, $url, $contact_info, $reas
     $title = $admin . " " . $lang->create_title;
     $text = $admin . " " . $lang->create_text . $password;
     $action = $lang->get_started;
+  } else {
+    $title = $lang->reset_title;
+    $text = $lang->reset_text;
+    $action = $lang->reset_password;
   }
 $mail = <<<EOT
 <!DOCTYPE html>
@@ -410,7 +415,8 @@ $mail = <<<EOT
           <table class="email-content" width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td class="email-masthead">
-                <a href="https://example.com" class="email-masthead_name">
+                <img src="$base_url/images/favicon.svg" alt="{$lang->logo_alt}" class="email-masthead_logo"/><br/>
+                <a href="$base_url/index.php" class="email-masthead_name">
         {$lang->title}
       </a>
               </td>
@@ -436,7 +442,7 @@ $mail = <<<EOT
                                   <table border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                       <td>
-                                        <a href="$url" class="button button--green" target="_blank">$action</a>
+                                        <a href="$base_url$action_url" class="button button--green" target="_blank">$action</a>
                                       </td>
                                     </tr>
                                   </table>
@@ -452,7 +458,7 @@ $mail = <<<EOT
                         <tr>
                           <td>
                             <p class="sub">{$lang->mail_sub}</p>
-                            <p class="sub">$url</p>
+                            <p class="sub">$base_url$action_url</p>
                           </td>
                         </tr>
                       </table>
