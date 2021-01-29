@@ -23,8 +23,12 @@ error_reporting(E_ALL);
     if(!$db->update("DELETE FROM PRACTICES WHERE PracticeID=?", "i", array($_POST["rm_date"]))){
       // If deletion fails due to foreign key references, delete dependencies first
       $dependencies = $db->prepareQuery("SELECT AttendsID FROM ATTENDS WHERE PracticeID=?", "i", array($_POST["rm_date"]));
-      foreach ($dependencies as $dependency) {
+      foreach ($dependencies??array() as $dependency) {
         $db->update("DELETE FROM ATTENDS WHERE AttendsID=?","i", array($dependency["AttendsID"]));
+      }
+      $dependencies = $db->prepareQuery("SELECT PlanID FROM PLANNED_ON WHERE PracticeID=?","i",array($_POST["rm_date"]));
+      foreach ($dependencies??array() as $dependency) {
+        $db->update("DELETE FROM PLANNED_ON WHERE PlanID=?","i",array($dependency["PlanID"]));
       }
       // delete again
       $db->update("DELETE FROM PRACTICES WHERE PracticeID=?", "i", array($_POST["rm_date"]));
@@ -36,6 +40,11 @@ error_reporting(E_ALL);
       setcookie("theatre_past", ($_POST["toggleValue"]=="true"), array("expires"=>time() + 2592000, "samesite"=>"Strict", "path"=>"/"));
     }
     $_SESSION["theatre_past"] = ($_POST["toggleValue"]=="true");
+  } elseif (isset($_POST["rm_planned"])){
+    //Delete scene assignment (admin focused mode only)
+    $db->update("DELETE FROM PLANNED_ON WHERE PlanID=?","i", array($_POST["rm_planned"]));
+  } elseif(isset($_POST["addPlanned"])){
+    $db->update("INSERT INTO PLANNED_ON VALUES (NULL, ?, ?)", "ii", array($_POST["PracticeID"], $_POST["newPlan"]));
   }
 ?>
 <!DOCTYPE html>

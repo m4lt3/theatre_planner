@@ -270,7 +270,7 @@ $scene_dialogue =<<<EOT
     <td>
       <div class="field">
         <div class="ui selection dropdown">
-          <input type="hidden" name="newFeature">
+          <input type="hidden" name="newPlan">
           <i class="dropdown icon"></i>
           <div class="default text">{$lang->practices}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             <div class="menu">
