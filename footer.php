@@ -8,5 +8,5 @@
 <script src="<?php echo $config->subfolder ?>/js/semantic.min.js" charset="utf-8"></script>
 <script src="<?php echo $config->subfolder ?>/js/updateNav.js" charset="utf-8"></script>
 <script type="text/javascript">
-  updateNav("<?php echo str_replace(".php","", str_replace(dirname($_SERVER["SCRIPT_FILENAME"])."/","",$_SERVER["SCRIPT_FILENAME"]))?>");
+  nav_init("<?php echo str_replace(".php","", str_replace(dirname($_SERVER["SCRIPT_FILENAME"])."/","",$_SERVER["SCRIPT_FILENAME"]))?>");
 </script>
