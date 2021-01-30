@@ -162,7 +162,10 @@ function createAdminFocusedPracticeCard($scenes, $allScenes){
 
   $scene_rows = createSceneRows($scenes);
 
-  $scene_dialogue = createSceneDialogue(getFreeScenes($scenes, $allScenes), $scenes[0]["PracticeID"]);
+  $scene_dialogue = "";
+  if($scenes[0]["Start"] > date("Y-m-d H:i:s")){
+    $scene_dialogue = createSceneDialogue(getFreeScenes($scenes, $allScenes), $scenes[0]["PracticeID"]);
+  }
 
 $button =<<<EOT
 <form method="POST" action="" style="margin-bottom:0;">
@@ -203,21 +206,30 @@ return $card;
 function createSceneRows($scenes){
   global $lang;
   $scene_rows = "";
+  $createForm = true;
+  if($scenes[0]["Start"] < date("Y-m-d H:i:s")){
+    $createForm = false;
+  }
   foreach ($scenes as $scene) {
     if(empty($scene["PlanID"])){
       continue;
     }
     $scene_rows .= <<<EOT
     <tr>
-      <td>{$scene["Scene"]}</td>
-      <td>
-        <form action="" method="POST">
-          <input type="hidden" value="{$scene["PlanID"]}" name="rm_planned">
-            <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
-          </form>
-        </td>
-    </tr>
+      <td><span class="meta">{$scene["Sequence"]}.</span> {$scene["Scene"]}</td>
+  EOT;
+  if($createForm){
+    $scene_rows .= <<<EOT
+    <td>
+      <form action="" method="POST">
+        <input type="hidden" value="{$scene["PlanID"]}" name="rm_planned">
+          <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
+        </form>
+      </td>
 EOT;
+  }
+  $scene_rows .= "</tr>";
+
   }
   return $scene_rows;
 }

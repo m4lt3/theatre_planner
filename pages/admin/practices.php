@@ -103,7 +103,7 @@
           $card_function = "generateUserFocusedCardStack";
           $sceneQuery = "SELECT FEATURES.SceneID, FEATURES.RoleID, FEATURES.Mandatory, SCENES.Name FROM FEATURES JOIN SCENES ON FEATURES.SceneID = SCENES.SceneID ORDER BY FEATURES.SceneID";
         } else {
-          $practiceQuery = "SELECT PRACTICES.PracticeID, PRACTICES.Title, PRACTICES.Start, PLANNED_ON.PlanID, SCENES.SceneID, SCENES.Name AS Scene FROM PRACTICES LEFT JOIN PLANNED_ON ON PLANNED_ON.PracticeID = PRACTICES.PracticeID LEFT JOIN SCENES ON SCENES.SceneID = PLANNED_ON.SceneID ";
+          $practiceQuery = "SELECT PRACTICES.PracticeID, PRACTICES.Title, PRACTICES.Start, PLANNED_ON.PlanID, SCENES.SceneID, SCENES.Name AS Scene, SCENES.Sequence FROM PRACTICES LEFT JOIN PLANNED_ON ON PLANNED_ON.PracticeID = PRACTICES.PracticeID LEFT JOIN SCENES ON SCENES.SceneID = PLANNED_ON.SceneID ";
           $card_function = "createAdminFocusedCardStack";
           $sceneQuery = "SELECT SceneID, Name FROM SCENES";
         }
@@ -118,7 +118,7 @@
         if($config->user_focused){
           $practiceQuery .= " ORDER BY PRACTICES.Start, USERS.UserID";
         } else {
-          $practiceQuery .= " ORDER BY PRACTICES.Start";
+          $practiceQuery .= " ORDER BY PRACTICES.Start, SCENES.Sequence";
         }
         $practices = $db->baseQuery($practiceQuery);
         $allScenes= $db->baseQuery($sceneQuery);
