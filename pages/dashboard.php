@@ -107,7 +107,7 @@ EOT;
                     }
                   } else {
                     require dirname(__DIR__) . "/php/ui/practiceCards.php";
-                    echo generateAdminContent($date[0]["Mandatory"], $date[0]["Start"]);
+                    echo makeLabel($date[0]["Mandatory"], $date[0]["Start"]);
                   }
                 }
                  ?>
