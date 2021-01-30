@@ -24,6 +24,7 @@ class DBHandler {
 
   public function baseQuery($sql){
     $result = $this->conn->query($sql);
+    $resultset = array();
     if ($result->num_rows > 0) {
       while($row = $result->fetch_assoc()) {
         $resultset[] = $row;
@@ -37,7 +38,7 @@ class DBHandler {
       $this->bindQueryParams($stmt, $param_type, $param_values);
       $stmt->execute();
       $result = $stmt->get_result();
-
+      $resultset = array();
       if ($result->num_rows > 0) {
           while($row = $result->fetch_assoc()) {
               $resultset[] = $row;
