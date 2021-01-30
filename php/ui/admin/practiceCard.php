@@ -29,13 +29,13 @@ function generateUserFocusedCardStack($practices, $allScenes){
       }
       if(count($practice_collection->attendees) == 0){
         // if array is empty, then simply add user
-        array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
+        $practice_collection->attendees[] = array("id"=>$practice["UserID"], "name"=>$practice["Name"]);
       } elseif($practice["UserID"] != $practice_collection->attendees[count($practice_collection->attendees)-1]["id"]){
         // if a new user attends the practice, add it to the list
-        array_push($practice_collection->attendees, array("id"=>$practice["UserID"], "name"=>$practice["Name"]));
+        $practice_collection->attendees[] = array("id"=>$practice["UserID"], "name"=>$practice["Name"]);
       }
       // add the Role to the list
-      array_push($practice_collection->roles, $practice["RoleID"]);
+      $practice_collection->roles[] = $practice["RoleID"];
     }
     // print last practice as it didn't get triggered
     $practice_collection->detectScenes($allScenes);
@@ -137,7 +137,7 @@ function createAdminFocusedCardStack($practices, $allScenes){
         $currentPractice = array($practice);
 
       } else {
-        array_push($currentPractice, $practice);
+        $currentPractice[] = $practice;
       }
     }
     echo createAdminFocusedPracticeCard($currentPractice, $allScenes);
@@ -240,7 +240,7 @@ function getFreeScenes($assignedScenes, $allScenes){
 
   foreach ($allScenes as $scene) {
     if(!isset($assignedMap[$scene["SceneID"]])){
-      array_push($freeScenes, $scene);
+      $freeScenes[] = $scene;
     }
   }
   return $freeScenes;

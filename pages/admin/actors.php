@@ -131,8 +131,8 @@
               $currentUser["PlaysID"] = array($currentUser["PlaysID"]);
             } else {
               // Add information to the array on existing actor
-              array_push($currentUser["Role"], $user["Role"]);
-              array_push($currentUser["PlaysID"], $user["PlaysID"]);
+              $currentUser["Role"][] = $user["Role"];
+              $currentUser["PlaysID"][] = $user["PlaysID"];
             }
           }
           // Creat the last card since it didn't get triggered

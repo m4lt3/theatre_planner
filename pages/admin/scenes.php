@@ -85,9 +85,9 @@
                 $currentScene["FeatureID"] = array($currentScene["FeatureID"]);
               } else {
                 // Add values to the existing scene
-                array_push($currentScene["Role"], $scene["Role"]);
-                array_push($currentScene["Mandatory"], $scene["Mandatory"]);
-                array_push($currentScene["FeatureID"], $scene["FeatureID"]);
+                $currentScene["Role"][] = $scene["Role"];
+                $currentScene["Mandatory"][] = $scene["Mandatory"];
+                $currentScene["FeatureID"][] = $scene["FeatureID"];
               }
             }
             // Print the last card since it didn't ge triggered

@@ -45,7 +45,7 @@ class Practice{
           // New scene is inspected
           if($possible){
             // Store old scene if it is possible
-            array_push($this->scenes, array("SceneID"=> $currentScene["SceneID"], "Name"=> $currentScene["Name"]));
+            $this->scenes[] = array("SceneID"=> $currentScene["SceneID"], "Name"=> $currentScene["Name"]);
           }
           // reset values
           $possible = true;
@@ -58,7 +58,7 @@ class Practice{
       }
       if($possible){
         // triggering the last check
-        array_push($this->scenes, array("SceneID"=> $currentScene["SceneID"], "Name"=> $currentScene["Name"]));
+        $this->scenes[] = array("SceneID"=> $currentScene["SceneID"], "Name"=> $currentScene["Name"]);
       }
     }
   }
