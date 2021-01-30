@@ -59,7 +59,7 @@ return (object) array(
   "available_scenes" => "Probbare Szenen",
   "title_role_management" => "Rollenverwaltung",
   "role_name" => "Rollenname",
-  "role_description" => "Rollenbeschribung",
+  "role_description" => "Rollenbeschreibung",
   "create_role" => "Rolle erstellen",
   "description" => "Beschreibung",
   "title_scene_management" => "Szenenverwaltung",
@@ -146,5 +146,6 @@ return (object) array(
   "theres_you" => "Da bist du!",
   "thats_you" => "Das bist du!",
   "order" => "Reihenfolge",
+  "her_his" => "s",
 );
 ?>

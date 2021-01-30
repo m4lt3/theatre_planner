@@ -11,7 +11,7 @@
 
   $db = new DBHandler();
   $SceneOrder = $db->baseQuery("SELECT SceneID, Sequence FROM SCENES ORDER BY Sequence");
-  $sceneCount = count($SceneOrder);
+  $sceneCount = count($SceneOrder??array());
   $inserted = true;
 
  if(isset($_POST["addScene"])){
@@ -29,8 +29,12 @@
    if(!$db->update("DELETE FROM SCENES WHERE SceneID=?", "i", array($_POST["rm_scene"]))){
      // If delete fails due to foreign key references, delete dependencies first
      $dependencies = $db->prepareQuery("SELECT FeatureID FROM FEATURES WHERE SceneID=?", "i", array($_POST["rm_scene"]));
-     foreach ($dependencies as $dependency) {
+     foreach ($dependencies??array() as $dependency) {
        $db->update("DELETE FROM FEATURES WHERE FEATUREID=?","i", array($dependency["FeatureID"]));
+     }
+     $dependencies = $db->prepareQuery("SELECT PlanID FROM PLANNED_ON WHERE SceneID = ?", "i", array($_POST["rm_scene"]));
+     foreach ($dependencies??array() as $dependency) {
+       $db->update("DELETE FROM PLANNED_ON WHERE PlanID=?","i", array($dependency["PlanID"]));
      }
      // Delete scene again
      $db->update("DELETE FROM SCENES WHERE SceneID=?", "i", array($_POST["rm_scene"]));

@@ -12,13 +12,13 @@ function generateUnplayedCard($unplayedRole){
     <div class="ui card">
       <div class="content">
         <div class="header">
-          {$unplayed_role["Name"]}
-          <div class="right floated meta">#{$unplayed_role["RoleID"]}</div>
+          {$unplayedRole["Name"]}
+          <div class="right floated meta">#{$unplayedRole["RoleID"]}</div>
         </div>
       </div>
       <div class="content">
         <div class="ui sub header">{$lang->description}</div>
-        {$unplayed_role["Description"]}
+        {$unplayedRole["Description"]}
       </div>
     </div>
 EOT;

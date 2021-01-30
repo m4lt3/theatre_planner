@@ -250,7 +250,7 @@ function getFreeScenes($assignedScenes, $allScenes){
     $assignedMap[$scene["SceneID"]] = "assigned";
   }
 
-  foreach ($allScenes as $scene) {
+  foreach ($allScenes??array() as $scene) {
     if(!isset($assignedMap[$scene["SceneID"]])){
       $freeScenes[] = $scene;
     }

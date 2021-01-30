@@ -146,5 +146,6 @@ return (object) array(
   "theres_you" => "There's you!",
   "thats_you" => "That's you!",
   "order" => "Order",
+  "her_his" => "'s",
 );
 ?>

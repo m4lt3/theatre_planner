@@ -36,7 +36,7 @@ $date = $db->prepareQuery($query, "i", array($_SESSION["UserID"]));
   <body>
     <?php include "nav.php" ?>
     <main class="ui text container">
-        <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?>'s <?php echo $lang->title_dashboard ?></h1>
+        <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?><?php echo $lang->her_his ?> <?php echo $lang->title_dashboard ?></h1>
         <div class="ui mobile reversed stackable two column grid">
           <div class="column">
             <div class="ui huge statistic">

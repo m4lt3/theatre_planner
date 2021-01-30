@@ -39,7 +39,7 @@ require dirname(dirname(__DIR__))."/php/ui/admin/dashboardCards.php"
   <body>
     <?php include "nav.php" ?>
     <main class="ui container">
-      <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?>'s <?php echo $lang->admin ?> <?php echo $lang->title_dashboard ?></h1>
+      <h1 class="ui large header"><?php echo $_SESSION["UserName"] ?><?php echo $lang->her_his ?> <?php echo $lang->admin ?> <?php echo $lang->title_dashboard ?></h1>
       <div class="ui stackable three column grid">
         <div class="column">
           <div class="ui huge statistic">
@@ -71,7 +71,7 @@ require dirname(dirname(__DIR__))."/php/ui/admin/dashboardCards.php"
 EOT;
             echo $unplayed_stat;
             echo '<div class="ui cards" style="margin-top:5px">';
-            foreach ($unplayed_roles as $unplayed_role) {
+            foreach ($unplayed_roles as $unplayedRole) {
               echo generateUnplayedCard($unplayedRole);
             }
             echo '</div>';
