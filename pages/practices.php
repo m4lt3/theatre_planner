@@ -56,7 +56,7 @@ if (isset($_POST["reject"])){
         } else {
           // Another query from hell, man I love SQL.
 
-          $practiceQuery = "SELECT PRACTICES.*, ME.Mandatory AS AttendsID FROM PRACTICES LEFT JOIN PLANNED_ON ON PRACTICES.PracticeID = PLANNED_ON.PracticeID LEFT JOIN SCENES ON PLANNED_ON.SceneID = SCENES.SceneID LEFT JOIN (SELECT FEATURES.SceneID, FEATURES.Mandatory FROM FEATURES LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID LEFT JOIN PLAYS ON PLAYS.RoleID = ROLES.RoleID LEFT JOIN USERS ON USERS.UserID = PLAYS.UserID WHERE USERS.UserID = ?) AS ME ON ME.SceneID = SCENES.SceneID";
+          $practiceQuery = "SELECT PRACTICES.*, SCENES.Name, ME.Mandatory AS AttendsID FROM PRACTICES LEFT JOIN PLANNED_ON ON PRACTICES.PracticeID = PLANNED_ON.PracticeID LEFT JOIN SCENES ON PLANNED_ON.SceneID = SCENES.SceneID LEFT JOIN (SELECT FEATURES.SceneID, FEATURES.Mandatory FROM FEATURES LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID LEFT JOIN PLAYS ON PLAYS.RoleID = ROLES.RoleID LEFT JOIN USERS ON USERS.UserID = PLAYS.UserID WHERE USERS.UserID = ?) AS ME ON ME.SceneID = SCENES.SceneID";
         }
         $divided = false;
         if (empty($_SESSION["theatre_past"]) || !$_SESSION["theatre_past"]) {
@@ -74,24 +74,23 @@ if (isset($_POST["reject"])){
 
         $practices = $db->prepareQuery($practiceQuery, "i", array($_SESSION["UserID"]));
 
-        if(!$config->user_focused){
-          // Remove duplicates caused by mandatory join
-          $previousID = -1;
-          foreach ($practices as $index => $practice) {
-            if($practice["PracticeID"] == $previousID){
-              unset($practices[$index]);
-            }
-            $previousID = $practice["PracticeID"];
-          }
-        }
+
+        $samePractice = array();
 
         foreach($practices??array() as $practice){
+          if(empty($samePractice) || $samePractice[0]["PracticeID"]==$practice["PracticeID"]){
+            $samePractice[] = $practice;
+          } else {
+            createCard($samePractice);
+            $samePractice = array();
+            $samePractice[] = $practice;
+          }
           if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
             echo '</div><div class="ui horizontal divider">'.$lang->today.'</div><div class="ui two stacked cards" style="margin-top:-14px">';
             $divided = !$divided;
           }
-          createCard($practice["PracticeID"], $practice["Title"], $practice["Start"], $practice["AttendsID"]);
         }
+        createCard($samePractice);
         if(!$divided){
           echo '</div><div class="ui horizontal divider">'.$lang->today.'</div><div class="ui two stacked cards">';
         }

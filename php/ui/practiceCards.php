@@ -1,39 +1,38 @@
 <?php
 /**
-* Creates a card to display basic information about a practice date; Based on the planning mode a user can either manage his attending-status or read if he's required.
+* Creates a card to display basic information about a practice date; Based on the planning mode a user can either manage his attending-status or read if he's required and for which scenes.
 *
-* @param int|string $id ID of the practice
-* @param string $title The title of the practice
-* @param string $date The date of the practice
-* @param int|bool $relationship Is the AttendsID, if user focused (value=attending, NULL=not attending), or the required status (1=required,0=requested,NULL=not required)
+* @param array $practice A pracctice array; If multiple scenes are assiged, there is one element for each scene.
 *
 * @return string card template
 */
-function createCard($id, $title, $date, $relationship){
+function createCard($practice){
   global $config;
 
-  $format = new DateTime($date);
+  $format = new DateTime($practice[0]["Start"]);
 
+  $extra = "";
   $extraContent = "";
 
   if($config->user_focused){
-    $extraContent = generateUserContent($id, $date, $relationship);
+    $extraContent = generateUserContent($practice[0]["PracticeID"], $practice[0]["Start"], $practice[0]["AttendsID"]);
+    $extra = "extra ";
   } else {
-    $extraContent = generateAdminContent($relationship, $date);
+    $extraContent = generateAdminContent($practice);
   }
 
   $card=<<<EOT
   <div class="ui card">
     <div class="content">
       <div class="header">
-        $title
-        <div class="right floated meta">#$id</div>
+        {$practice[0]["Title"]}
+        <div class="right floated meta">#{$practice[0]["PracticeID"]}</div>
       </div>
       <div class="meta">
         {$format->format("d.m.Y H:i")}
       </div>
     </div>
-    <div class="extra content">
+    <div class="{$extra}content">
       $extraContent
     </div>
   </div>
@@ -82,6 +81,88 @@ EOT;
 }
 
 /**
+* Generates a list of scenes for this practice and and displays information about whether the actor is required.
+*
+*
+* @param array $practice A pracctice array; If multiple scenes are assiged, there is one element for each scene.
+*
+* @return string template for the admin content
+*/
+function generateAdminContent($practice){
+  global $lang;
+
+  $label = makeLabel($practice[0]["AttendsID"], $practice[0]["Start"]);
+  $rows = makeRows($practice);
+  $content=<<<EOT
+  <div class="ui sub header">{$lang->scenes}</div>
+    <table class="ui very basic table">
+      $rows
+    </table>
+  </div>
+  <div class="extra content" style="text-align:center">
+  $label
+EOT;
+  return $content;
+}
+
+/**
+* Generates a table row containing name and required status for each scene
+*
+* @param array $practice A pracctice array; If multiple scenes are assiged, there is one element for each scene.
+*
+* @return string template for the table rows
+*/
+function makeRows($practice){
+  global $lang;
+
+  $rows = "";
+  if(!empty($practice[0]["Name"])){
+    foreach ($practice as $scene) {
+      $requiredIndicator = makeRequiredIndicator($scene["AttendsID"], $scene["Start"]);
+      $rows .= '<tr><td>'.$scene["Name"].'</td><td>'.$requiredIndicator.'</td></tr>';
+    }
+  }
+  return $rows;
+}
+
+/**
+* generates a label indicating if the actor is required, requested or not requred.
+*
+* @param bool $required Required status (1=required,0=requested,NULL=not required)
+* @param string date date to show if the label is urgent or not
+*
+* @return string label template
+*/
+function makeRequiredIndicator($required, $date){
+  global $lang;
+
+  $basic = ($date < date("Y-m-d H:i:s"))?" basic":"";
+  // Detecting required status
+  $mandatoryColour = "";
+  $mandatoryText = "";
+  $mandatoryIcon = "";
+  if($required === NULL){
+    // Empty means he is neither requested nor required for the scene
+    $mandatoryIcon = '<i class="fitted question icon"></i>';
+    $mandatoryColour = "green";
+    $mandatoryText = $lang->actor_not_required;
+  } else {
+    // Not empty means role is part of a scene
+    $mandatoryIcon = '<i class="fitted exclamation icon"></i>';
+    if($required){
+      // Role is mandatory
+      $mandatoryColour = "red";
+      $mandatoryText = $lang->actor_required;
+    } else {
+      // Role is requested but not mandatory
+      $mandatoryColour = "orange";
+      $mandatoryText = $lang->actor_requested;
+    }
+  }
+  return '<div class="ui '.$mandatoryColour. $basic. ' label" title="'.$mandatoryText.'" style="width:26px; height:26px;display:flex;justify-content:center">'.$mandatoryIcon.'</div>';
+}
+
+/**
 * Generates a label indicating the required-status in admin focused mode
 *
 * @param bool $required the required status (1=required,0=requested,NULL=not required)
@@ -89,8 +170,9 @@ EOT;
 *
 * @return string label template
 */
-function generateAdminContent($required, $date){
+function makeLabel($required, $date){
   global $lang;
+
   $keyword = "";
   $colour = "";
   $basic = ($date < date("Y-m-d H:i:s"))?"basic":"";
@@ -107,7 +189,7 @@ function generateAdminContent($required, $date){
     $colour = "green";
   }
   $label =<<<EOT
-    <div class="ui centered $colour $basic label">
+    <div class="ui $colour $basic label">
       {$lang->your_presence} $keyword
     </div>
 EOT;
