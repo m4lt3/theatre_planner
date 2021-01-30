@@ -6,6 +6,7 @@
     </div>
     <a href="./dashboard.php" class="nav_dashboard item" ><?php echo $lang->title_dashboard ?></a>
     <a href="./practices.php" class="nav_practices item" ><?php echo $lang->title_practices ?></a>
+    <a href="./scenes.php" class="nav_scenes item" ><?php echo $lang->scenes ?></a>
     <a href="./personal.php" class="nav_personal item" ><?php echo $lang->title_personal ?></a>
     <div class="right menu">
       <?php if($_SESSION["Admin"]){
@@ -28,6 +29,7 @@
     </div>
     <a href="./dashboard.php" class="nav_dashboard item" ><?php echo $lang->title_dashboard ?></a>
     <a href="./practices.php" class="nav_practices item" ><?php echo $lang->title_practices ?></a>
+    <a href="./scenes.php" class="nav_scenes item" ><?php echo $lang->scenes ?></a>
     <a href="./personal.php" class="nav_personal item" ><?php echo $lang->title_personal ?></a>
     <div class="right menu">
       <?php if($_SESSION["Admin"]){
