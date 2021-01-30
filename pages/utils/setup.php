@@ -38,10 +38,11 @@
      require dirname(dirname(__DIR__))."/php/utils/database.php";
      $db = new DBHandler();
      $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)", "sssi", array($_POST["name"], $_POST["email"], password_hash($_POST["password"], PASSWORD_BCRYPT), 1));
+     $user = $db->prepareQuery("SELECT UserID, Name, Admin FROM USERS WHERE Mail=?","s",array($_POST["email"]))[0];
      session_start();
-     $_SESSION["UserID"] = 1;
-     $_SESSION["UserName"] = $_POST["name"];
-     $_SESSION["Admin"] = true;
+     $_SESSION["UserID"] = $user["UserID"];
+     $_SESSION["UserName"] = $user["Name"];
+     $_SESSION["Admin"] = $user["Admin"];
 
      $config->setup_guide = false;
      file_put_contents("../../php/config.php", "<?php\n\nreturn " . var_export($config, true) . "\n\n?>");
