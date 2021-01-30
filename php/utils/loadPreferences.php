@@ -13,6 +13,15 @@ if(empty($lang)){
   $lang = include dirname(__DIR__) . "/translations/en.php";
 }
 
+// loading past dates / my roles preferences
+if(isset($_COOKIE["theatre_past"])){
+  $_SESSION["theatre_past"] = true;
+}
+if(isset($_COOKIE["theatre_me"])){
+  $_SESSION["theatre_me"] = true;
+}
+
+// handling cookie menagement
 if(!isset($_SESSION["cookies_allowed"])){
   if(isset($_COOKIE["theatre_cookies"])){
     $_SESSION["show_cookie_dialouge"] = false;

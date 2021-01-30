@@ -142,5 +142,8 @@ return (object) array(
   "setup_settings_text" => "Das kannst du auch später machen",
   "setup_done" => "Alles fertig!",
   "setup_done_text" => "Weitere Einstellungen kannst du in der normalen Server-Konfiguration vornehmen",
+  "show_my" => "Zeige nur meine",
+  "theres_you" => "Da bist du!",
+  "thats_you" => "Das bist du!",
 );
 ?>

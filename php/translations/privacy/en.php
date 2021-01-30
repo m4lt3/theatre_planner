@@ -78,6 +78,12 @@ You can lodge a complaint with a supervisory authority at any time, e.g. the com
       <td>Saving the user preference "Show past appointments"</td>
     </tr>
     <tr>
+      <td>theatre_me</td>
+      <td>30 Days</td>
+      <td><i class="close icon"></i></td>
+      <td>Saving the user preference "Show only my roles/scenes"</td>
+    </tr>
+    <tr>
       <td>theatreID</td>
       <td>30 Days</td>
       <td><i class="close icon"></i></td>

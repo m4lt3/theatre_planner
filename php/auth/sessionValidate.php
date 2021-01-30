@@ -47,6 +47,7 @@ if(isset($_SESSION["UserID"])){
     setcookie("theatre_h1", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
     setcookie("theatre_h2", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
     setcookie("theatre_past", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
+    setcookie("theatre_me", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
     setcookie("theatre_lang", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
     setcookie("theatre_cookies", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
   }

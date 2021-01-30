@@ -78,6 +78,12 @@
       <td>Speichern der Nutzerpräferenz "Vergangene Termine anzeigen"</td>
     </tr>
     <tr>
+      <td>theatre_me</td>
+      <td>30 Tage</td>
+      <td><i class="close icon"></i></td>
+      <td>Speichern der Nutzerpräferenz "Nur meine Rollen/Szenen zeigen"</td>
+    </tr>
+    <tr>
       <td>theatreID</td>
       <td>30 Tage</td>
       <td><i class="close icon"></i></td>

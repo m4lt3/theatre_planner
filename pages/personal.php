@@ -185,7 +185,7 @@ if(isset($_POST["newPassword"])){
           <label><?php echo $lang->allow_cookies ?></label>
           <div class="ui toggle checkbox">
             <label>&nbsp;</label>
-            <input type="checkbox" value="" id="cookie_checkbox" <?php if ($_SESSION["cookies_allowed"]){echo "checked";} ?>>
+            <input type="checkbox" value="" id="cookie_checkbox" <?php if (isset($_SESSION["cookies_allowed"]) && $_SESSION["cookies_allowed"]){echo "checked";} ?>>
           </div>
           </div>
         </form>
