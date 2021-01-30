@@ -3,6 +3,7 @@
 * Creates a card that displays information about a scene
 *
 * @param int|string $SceneID ID of the Scene
+* @param int $order The order of the scene
 * @param string $Name name of the Scene
 * @param string $Description Description of the Scene
 * @param array $Roles Array of names of  featured roles
@@ -11,7 +12,7 @@
 *
 * @return string Card template
 */
-function createSceneCard($SceneID, $Name, $Description, $Roles, $Mandatory, $plays){
+function createSceneCard($SceneID, $order, $Name, $Description, $Roles, $Mandatory, $plays){
   global $lang;
 
   $role_rows = createRoleRows($Roles, $Mandatory, $plays);
@@ -25,7 +26,7 @@ function createSceneCard($SceneID, $Name, $Description, $Roles, $Mandatory, $pla
   <div class="ui card">
     <div class="content">
       <div class="header">
-        $Name
+        <span class="meta">$order.</span> $Name
         <div class="right floated meta">#$SceneID</div>
         $youLabel
       </div>

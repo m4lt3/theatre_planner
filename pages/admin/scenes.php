@@ -10,11 +10,20 @@
   require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
 
   $db = new DBHandler();
+  $SceneOrder = $db->baseQuery("SELECT SceneID, Sequence FROM SCENES ORDER BY Sequence");
+  $sceneCount = count($SceneOrder);
   $inserted = true;
 
  if(isset($_POST["addScene"])){
+   //Checking the new order
+   if($_POST["order"] < $sceneCount + 1){
+     // Shifting up according sequences by one, if scene is inserted into an existing order - but backwards due to the uniquenes of the sequence column
+     for($i = $sceneCount - 1; $i >= $_POST["order"] -1; $i--){
+       $db->update("UPDATE SCENES SET SEQUENCE = ? WHERE SceneID = ?", "ii", array($SceneOrder[$i]["Sequence"]+1, $SceneOrder[$i]["SceneID"]));
+     }
+   }
    // Add a new scene
-   $db->update("INSERT INTO SCENES VALUES (NULL, ?, ?)", "ss", array($_POST["sceneName"], $_POST["sceneDescription"]));
+   $db->update("INSERT INTO SCENES VALUES (NULL, ?, ?, ?)", "ssi", array($_POST["sceneName"], $_POST["sceneDescription"], $_POST["order"]));
  } elseif (isset($_POST["rm_scene"])){
    // Delete a scene
    if(!$db->update("DELETE FROM SCENES WHERE SceneID=?", "i", array($_POST["rm_scene"]))){
@@ -50,9 +59,15 @@
     <main class="ui text container">
       <h1 class="ui large header"><?php echo $lang->title_scene_management ?></h1>
       <form action="" method="post" class="ui form">
-        <div class="required field">
-          <label for="sceneName"><?php echo $lang->scene_name ?></label>
-          <input required="true" type="text" name="sceneName" maxlength="32">
+        <div class="two fields">
+          <div class="required field">
+            <label for="sceneSeq"><?php echo $lang->order ?></label>
+            <input required type="number" name="order" value="<?php echo ($sceneCount+1) ?>" min="1", max="<?php echo ($sceneCount+1) ?>">
+          </div>
+          <div class="required field">
+            <label for="sceneName"><?php echo $lang->scene_name ?></label>
+            <input required="true" type="text" name="sceneName" maxlength="32">
+          </div>
         </div>
         <div class="field">
           <label for="sceneDescription"><?php echo $lang->scene_description ?></label>
@@ -68,15 +83,15 @@
         require dirname(dirname(__DIR__))."/php/ui/admin/createSceneCard.php";
           $currentScene = array("SceneID"=>-1);
           $FreeRoles = array();
-          $scenes = $db->baseQuery("SELECT SCENES.*, FEATURES.FeatureID, FEATURES.Mandatory, ROLES.RoleID, ROLES.Name AS Role FROM SCENES LEFT JOIN FEATURES ON SCENES.SceneID = FEATURES.SceneID LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID ORDER BY SCENES.SceneID");
+          $scenes = $db->baseQuery("SELECT SCENES.*, FEATURES.FeatureID, FEATURES.Mandatory, ROLES.RoleID, ROLES.Name AS Role FROM SCENES LEFT JOIN FEATURES ON SCENES.SceneID = FEATURES.SceneID LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID ORDER BY SCENES.Sequence");
           if(!empty($scenes)){
             foreach ($scenes as $scene) {
-              // DUe to joins, a scene can (and probably will) appear multiple times with multiple roles; This is stored here until it is ready to display
+              // Due to joins, a scene can (and probably will) appear multiple times with multiple roles; This is stored here until it is ready to display
               if($currentScene["SceneID"] != $scene["SceneID"]){
                 if($currentScene["SceneID"] != -1){
                   // Print card before overwriting with new scene
                   $FreeRoles = $db->prepareQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT ROLES.RoleID FROM ROLES, FEATURES WHERE ROLES.RoleID = FEATURES.RoleID AND FEATURES.SceneID = ?)", "i", array($currentScene["SceneID"]));
-                  echo createSceneCard($currentScene["SceneID"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
+                  echo createSceneCard($currentScene["SceneID"], $currentScene["Sequence"] ,$currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
                 }
                 // Overwrite with new values
                 $currentScene = $scene;
@@ -92,7 +107,7 @@
             }
             // Print the last card since it didn't ge triggered
             $FreeRoles = $db->prepareQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT ROLES.RoleID FROM ROLES, FEATURES WHERE ROLES.RoleID = FEATURES.RoleID AND FEATURES.SceneID = ?)", "i", array($currentScene["SceneID"]));
-            echo createSceneCard($currentScene["SceneID"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
+            echo createSceneCard($currentScene["SceneID"], $currentScene["Sequence"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
           }
         ?>
       </div>

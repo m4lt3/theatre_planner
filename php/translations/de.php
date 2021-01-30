@@ -145,5 +145,6 @@ return (object) array(
   "show_my" => "Zeige nur meine",
   "theres_you" => "Da bist du!",
   "thats_you" => "Das bist du!",
+  "order" => "Reihenfolge",
 );
 ?>

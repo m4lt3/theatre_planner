@@ -21,7 +21,7 @@
     $query .= "  WHERE SCENES.SceneID IN (SELECT SCENES.SceneID FROM SCENES LEFT JOIN FEATURES ON FEATURES.SceneID = SCENES.SceneID LEFT JOIN ROLES ON ROLES.RoleID = FEATURES.RoleID LEFT JOIN PLAYS ON PLAYS.RoleID = ROLES.RoleID LEFT JOIN USERS ON USERS.UserID = PLAYS.UserID WHERE USERS.UserID=?)";
     $queryParams = array("ii", array($_SESSION["UserID"],$_SESSION["UserID"]));
   }
-  $query .= " ORDER BY SCENES.SceneID, ME.Plays DESC";
+  $query .= " ORDER BY SCENES.Sequence, ME.Plays DESC";
 
   $scenes = $db->prepareQuery($query, $queryParams[0], $queryParams[1]);
 ?>
@@ -57,11 +57,12 @@
           $currentScene = array("SceneID"=>-1);
           if(!empty($scenes)){
             foreach ($scenes as $scene) {
-              // DUe to joins, a scene can (and probably will) appear multiple times with multiple roles; This is stored here until it is ready to display
+              // Due to joins, a scene can (and probably will) appear multiple times with multiple roles; This is stored here until it is ready to display
+
               if($currentScene["SceneID"] != $scene["SceneID"]){
                 if($currentScene["SceneID"] != -1){
                   // Print card before overwriting with new scene
-                  echo createSceneCard($currentScene["SceneID"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["Mandatory"], $currentScene["Plays"]);
+                  echo createSceneCard($currentScene["SceneID"], $currentScene["Sequence"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["Mandatory"], $currentScene["Plays"]);
                 }
                 // Overwrite with new values
                 $currentScene = $scene;
@@ -76,7 +77,7 @@
               }
             }
             // Print the last card since it didn't ge triggered
-            echo createSceneCard($currentScene["SceneID"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["Mandatory"], $currentScene["Plays"]);
+            echo createSceneCard($currentScene["SceneID"], $currentScene["Sequence"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["Mandatory"], $currentScene["Plays"]);
           }
         ?>
       </div>

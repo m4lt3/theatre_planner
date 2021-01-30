@@ -145,5 +145,6 @@ return (object) array(
   "show_my" => "Only show my",
   "theres_you" => "There's you!",
   "thats_you" => "That's you!",
+  "order" => "Order",
 );
 ?>
