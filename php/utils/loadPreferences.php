@@ -1,4 +1,5 @@
 <?php
+// loading language preference
 $langs_available = array('de', 'en');
 $lang = "";
 if(isset($_COOKIE["theatre_lang"])){
