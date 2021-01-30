@@ -16,9 +16,9 @@
 <meta property="og:image:height" content="279">
 <meta property="og:title" content="<?php echo $lang->title ?>">
 <meta property="og:description" content="<?php echo $lang->og_description ?>">
-<meta property="og:url" content="<?php echo ((!empty($_SERVER["HTTPS"]) && $_SERVER['HTTPS'] !== 'off')?"https://":"http://")?>index.php">
-<meta property="og:image" content="<?php echo ((!empty($_SERVER["HTTPS"]) && $_SERVER['HTTPS'] !== 'off')?"https://":"http://")?>images/og-image.jpg">
-
+<meta property="og:url" content="<?php echo ((!empty($_SERVER["HTTPS"]) && $_SERVER['HTTPS'] !== 'off')?"https://":"http://") . $_SERVER["SERVER_NAME"]?>/index.php">
+<meta property="og:image" content="<?php echo ((!empty($_SERVER["HTTPS"]) && $_SERVER['HTTPS'] !== 'off')?"https://":"http://") . $_SERVER["SERVER_NAME"]?>/images/og-image.jpg">
+<meta property="og:type" content="website">
 <?php
 $config = require "php/config.php";
 echo $config->header_tags;
