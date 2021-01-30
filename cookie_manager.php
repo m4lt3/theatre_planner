@@ -8,7 +8,7 @@ if(isset($_POST["cookie_manager"])){
 ?>
 
 <div class="ui floating icon message" style="position:fixed; bottom:-14px; <?php if(!$_SESSION["show_cookie_dialouge"]){echo "display:none";} ?>">
-  <i class="icon"><img class="ui mini image" src="<?php echo str_replace($_SERVER["DOCUMENT_ROOT"], "", __DIR__) . "/images/cookie.svg" ?>" alt="A cookie" style="color:blue"></i>
+  <i class="icon"><img class="ui mini image" src="/images/cookie.svg" alt="A cookie" style="color:blue"></i>
   <div class="content">
     <div class="header">
       <?php echo $lang->cookie_header ?>

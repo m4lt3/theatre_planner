@@ -26,7 +26,7 @@
 
       $header = "MIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\nFrom: no-reply@" . $_SERVER['SERVER_NAME'] . "\r\nReply-to: " . $config->admin_mail . "\r\nX-Mailer: PHP " . phpversion();
       $base_url = ((!empty($_SERVER["HTTPS"]) && $_SERVER['HTTPS'] !== 'off')?"https://":"http://") . $_SERVER['SERVER_NAME'] . dirname(dirname(dirname($_SERVER["PHP_SELF"])));
-      $action_url = '/pages/utils/resetPassword.php?token='.$token;
+      $action_url = 'pages/utils/resetPassword.php?token='.$token;
       $message =  createMail($lang, $pwd[0]["Name"], "", "", $base_url, $action_url, $config->contact_info, "password");
       mail($_POST["email"], $lang->reset_title, $message, $header);
     }
@@ -72,7 +72,7 @@
     <div class="ui secondary pointing menu">
       <div class="ui container">
         <div class="ui item">
-          <a href="<?php echo str_replace($_SERVER["DOCUMENT_ROOT"], "", dirname(dirname(__DIR__))) . "/index.php" ?>"><?php echo $lang->to_main ?></a>
+          <a href="/index.php"><?php echo $lang->to_main ?></a>
         </div>
       </div>
     </div>
@@ -93,7 +93,7 @@
         <div class="field" <?php if($reason!="reset"){echo 'style="display:none"';} ?>>
           <div class="ui left icon input">
             <i class="lock icon"></i>
-            <input <?php if($reason!="reset"){echo "required";} ?> type="password" name="password" placeholder="<?php echo $lang->password ?>" minlength="8">
+            <input <?php if($reason=="reset"){echo "required";} ?> type="password" name="password" placeholder="<?php echo $lang->password ?>" minlength="8">
           </div>
         </div>
         <input type="submit" class="ui fluid large teal button" name="<?php if($reason=="request"){echo 'request_reset';} else {echo 'perform_reset';} ?>" value="<?php echo $lang->reset_password ?>">

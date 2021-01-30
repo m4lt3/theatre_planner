@@ -39,7 +39,7 @@
      $header = "MIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\nFrom: no-reply@" . $_SERVER['SERVER_NAME'] . "\r\nReply-to: " . $config->admin_mail . "\r\nX-Mailer: PHP " . phpversion();
      $mail_lang = require dirname(dirname(__DIR__)) . "/php/translations/" . $_POST["lang"] . ".php";
      $base_url = ((!empty($_SERVER["HTTPS"]) && $_SERVER['HTTPS'] !== 'off')?"https://":"http://") . $_SERVER['SERVER_NAME'] . dirname(dirname(dirname($_SERVER["PHP_SELF"])));
-     $action_url = '/index.php';
+     $action_url = 'index.php';
      require dirname(dirname(__DIR__)) . "/php/ui/mail_template.php";
      $message = createMail($mail_lang, $_POST["userName"], $_SESSION["UserName"], $password, $base_url, $action_url, $config->contact_info, "create");
      mail($_POST["userMail"], $_SESSION["UserName"] . " " . $mail_lang->create_title, $message, $header);

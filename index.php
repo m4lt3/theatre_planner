@@ -62,7 +62,7 @@ if($config->setup_guide){
     <?php include __DIR__ . "/head.php"; ?>
     <style type="text/css">
     body{
-      background-image: url("/theatre_planner/images/login.jpg");
+      background-image: url("/images/login.jpg");
       background-size: cover;
     }
     main > .grid {

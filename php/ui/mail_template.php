@@ -415,8 +415,8 @@ $mail = <<<EOT
           <table class="email-content" width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td class="email-masthead">
-                <img src="$base_url/images/favicon.svg" alt="{$lang->logo_alt}" class="email-masthead_logo"/><br/>
-                <a href="$base_url/index.php" class="email-masthead_name">
+                <img src="{$base_url}images/favicon.svg" alt="{$lang->logo_alt}" class="email-masthead_logo"/><br/>
+                <a href="{$base_url}index.php" class="email-masthead_name">
         {$lang->title}
       </a>
               </td>

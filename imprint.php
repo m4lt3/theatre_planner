@@ -13,7 +13,7 @@ $config = require_once __DIR__ . "/php/config.php";
     <div class="ui secondary pointing menu">
       <div class="ui container">
         <div class="ui item">
-          <a href="index.php"><?php echo $lang->to_main ?></a>
+          <a href="/index.php"><?php echo $lang->to_main ?></a>
         </div>
       </div>
     </div>
