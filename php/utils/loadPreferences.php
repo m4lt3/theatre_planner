@@ -27,4 +27,6 @@ if(!isset($_SESSION["cookies_allowed"])){
     }
   }
 }
+
+$config = require dirname(__DIR__) . "/config.php";
 ?>

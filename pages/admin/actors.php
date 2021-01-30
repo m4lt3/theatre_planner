@@ -35,7 +35,6 @@
    $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], password_hash($password, PASSWORD_BCRYPT), (($_POST["userAdmin"]??0)==0)?0:1));
    if($inserted){
      // generating a mail to notify the new user
-     $config = require dirname(dirname(__DIR__)) . "/php/config.php";
      $header = "MIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\nFrom: no-reply@" . $_SERVER['SERVER_NAME'] . "\r\nReply-to: " . $config->admin_mail . "\r\nX-Mailer: PHP " . phpversion();
      $mail_lang = require dirname(dirname(__DIR__)) . "/php/translations/" . $_POST["lang"] . ".php";
      $base_url = ((!empty($_SERVER["HTTPS"]) && $_SERVER['HTTPS'] !== 'off')?"https://":"http://") . $_SERVER['SERVER_NAME'] . dirname(dirname(dirname($_SERVER["PHP_SELF"])));

@@ -7,7 +7,6 @@
   if(!$_SESSION["Admin"]){
     header("location:../dashboard.php");
   }
-  $config = require dirname(dirname(__DIR__))."/php/config.php";
   //save the config form data to file if anything has been changed
   if (isset($_POST["db_changed"])) {
     $config->db_server = $_POST["db_server"];

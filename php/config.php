@@ -24,6 +24,11 @@ return (object) array(
   "custom_privacy_text" => "",
   "disable_standard_privacy" => false,
 
-  "header_tags" => ""
+  "header_tags" => "",
+  // Getss set automaticallly during setup. If theatre planner is not inside the
+  // document root, insert the subfolder here with a leading, bt no trailing /
+  // (e.g. if you can find the loginpage at http://example.com/theatre_planner/index.php, then the subfolder is /theatre_planner)
+  // This also has to be adjisted in the browserconfig.xml if you're not using the setup
+  "subfolder" => ""
 );
 ?>

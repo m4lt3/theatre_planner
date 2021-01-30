@@ -12,7 +12,7 @@ To install theatre planner, simly dopy all the file onto your webserver and  ope
 I have tested it on my local machine with the following configuration, however I think it works with older versions also (e.g. PHP 7.3)
 
 - PHP-Version 8.0.0
-- Write Access for `/php/config.php`
+- Write Access for `/php/config.php` and `/browserconfig.xml` (and read access for all files, of course)
 - Functioning `mail()`
 - MariaDB 10.4.17
 - database user with at least `SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, DROP` Privileges for given database

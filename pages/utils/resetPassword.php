@@ -22,7 +22,6 @@
 
       //Sending password reset mail
       require dirname(dirname(__DIR__))."/php/ui/mail_template.php";
-      $config = require dirname(dirname(__DIR__))."/php/config.php";
 
       $header = "MIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\nFrom: no-reply@" . $_SERVER['SERVER_NAME'] . "\r\nReply-to: " . $config->admin_mail . "\r\nX-Mailer: PHP " . phpversion();
       $base_url = ((!empty($_SERVER["HTTPS"]) && $_SERVER['HTTPS'] !== 'off')?"https://":"http://") . $_SERVER['SERVER_NAME'] . dirname(dirname(dirname($_SERVER["PHP_SELF"])));
@@ -72,7 +71,7 @@
     <div class="ui secondary pointing menu">
       <div class="ui container">
         <div class="ui item">
-          <a href="/index.php"><?php echo $lang->to_main ?></a>
+          <a href="<?php echo $config->subfolder ?>/index.php"><?php echo $lang->to_main ?></a>
         </div>
       </div>
     </div>

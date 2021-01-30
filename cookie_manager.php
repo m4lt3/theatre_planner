@@ -8,13 +8,13 @@ if(isset($_POST["cookie_manager"])){
 ?>
 
 <div class="ui floating icon message" style="position:fixed; bottom:-14px; <?php if(!$_SESSION["show_cookie_dialouge"]){echo "display:none";} ?>">
-  <i class="icon"><img class="ui mini image" src="/images/cookie.svg" alt="A cookie" style="color:blue"></i>
+  <i class="icon"><img class="ui mini image" src="<?php echo $config->subfolder ?>/images/cookie.svg" alt="A cookie" style="color:blue"></i>
   <div class="content">
     <div class="header">
       <?php echo $lang->cookie_header ?>
     </div>
     <?php echo $lang->cookie_text ?><br/>
-    <a href="<?php echo dirname($_SERVER["PHP_SELF"]) . "/imprint.php"; ?>"><?php echo $lang->imprint ?></a> | <a href="<?php echo dirname($_SERVER["PHP_SELF"]) . "/privacy.php"; ?>"><?php echo $lang->privacy ?></a>
+    <a href="<?php echo $config->subfolder ?>/imprint.php"><?php echo $lang->imprint ?></a> | <a href="<?php echo $config->subfolder ?>/privacy.php"><?php echo $lang->privacy ?></a>
     <form id="form_container" action="" method="POST">
       <div>
         <div class="ui disabled checkbox">

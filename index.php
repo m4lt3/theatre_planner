@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once __DIR__ . "/php/auth/sessionValidate.php";
 require_once __DIR__ . "/php/utils/loadPreferences.php";
 require_once __DIR__ . "/php/utils/database.php";
@@ -7,7 +10,6 @@ if($loggedIn){
   header("location:./pages/dashboard.php");
 }
 
-$config = require __DIR__ . "/php/config.php";
 if($config->setup_guide){
   header("location:./pages/utils/setup.php");
 }
@@ -62,7 +64,7 @@ if($config->setup_guide){
     <?php include __DIR__ . "/head.php"; ?>
     <style type="text/css">
     body{
-      background-image: url("/images/login.jpg");
+      background-image: url("<?php echo $config->subfolder ?>/images/login.jpg");
       background-size: cover;
     }
     main > .grid {

@@ -4,7 +4,6 @@ class DBHandler {
   private $conn;
 
   function __construct(){
-    $this->config = require dirname(__DIR__) . "/config.php";
     $this->conn = $this->connectDB();
   }
 
@@ -13,7 +12,8 @@ class DBHandler {
   }
 
   private function connectDB(){
-    $temp_conn = new mysqli($this->config->db_server, $this->config->db_user, $this->config->db_pwd, $this->config->db_name);
+    global $config;
+    $temp_conn = new mysqli($config->db_server, $config->db_user, $config->db_pwd, $config->db_name);
 
     if ($temp_conn->connect_error) {
       die("Connection failed: " . $temp_conn->connect_error);

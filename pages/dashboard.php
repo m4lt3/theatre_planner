@@ -7,7 +7,6 @@ if(!$loggedIn){
 }
 $db = new DBHandler();
 $roles = $db->prepareQuery("SELECT ROLES.RoleID, ROLES.Name, ROLES.Description FROM ROLES, USERS, PLAYS WHERE PLAYS.UserID = ? AND PLAYS.RoleID = ROLES.RoleID AND PLAYS.UserID = USERS.UserID", "s", array($_SESSION["UserID"]));
-$config = require dirname(__DIR__)."/php/config.php";
 $query = "";
 if($config->user_focused){
   $query = "SELECT PRACTICES.Start, ME.AttendsID FROM PRACTICES LEFT JOIN (SELECT * FROM ATTENDS WHERE UserID = ?) AS ME ON PRACTICES.PracticeID = ME.PracticeID WHERE PRACTICES.Start > NOW() ORDER BY PRACTICES.Start LIMIT 1";
