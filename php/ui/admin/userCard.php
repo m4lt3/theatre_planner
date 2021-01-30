@@ -80,7 +80,7 @@ function create_dialogue_options($FreeRoles){
   $dialogue_options = "";
   if(count($FreeRoles??array())>0){
     foreach($FreeRoles as $freeRole){
-      $dialouge_options .= '<div class="item" data-value ="' . $freeRole["RoleID"] . '">' . $freeRole["Name"] . '</div>';
+      $dialogue_options .= '<div class="item" data-value ="' . $freeRole["RoleID"] . '">' . $freeRole["Name"] . '</div>';
     }
   }
   return $dialogue_options;
