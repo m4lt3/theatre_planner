@@ -1,13 +1,14 @@
 <?php
    require_once dirname(dirname(__DIR__)) . "/php/utils/loadPreferences.php";
 
-   // Making subfolder adjustments
-   $config->subfolder =  str_replace($_SERVER["DOCUMENT_ROOT"], "", dirname(dirname(__DIR__)));
-   $browserconfig = file_get_contents(dirname(dirname(__DIR__))."/browserconfig.xml");
-   $browserconfig = str_replace("/mstile-150x150.png", $config->subfolder."/mstile-150x150.png", $browserconfig);
-   file_put_contents(dirname(dirname(__DIR__))."/browserconfig.xml", $browserconfig);
+   if($config->setup_guide){
+     // Making subfolder adjustments
+     $config->subfolder =  str_replace($_SERVER["DOCUMENT_ROOT"], "", dirname(dirname(__DIR__)));
+     $browserconfig = file_get_contents(dirname(dirname(__DIR__))."/browserconfig.xml");
+     $browserconfig = str_replace('"/mstile-150x150.png"', '"'.$config->subfolder.'/mstile-150x150.png"', $browserconfig);
+     file_put_contents(dirname(dirname(__DIR__))."/browserconfig.xml", $browserconfig);
+   }
 
-   // Rest of the setup
    $step = 1;
    $error = "";
 
