@@ -147,5 +147,6 @@ return (object) array(
   "thats_you" => "That's you!",
   "order" => "Order",
   "her_his" => "'s",
+  "title_compact_view" => "Compact view",
 );
 ?>

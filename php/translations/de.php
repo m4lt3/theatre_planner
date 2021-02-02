@@ -147,5 +147,6 @@ return (object) array(
   "thats_you" => "Das bist du!",
   "order" => "Reihenfolge",
   "her_his" => "s",
+  "title_compact_view" => "Kompaktansicht",
 );
 ?>
