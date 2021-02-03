@@ -8,10 +8,28 @@
   if(!$_SESSION["Admin"]){
     header("location:../dashboard.php");
   }
-
-
-
   $db = new DBHandler();
+  if(isset($_POST["add_scene"])){
+    $db->update("INSERT INTO SCENES VALUES(NULL, ?, NULL, ?)", "si", array($_POST["add_scene"], $_POST["sequence"]));
+  } elseif (isset($_POST["rm_features"])){
+    $db->update("DELETE FROM FEATURES WHERE FeatureID=?","i",array($_POST["rm_features"]));
+  } elseif (isset($_POST["add_role"])){
+    if(is_numeric($_POST["add_role"])){
+      // assigning an existing role
+      $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, 0)", "ii", array($_POST["id"],$_POST["add_role"]));
+    } else {
+      // Create new role
+      $db->update("INSERT INTO ROLES VALUES (NULL,?,NULL)","s",array($_POST["add_role"]));
+      $id = $db->prepareQuery("SELECT RoleID FROM ROLES WHERE Name=?","s",array($_POST["add_role"]))[0]["RoleID"];
+      $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, 0)", "ii", array($_POST["id"],$id));
+    }
+  } elseif (isset($_POST["add_actor"])) {
+    $db->update("INSERT INTO PLAYS VALUES (NULL,?,?)", "ii", array($_POST["add_actor"],$_POST["id"]));
+  } elseif (isset($_POST["change_actor"])){
+    $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i",array($_POST["relation_id"]));
+    $db->update("INSERT INTO PLAYS VALUES (NULL, ?, ?)", "ii", array($_POST["change_actor"],$_POST["role_id"]));
+  }
+
   $everything = $db->baseQuery("SELECT SCENES.Name AS Scene, SCENES.SceneID, SCENES.Sequence, FEATURES.FeatureID, FEATURES.Mandatory, ROLES.RoleID, ROLES.Name AS Role, PLAYS.PlaysID, USERS.UserID, USERS.Name FROM SCENES LEFT JOIN FEATURES ON SCENES.SceneID = FEATURES.SceneID LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID LEFT JOIN PLAYS ON ROLES.RoleID = PLAYS.RoleID LEFT JOIN USERS ON PLAYS.UserID = USERS.UserID ORDER BY SCENES.Sequence, ROLES.RoleID");
 ?>
 <!DOCTYPE html>
@@ -44,10 +62,13 @@
     require dirname(dirname(__DIR__)) . "/cookie_manager.php";
     ?>
     <script type="text/javascript">
+      $(".ui.change.dropdown").change(function(){
+        this.parentNode.submit();
+      });
+      $(".ui.dropdown").dropdown();
       $(".ui.search.dropdown").dropdown({
         allowAdditions: true
       });
-      $(".ui.dropdown").dropdown();
     </script>
   </body>
 </html>

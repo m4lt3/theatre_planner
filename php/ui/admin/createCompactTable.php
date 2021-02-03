@@ -49,26 +49,26 @@ EOT;
     // If there is at least one role associated, print it in the next cell
     $actorDropdown = "";
     if(empty($scene->parties[0]["PlaysID"])){
-      // If there is an actor associated with the role, print corresponding pre-selected form in the next cell...
+      // If there is no actor associated with the role, generate a form to add an actor
       $actorDropdown = generateAddActorDropdown($scene->parties[0]["RoleID"]);
     } else {
-      // ... or generate form to assign an exissting actor
+      // ... or generate form to change the existing assignment
       $actorDropdown = generateChangeActorDropdown($scene->parties[0]);
     }
 
-    $roleActorCells = '<td>'.generateChangeRoleDropdown($scene->parties[0]).'</td><td>'.$actorDropdown.'</td>';
+    $roleActorCells = '<td>'.$scene->parties[0]["RoleName"].generateDeleteRoleButton($scene->parties[0]).'</td><td>'.$actorDropdown.'</td>';
     $sceneRow = "<tr>".$sceneCell.$roleActorCells."</tr>";
     if($scene->getRelationCount()>1){
       // If there are more than one roles associated, print coresponding roles
       for ($i=1; $i < $scene->getRelationCount(); $i++) {
         if(empty($scene->parties[$i]["PlaysID"])){
-          // If there is an actor associated with the role, print corresponding pre-selected form in the next cell...
-          $actorDropdown = generateAddActorDropdown();
+          // If there is no actor associated with the role, generate a form to add an actor
+          $actorDropdown = generateAddActorDropdown($scene->parties[$i]["RoleID"]);
         } else {
-          // ... or generate form to assign an exissting actor
+          // ... or generate form to change the existing assignment
           $actorDropdown = generateChangeActorDropdown($scene->parties[$i]);
         }
-        $sceneRow .= "<tr><td>".generateChangeRoleDropdown($scene->parties[$i])."</td><td>".$actorDropdown."</td></tr>";
+        $sceneRow .= "<tr><td>".$scene->parties[$i]["RoleName"].generateDeleteRoleButton($scene->parties[$i])."</td><td>".$actorDropdown."</td></tr>";
       }
     }
     // Printing form to add role to scene, indifferent of whether there already are other actors
@@ -99,8 +99,9 @@ function generateChangeActorDropdown($selected){
   }
   $form = <<<EOT
   <form action="" method="post" style="display: inline-block">
-  <input type="hidden" name="relation_id" value="{$selected["FeatureID"]}">
-    <div class="ui selection dropdown">
+  <input type="hidden" name="relation_id" value="{$selected["PlaysID"]}">
+  <input type="hidden" name="role_id" value="{$selected["RoleID"]}">
+    <div class="ui change selection dropdown">
       <input type="hidden" name="change_actor" value="">
       <i class="dropdown icon"></i>
       <div class="text">{$selected["UserName"]}</div>
@@ -112,7 +113,7 @@ function generateChangeActorDropdown($selected){
 EOT;
   $form .= <<<EOT
   <form method="POST" action="" style="display: inline-block; float:right">
-    <input type="hidden" name="rm_relation" value="{$selected["FeatureID"]}">
+    <input type="hidden" name="rm_plays" value="{$selected["PlaysID"]}">
     <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
   </form>
 EOT;
@@ -126,33 +127,10 @@ EOT;
 *
 * @return string form template
 */
-function generateChangeRoleDropdown($selected){
-  global $db;
-  $options = $db->baseQuery("SELECT RoleID AS ID, Name FROM ROLES")??array();
-
-
-  $selections = "";
-  foreach ($options as $option) {
-    // Determine the selected option and generate options template
-    $active = $option["ID"]==$selected["RoleID"]?"active selected ":"";
-    $selections .= '<div class="'.$active.'item" data-value="'.$option["ID"].'">'.$option["Name"].'</div>';
-  }
+function generateDeleteRoleButton($selected){
   $form = <<<EOT
-  <form action="" method="post" style="display: inline-block">
-  <input type="hidden" name="relation_id" value="{$selected["FeatureID"]}">
-    <div class="ui search selection dropdown">
-      <input type="hidden" name="change_role" value="">
-      <i class="dropdown icon"></i>
-      <div class="text">{$selected["RoleName"]}</div>
-      <div class="menu">
-        $selections
-      </div>
-    </div>
-  </form>
-EOT;
-  $form .= <<<EOT
   <form method="POST" action="" style="display: inline-block; float:right">
-    <input type="hidden" name="rm_relation" value="{$selected["FeatureID"]}">
+    <input type="hidden" name="rm_features" value="{$selected["FeatureID"]}">
     <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
   </form>
 EOT;
@@ -178,7 +156,7 @@ function generateAddActorDropdown($RoleID){
   <form action="" method="post">
   <input type="hidden" name="id" value="$RoleID">
     <div class="ui search selection dropdown">
-      <input type="hidden" name="add_role" value="">
+      <input type="hidden" name="add_actor" value="">
       <i class="dropdown icon"></i>
       <div class="default text">{$lang->actor}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
       <div class="menu">
@@ -220,7 +198,7 @@ function generateAddRoleDropdown($SceneID, $excludeRoles){
   <form action="" method="post">
   <input type="hidden" name="id" value="$SceneID">
     <div class="ui search selection dropdown">
-      <input type="hidden" name="add_actor" value="">
+      <input type="hidden" name="add_role" value="">
       <i class="dropdown icon"></i>
       <div class="default text">{$lang->role}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
       <div class="menu">
