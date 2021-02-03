@@ -46,8 +46,9 @@ EOT;
       }
     }
     $sceneRow .= '<tr><td>'.generateAddRoleDropdown($scene->id).'</td><td></td><tr>';
+    $sceneRow .= '<tr><td>'.generateAddRoleDropdown($scene->id, $scene->getRoles()).'</td><td></td><tr>';
   } else {
-    $sceneRow .= '<tr>'.$sceneCell.'<td>'.generateAddRoleDropdown($scene->id).'</td><td></td><tr>';
+    $sceneRow .= '<tr>'.$sceneCell.'<td>'.generateAddRoleDropdown($scene->id, $scene->getRoles()).'</td><td></td><tr>';
   }
 
   return $sceneRow;
@@ -142,13 +143,19 @@ EOT;
   return $form;
 }
 
-function generateAddRoleDropdown($SceneID){
+function generateAddRoleDropdown($SceneID, $excludeRoles){
   global $lang;
   global $db;
+  $excludeIDs = array();
+  foreach ($excludeRoles as $excludeRole) {
+    $excludeIDs[$excludeRole["ID"]]=true;
+  }
   $roles = $db->baseQuery("SELECT RoleID, Name FROM ROLES");
   $selections = "";
   foreach ($roles as $option) {
-    $selections .= '<div class="item" data-value="'.$option["RoleID"].'">'.$option["Name"].'</div>';
+    if(empty($excludeIDs[$option["RoleID"]])){
+      $selections .= '<div class="item" data-value="'.$option["RoleID"].'">'.$option["Name"].'</div>';
+    }
   }
 
   $form = <<<EOT

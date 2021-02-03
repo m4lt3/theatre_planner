@@ -29,7 +29,7 @@ class compactScene{
   public function getRoles(){
     $roles = array();
     foreach ($this->parties as $role) {
-      $roles[] = array("ID"=>$role["RoleID"], "Name"=>$role["Role"], "Relation"=>$role["FeatureID"]);
+      $roles[] = array("ID"=>$role["RoleID"], "Name"=>$role["RoleName"], "Relation"=>$role["FeatureID"]);
     }
     return $roles;
   }
