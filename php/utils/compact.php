@@ -5,7 +5,7 @@
 * @property int|string $id ID of the Scene
 * @property string $title Title of the scene
 * @property int $sequence Sequence of the scene
-* @property array $parties All relations of the scene containing Name, ID and Relation-ID of role and actor (if present)
+* @property array $parties All relations of the scene containing Name, ID and Relation-ID of role (role + mandatory) and actor (if present)
 */
 class compactScene{
   public $id;
@@ -20,7 +20,7 @@ class compactScene{
       $this->title = $scene["Scene"];
       $this->sequence = $scene["Sequence"];
       $this->parties = array();
-      $this->parties[] = array("FeatureID"=>$scene["FeatureID"], "RoleID"=>$scene["RoleID"], "RoleName"=>$scene["Role"], "PlaysID" => $scene["PlaysID"], "UserID"=>$scene["UserID"], "UserName"=>$scene["Name"]);
+      $this->parties[] = array("FeatureID"=>$scene["FeatureID"], "RoleID"=>$scene["RoleID"], "RoleName"=>$scene["Role"], "Mandatory"=> $scene["Mandatory"],"PlaysID" => $scene["PlaysID"], "UserID"=>$scene["UserID"], "UserName"=>$scene["Name"]);
     } else {
       $this->parties = array();
     }
@@ -60,7 +60,7 @@ class compactScene{
   * @see $parties
   */
   public function addRelations($scene){
-    $this->parties[] = array("FeatureID"=>$scene["FeatureID"], "RoleID"=>$scene["RoleID"], "RoleName"=>$scene["Role"], "PlaysID" => $scene["PlaysID"], "UserID"=>$scene["UserID"], "UserName"=>$scene["Name"]);
+    $this->parties[] = array("FeatureID"=>$scene["FeatureID"], "RoleID"=>$scene["RoleID"], "RoleName"=>$scene["Role"], "Mandatory"=> $scene["Mandatory"], "PlaysID" => $scene["PlaysID"], "UserID"=>$scene["UserID"], "UserName"=>$scene["Name"]);
   }
 
   /**

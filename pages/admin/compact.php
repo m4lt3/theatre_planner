@@ -16,18 +16,22 @@
   } elseif (isset($_POST["add_role"])){
     if(is_numeric($_POST["add_role"])){
       // assigning an existing role
-      $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, 0)", "ii", array($_POST["id"],$_POST["add_role"]));
+      $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, ?)", "iii", array($_POST["id"],$_POST["add_role"], (isset($_POST["isMandatory"])?1:0)));
     } else {
       // Create new role
       $db->update("INSERT INTO ROLES VALUES (NULL,?,NULL)","s",array($_POST["add_role"]));
       $id = $db->prepareQuery("SELECT RoleID FROM ROLES WHERE Name=?","s",array($_POST["add_role"]))[0]["RoleID"];
-      $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, 0)", "ii", array($_POST["id"],$id));
+      $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, ?)", "iii", array($_POST["id"],$id, (isset($_POST["isMandatory"])?1:0)));
     }
   } elseif (isset($_POST["add_actor"])) {
     $db->update("INSERT INTO PLAYS VALUES (NULL,?,?)", "ii", array($_POST["add_actor"],$_POST["id"]));
   } elseif (isset($_POST["change_actor"])){
     $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i",array($_POST["relation_id"]));
     $db->update("INSERT INTO PLAYS VALUES (NULL, ?, ?)", "ii", array($_POST["change_actor"],$_POST["role_id"]));
+  } elseif(isset($_POST["toggle_mandatory"])){
+    //Toggle whether the role is mandatory for the scene or not
+    $isMandatory = $db->prepareQuery("SELECT Mandatory FROM FEATURES WHERE FeatureID=?","i", array($_POST["toggle_mandatory"]))[0]["Mandatory"];
+    $db->update("UPDATE FEATURES SET Mandatory=? WHERE FeatureID=?", "ii", array(!$isMandatory,$_POST["toggle_mandatory"]));
   }
 
   $everything = $db->baseQuery("SELECT SCENES.Name AS Scene, SCENES.SceneID, SCENES.Sequence, FEATURES.FeatureID, FEATURES.Mandatory, ROLES.RoleID, ROLES.Name AS Role, PLAYS.PlaysID, USERS.UserID, USERS.Name FROM SCENES LEFT JOIN FEATURES ON SCENES.SceneID = FEATURES.SceneID LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID LEFT JOIN PLAYS ON ROLES.RoleID = PLAYS.RoleID LEFT JOIN USERS ON PLAYS.UserID = USERS.UserID ORDER BY SCENES.Sequence, ROLES.RoleID");
@@ -38,6 +42,17 @@
     <meta charset="utf-8">
     <title><?php echo $lang->title ?> | <?php echo $lang->title_compact_view ?></title>
     <?php include dirname(dirname(__DIR__)) . "/head.php"; ?>
+    <style media="screen">
+      .roleCell{
+        display:flex;
+        justify-content:space-between;
+        align-items: center;
+      }
+      .roleCell > *:first-child{
+        flex-grow:1;
+        margin-right: 5px;
+      }
+    </style>
   </head>
   <body>
     <?php include "nav.php" ?>

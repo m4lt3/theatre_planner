@@ -56,7 +56,7 @@ EOT;
       $actorDropdown = generateChangeActorDropdown($scene->parties[0]);
     }
 
-    $roleActorCells = '<td>'.$scene->parties[0]["RoleName"].generateDeleteRoleButton($scene->parties[0]).'</td><td>'.$actorDropdown.'</td>';
+    $roleActorCells = '<td class="roleCell"><span>'.$scene->parties[0]["RoleName"].'</span>'.generateToggleMandatoryButton($scene->parties[0]["FeatureID"],$scene->parties[0]["Mandatory"]).generateDeleteRoleButton($scene->parties[0]).'</td><td>'.$actorDropdown.'</td>';
     $sceneRow = "<tr>".$sceneCell.$roleActorCells."</tr>";
     if($scene->getRelationCount()>1){
       // If there are more than one roles associated, print coresponding roles
@@ -68,7 +68,7 @@ EOT;
           // ... or generate form to change the existing assignment
           $actorDropdown = generateChangeActorDropdown($scene->parties[$i]);
         }
-        $sceneRow .= "<tr><td>".$scene->parties[$i]["RoleName"].generateDeleteRoleButton($scene->parties[$i])."</td><td>".$actorDropdown."</td></tr>";
+        $sceneRow .= "<tr><td class='roleCell'><span>".$scene->parties[$i]["RoleName"].'</span>'.generateToggleMandatoryButton($scene->parties[$i]["FeatureID"],$scene->parties[$i]["Mandatory"]).generateDeleteRoleButton($scene->parties[$i])."</td><td>".$actorDropdown."</td></tr>";
       }
     }
     // Printing form to add role to scene, indifferent of whether there already are other actors
@@ -129,7 +129,7 @@ EOT;
 */
 function generateDeleteRoleButton($selected){
   $form = <<<EOT
-  <form method="POST" action="" style="display: inline-block; float:right">
+  <form method="POST" action="">
     <input type="hidden" name="rm_features" value="{$selected["FeatureID"]}">
     <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
   </form>
@@ -195,8 +195,7 @@ function generateAddRoleDropdown($SceneID, $excludeRoles){
   }
 
   $form = <<<EOT
-  <form action="" method="post">
-  <input type="hidden" name="id" value="$SceneID">
+  <form action="" method="post" class="roleCell">
     <div class="ui search selection dropdown">
       <input type="hidden" name="add_role" value="">
       <i class="dropdown icon"></i>
@@ -205,7 +204,11 @@ function generateAddRoleDropdown($SceneID, $excludeRoles){
         $selections
       </div>
     </div>
+    <div class="ui toggle checkbox">
+      <input type="checkbox" name="isMandatory" checked="true">
+    </div>
     <button type="submit" class="ui blue icon button" style="float:right"><i class="plus icon"></i></button>
+    <input type="hidden" name="id" value="$SceneID">
   </form>
 EOT;
   return $form;
@@ -232,5 +235,24 @@ EOT;
   $row = "<tr><td>".$form."</td><td></td><td></td></tr>";
   return $row;
 }
+ function generateToggleMandatoryButton($relation_id, $mandatory){
+   global $lang;
 
+   $mandatoryColour = "";
+   $mandatory_appendix = $lang->mandatory_appendix;
+   if($mandatory){
+     $mandatoryColour = "orange";
+     $mandatory_appendix = "";
+   }
+   $form = <<<EOT
+   <form action="" method="post" style="margin-right: 5px;">
+     <input type="hidden" name="toggle_mandatory" value ="$relation_id">
+     <button title="{$lang->admin_prefix}$mandatory_appendix{$lang->mandatory}" type="submit" style="cursor:pointer" class="ui $mandatoryColour label">
+       <i class="fitted exclamation icon"></i>
+     </button>
+   </form>
+EOT;
+
+  return $form;
+ }
 ?>
