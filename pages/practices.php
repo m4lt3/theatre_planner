@@ -89,7 +89,9 @@ if (isset($_POST["reject"])){
             $divided = !$divided;
           }
         }
-        createCard($samePractice);
+        if (!empty($samePractice)){
+          createCard($samePractice);
+        }
         if(!$divided){
           echo '</div><div class="ui horizontal divider">'.$lang->today.'</div><div class="ui two stacked cards">';
         }
