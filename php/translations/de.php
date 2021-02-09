@@ -160,5 +160,6 @@ return (object) array(
   "sum"=>"Summe",
   "already_added" => "Bereits hinzugefügt",
   "config_poll_entries" => "Schauspieler dürfen alle Umfrageergebnisse sehen",
+  "allow_informal" => "Erlaube Admins deine Terminzusagen zu verändern",
 );
 ?>

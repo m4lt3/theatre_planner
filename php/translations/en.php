@@ -160,5 +160,6 @@ return (object) array(
   "sum"=>"Sum",
   "already_added" => "Already added",
   "config_poll_entries" => "Allow actors to see all poll submissions",
+  "allow_informal" => "Allow admins to change your attendance status for you",
 );
 ?>

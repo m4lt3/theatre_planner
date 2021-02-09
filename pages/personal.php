@@ -63,6 +63,9 @@ if(isset($_POST["newPassword"])){
     setcookie("theatre_lang", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
     setcookie("theatre_cookies", "", array("expires"=> time() -3600, "samesite"=>"Strict","path"=>"/"));
   }
+} elseif (isset($_POST["informal_value"])){
+  $db = new DBHandler();
+  $db->update("UPDATE USERS SET Informal=? WHERE UserID=?","ii", array($_POST["informal_value"]=="true"?1:0, $_SESSION["UserID"]));
 }
 ?>
 
@@ -179,14 +182,32 @@ if(isset($_POST["newPassword"])){
           </form>
         </div>
         <br/>
-        <form class="" action="" method="post" id="toggle_cookies">
+        <form class="ui form" action="" method="post" id="toggle_cookies">
           <input type="hidden" name="allow_cookies" id="cookie_value" value="">
           <div class="field">
-          <label><?php echo $lang->allow_cookies ?></label>
+          <label>&nbsp;</label>
           <div class="ui toggle checkbox">
-            <label>&nbsp;</label>
             <input type="checkbox" value="" id="cookie_checkbox" <?php if (isset($_SESSION["cookies_allowed"]) && $_SESSION["cookies_allowed"]){echo "checked";} ?>>
+            <label><?php echo $lang->allow_cookies ?></label>
           </div>
+          </div>
+        </form>
+        <form class="ui form" action="" method="post">
+          <input type="hidden" id="informal_value" name="informal_value" value="">
+          <div class="field">
+            <label>&nbsp;</label>
+            <div class="ui toggle checkbox">
+              <input type="checkbox" value="" id="informal_checkbox"
+              <?php
+              $db = new DBHandler();
+              $informal = $db->prepareQuery("SELECT Informal FROM USERS WHERE UserID=?","i", array($_SESSION["UserID"]))[0]["Informal"];
+              if($informal){
+                echo "checked";
+              }
+              ?>
+              >
+              <label><?php echo $lang->allow_informal ?></label>
+            </div>
           </div>
         </form>
     </main>
@@ -219,8 +240,12 @@ if(isset($_POST["newPassword"])){
 
       document.getElementById("cookie_checkbox").addEventListener("change", function(){
         document.getElementById("cookie_value").value = this.checked;
-        console.log(this.value);
         document.getElementById("toggle_cookies").submit();
+      });
+
+      document.getElementById("informal_checkbox").addEventListener("change", function(){
+        document.getElementById("informal_value").value = this.checked;
+        this.parentNode.parentNode.parentNode.submit();
       });
 
       $("#lang_dropdown").dropdown('set selected', "<?php echo $lang->lang ?>");

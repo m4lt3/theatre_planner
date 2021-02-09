@@ -29,7 +29,7 @@
   } elseif (isset($_POST["create_practice"])) {
     // Create a practice on a coresponding poll option
     $entries = $db->baseQuery("SELECT USERS.UserID, POLL_ENTRIES.Entries FROM USERS LEFT JOIN POLL_ENTRIES ON USERS.UserID = POLL_ENTRIES.UserID LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID");
-    // Getting all entries of every user and inserting them intp a structured taböe
+    // Getting all entries of every user and inserting them into a structured table
     $matrix = array();
     for($i = 0; $i < $poll["Duration"]; $i++){
       if(!isset($entries[$i]["Entries"])){
@@ -98,9 +98,9 @@
             $foot ="";
             if($_SESSION["Admin"]){
               // Create admin UI
-              $entries = $db->baseQuery("SELECT USERS.UserID, USERS.Name, POLL_ENTRIES.EntryID, POLL_ENTRIES.Entries, POLLS.* FROM USERS LEFT JOIN POLL_ENTRIES ON USERS.UserID = POLL_ENTRIES.UserID LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID ORDER BY USERS.UserID");
+              $entries = $db->baseQuery("SELECT USERS.UserID, USERS.Name, USERS.Informal, POLL_ENTRIES.EntryID, POLL_ENTRIES.Entries, POLLS.* FROM USERS LEFT JOIN POLL_ENTRIES ON USERS.UserID = POLL_ENTRIES.UserID LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID ORDER BY USERS.UserID");
               foreach ($entries as $entry) {
-                $body .= createTRow($entry["Name"], $entry["Entries"], $entry["UserID"]==$_SESSION["UserID"], $poll["Duration"], $entry["UserID"]);
+                $body .= createTRow($entry["Name"], $entry["Entries"], ($entry["Informal"] || $entry["UserID"]==$_SESSION["UserID"]), $poll["Duration"], $entry["UserID"]);
               }
               $body .= createSumRow($entries, $poll["Duration"]);
               $foot = createButtons($poll["Duration"], $poll["Start"], $db->prepareQuery("SELECT DATE(Start) AS Start FROM PRACTICES WHERE Start >=? ORDER BY Start","s",array($poll["Start"])));
