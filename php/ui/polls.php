@@ -1,15 +1,23 @@
 <?php
+/**
+* Creades a Card containing all relevant information about a poll.
+*
+* @param array $poll associative array containing the following information about the poll: ID, Start, DUration, Description
+*
+* @return string card template
+*/
 function createPollCard($poll){
   global $db;
   global $lang;
 
+  //Creating start and end date formats
   $date = date_create($poll["Start"]);
   $startFormat = date_format($date, "d.m.Y");
   date_add($date, date_interval_create_from_date_string(($poll["Duration"]-1)." days"));
   $endFormat = date_format($date, "d.m.Y");
 
+  // Determining whether the user has already participated in the poll
   $participated = "";
-
   if(!empty($db->prepareQuery("SELECT EntryID FROM POLL_ENTRIES WHERE PollID=? AND UserID=?","ii", array($poll["PollID"],$_SESSION["UserID"])))){
     $participated='<div class="ui green label">'.$lang->participated.'</div>';
   } else {
@@ -41,6 +49,14 @@ EOT;
   return $card;
 }
 
+/**
+* Creates the table head of the date poll.
+*
+* @param string $start date string of the start date of the date poll
+* @param int $duration The amount of days after the start date to be covered by this poll
+*
+* @return string table head template
+*/
 function createTHead($start, $duration){
   global $lang;
 
@@ -54,22 +70,36 @@ function createTHead($start, $duration){
   return $head;
 }
 
+/**
+* Creates a row in the table; i.e. a user and all selections
+*
+* @param string $name Name of the user
+* @param int $entries Bitmap of selected dates. The leftmost bit represents the start date, the next bit represents the day after and so on.
+* @param boolean $editable whether the row is read-only or if the user can change values
+* @param int $duration The amount of days after the start date to be covered by this poll - i.e. how many cells are generated
+* @param int|string $uid The userID the row "belongs" to
+*
+* @return string row template
+*/
 function createTRow($name, $entries, $editable, $duration, $uid){
   global $lang;
 
-  $parsed_entries = decbin((int)$entries);
-  if(strlen($parsed_entries)<$duration){
-    $parsed_entries = str_repeat("0", $duration - strlen($parsed_entries)) . $parsed_entries;
+  // converting int to bitmap; prefixing zeroes if necessary (or not set at all)
+  if(!isset($entries)){
+    $parsed_entries = str_repeat("0", $duration);
+  } else {
+    $parsed_entries = decbin((int)$entries);
+    if(strlen($parsed_entries)<$duration){
+      $parsed_entries = str_repeat("0", $duration - strlen($parsed_entries)) . $parsed_entries;
+    }
   }
+
+
   $row = "<tr>";
   if($editable){
     $row .= '<form action="" method="post">';
   }
   $row .= "<td>".$name."</td>";
-  if(!isset($entries)){
-    $parsed_entries = str_repeat("0", $duration);
-  }
-
   if($editable){
     for($i = 0; $i < $duration; $i++){
       if($parsed_entries[$i]==1){
@@ -97,6 +127,14 @@ function createTRow($name, $entries, $editable, $duration, $uid){
   return $row;
 }
 
+/**
+* Creates a row that sums up all votes
+*
+* @param array $entries array of all entries of all users
+* @param int $duration The amount of days after the start date to be covered by this poll - i.e. how many cells are generated
+*
+* @return string sum row template
+*/
 function createSumRow($entries, $duration){
   global $lang;
 
@@ -134,16 +172,25 @@ function createSumRow($entries, $duration){
   return $row;
 }
 
+/**
+* Creates buttons to add a practice on the coresponding poll option
+*
+* @param int $duration The amount of days after the start date to be covered by this poll - i.e. how many buttons are generated
+* @param string $start date string of the start date of the date poll
+* @param array $practices the dates of all future practices to check if there already is a coresponding practice
+*
+* @return string template for button rows
+*/
 function createButtons($duration, $start, $practices){
   global $lang;
 
+  // generating map for better runtime
   $pmap = array();
   foreach ($practices as $practice) {
     $pmap[$practice["Start"]] = true;
   }
 
   $date = date_create($start);
-
   $foot = '<tfoot><tr><td></td>';
   for($i = 0; $i < $duration; $i++){
     if(isset($pmap[date_format($date,"Y-m-d")])){
