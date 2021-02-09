@@ -148,5 +148,11 @@ return (object) array(
   "order" => "Reihenfolge",
   "her_his" => "s",
   "title_compact_view" => "Kompaktansicht",
+  "title_date_finder" => "Terminumfragen",
+  "start_date" => "Startdatum",
+  "end_date"=>"Enddatum",
+  "create_poll" => "Umfrage erstellen",
+  "poll" => "Umfrage",
+  "timeframe" => "Zeitraum",
 );
 ?>

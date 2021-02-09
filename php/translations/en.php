@@ -148,5 +148,11 @@ return (object) array(
   "order" => "Order",
   "her_his" => "'s",
   "title_compact_view" => "Compact view",
+  "title_date_finder" => "Date Polls",
+  "start_date" => "Start date",
+  "end_date"=>"End date",
+  "create_poll" => "Create Poll",
+  "poll" => "Poll",
+  "timeframe" => "Timeframe",
 );
 ?>
