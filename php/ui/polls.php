@@ -133,4 +133,27 @@ function createSumRow($entries, $duration){
   $row .= "<td></td></tr>";
   return $row;
 }
+
+function createButtons($duration, $start, $practices){
+  global $lang;
+
+  $pmap = array();
+  foreach ($practices as $practice) {
+    $pmap[$practice["Start"]] = true;
+  }
+
+  $date = date_create($start);
+
+  $foot = '<tfoot><tr><td></td>';
+  for($i = 0; $i < $duration; $i++){
+    if(isset($pmap[date_format($date,"Y-m-d")])){
+      $foot .= '<td><button type="button" class="ui disabled primary button">'.$lang->already_added.'</button>';
+    } else {
+      $foot .= '<td><form action="" method="post"><input type="hidden" name="col" value ="'.$i.'"><input type="submit" class="ui primary button" name="create_practice" value="'.$lang->add_date.'"></form></td>';
+    }
+    date_add($date, date_interval_create_from_date_string("1 days"));
+  }
+  $foot .= '<td></td></tfoot>';
+  return $foot;
+}
 ?>

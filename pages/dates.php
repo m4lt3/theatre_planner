@@ -22,6 +22,37 @@
     } else {
       $db->update("UPDATE POLL_ENTRIES SET Entries = ? WHERE UserID=? AND PollID=?", "iii", array($entries, $_POST["uid"], $poll["PollID"]));
     }
+  } elseif (isset($_POST["create_practice"])) {
+    $entries = $db->baseQuery("SELECT USERS.UserID, POLL_ENTRIES.Entries FROM USERS LEFT JOIN POLL_ENTRIES ON USERS.UserID = POLL_ENTRIES.UserID LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID");
+
+    $matrix = array();
+    // filling matrix
+    for($i = 0; $i < $poll["Duration"]; $i++){
+      if(!isset($entries[$i]["Entries"])){
+        $matrix[] = str_repeat("0", $poll["Duration"]);
+      } else {
+        $parsed_entries = decbin($entries[$i]["Entries"]);
+        if(strlen($parsed_entries)<$poll["Duration"]){
+          $parsed_entries = str_repeat("0", $poll["Duration"] - strlen($parsed_entries)) . $parsed_entries;
+        }
+        $matrix[] = $parsed_entries;
+      }
+    }
+
+    $UIDs = array();
+    for($i = 0; $i < count($matrix); $i++){
+      if($matrix[$i][$_POST["col"]]=="1"){
+        $UIDs[] = $entries[$i]["UserID"];
+      }
+    }
+
+    $date = date_create($poll["Start"]);
+    date_add($date, date_interval_create_from_date_string($_POST["col"]." days"));
+    $db->update("INSERT INTO PRACTICES VALUES (NULL, NULL, ?)", "s", array(date_format($date, "Y-m-d")));
+    $id = $db->getLastID();
+    foreach ($UIDs as $uid) {
+      $db->update("INSERT INTO ATTENDS VALUES(NULL, ?, ?)", "ii", array($id, $uid));
+    }
   }
 ?>
 <!DOCTYPE html>
@@ -57,6 +88,7 @@
           } else {
             echo $poll["Description"];
             $body="";
+            $foot ="";
             if($_SESSION["Admin"]){
               // Create admin UI
               $entries = $db->baseQuery("SELECT USERS.UserID, USERS.Name, POLL_ENTRIES.EntryID, POLL_ENTRIES.Entries, POLLS.* FROM USERS LEFT JOIN POLL_ENTRIES ON USERS.UserID = POLL_ENTRIES.UserID LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID ORDER BY USERS.UserID");
@@ -64,6 +96,7 @@
                 $body .= createTRow($entry["Name"], $entry["Entries"], $entry["UserID"]==$_SESSION["UserID"], $poll["Duration"], $entry["UserID"]);
               }
               $body .= createSumRow($entries, $poll["Duration"]);
+              $foot = createButtons($poll["Duration"], $poll["Start"], $db->prepareQuery("SELECT DATE(Start) AS Start FROM PRACTICES WHERE Start >=? ORDER BY Start","s",array($poll["Start"])));
             } else {
               // Create User UI
               $entry = $db->prepareQuery("SELECT POLL_ENTRIES.Entries, POLLS.* FROM POLL_ENTRIES JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID WHERE POLLS.PollID=? AND POLL_ENTRIES.UserID=?", "ii", array($_GET["poll"], $_SESSION["UserID"]))[0]??array();
@@ -75,7 +108,9 @@
             echo createTHead($poll["Start"],$poll["Duration"]);
             echo '</thead><tbody>';
             echo $body;
-            echo '</tbody></table>';
+            echo '</tbody>';
+            echo $foot;
+            echo '</table>';
             echo '</div>';
           }
         } else {

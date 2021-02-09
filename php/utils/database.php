@@ -67,5 +67,9 @@ class DBHandler {
       'bind_param'
     ), $param_value_reference);
   }
+
+  public function getLastID(){
+    return $this->conn->insert_id;
+  }
 }
 ?>

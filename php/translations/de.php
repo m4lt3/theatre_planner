@@ -158,5 +158,6 @@ return (object) array(
   "not_participated"=>"Nicht teilgenommen",
   "poll_not_found"=>"Umfrage nicht gefunden",
   "sum"=>"Summe",
+  "already_added" => "Bereits hinzugefügt",
 );
 ?>
