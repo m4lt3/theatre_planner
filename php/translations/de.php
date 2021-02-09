@@ -159,5 +159,6 @@ return (object) array(
   "poll_not_found"=>"Umfrage nicht gefunden",
   "sum"=>"Summe",
   "already_added" => "Bereits hinzugefügt",
+  "config_poll_entries" => "Schauspieler dürfen alle Umfrageergebnisse sehen",
 );
 ?>

@@ -159,5 +159,6 @@ return (object) array(
   "poll_not_found"=>"Poll not found",
   "sum"=>"Sum",
   "already_added" => "Already added",
+  "config_poll_entries" => "Allow actors to see all poll submissions",
 );
 ?>

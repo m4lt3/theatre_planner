@@ -29,6 +29,8 @@ return (object) array(
   // document root, insert the subfolder here with a leading, bt no trailing /
   // (e.g. if you can find the loginpage at http://example.com/theatre_planner/index.php, then the subfolder is /theatre_planner)
   // This also has to be adjisted in the browserconfig.xml if you're not using the setup
-  "subfolder" => ""
+  "subfolder" => "",
+  //Whether users are allowed to see other users poll entries
+  "all_poll_entries" => false
 );
 ?>

@@ -27,6 +27,11 @@
   } elseif(isset($_POST["misc_changed"])){
     $config->header_tags = $_POST["header_tags"];
     $config->admin_mail = $_POST["admin_mail"];
+    if(isset($_POST["poll_entries"])){
+      $config->all_poll_entries = true;
+    } else {
+      $config->all_poll_entries = false;
+    }
     file_put_contents("../../php/config.php", "<?php\n\nreturn " . var_export($config, true) . "\n\n?>");
   }
 ?>
@@ -141,6 +146,11 @@
           <label for="admin_mail"><?php echo $lang->admin . " " . $lang->email ?> <div class="ui circular label" id="admail_help"><i class="fitted question icon"></i></div></label>
           <input type="email" name="admin_mail" value="<?php echo $config->admin_mail ?>">
         </div>
+        <div class="ui toggle checkbox">
+          <label><?php echo $lang->config_poll_entries ?></label>
+          <input type="checkbox" name="poll_entries" value="" <?php if($config->all_poll_entries){echo "checked";} ?>>
+        </div>
+        <br/><br/>
         <input class="ui primary button" type="submit" name="misc_changed" value="<?php echo $lang->save ?>">
       </form>
     </main>
