@@ -4,6 +4,25 @@
   if(!$loggedIn){
     header("location:../index.php");
   }
+
+  $db = new DBHandler();
+  if(isset($_GET["poll"])){
+    $poll = $db->prepareQuery("SELECT * FROM POLLS WHERE PollID=?","i", array($_GET["poll"]))[0]??array();
+  }
+
+  if(isset($_POST["change_entries"])){
+    $entries = "";
+    for($i = 0; $i < $poll["Duration"]; $i++){
+      $entries .= isset($_POST[(string)$i])?"1":"0";
+    }
+    $entries = bindec($entries);
+    $relation_id = $db->prepareQuery("SELECT EntryID FROM POLL_ENTRIES WHERE UserID=?","i", array($_POST["uid"]));
+    if(count($relation_id??array()) == 0){
+      $db->update("INSERT INTO POLL_ENTRIES VALUES(NULL, ?, ?, ?)", "iii", array($poll["PollID"], $_POST["uid"], $entries));
+    } else {
+      $db->update("UPDATE POLL_ENTRIES SET Entries = ? WHERE UserID=? AND PollID=?", "iii", array($entries, $_POST["uid"], $poll["PollID"]));
+    }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $lang->lang ?>" dir="ltr">
@@ -31,10 +50,8 @@
       <div class="ui text container">
       <h1 class="ui large header"><?php echo $lang->title_date_finder ?></h1>
       <?php
-      $db = new DBHandler();
       require dirname(__DIR__)."/php/ui/polls.php";
         if(isset($_GET["poll"])){
-          $poll = $db->prepareQuery("SELECT * FROM POLLS WHERE PollID=?","i", array($_GET["poll"]))[0]??array();
           if(empty($poll)){
             echo '<div id="notFound"><i class="massive orange question circle outline icon"></i><div class="ui header">'.$lang->poll_not_found.'<div></div>';
           } else {

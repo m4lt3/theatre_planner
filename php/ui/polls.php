@@ -89,7 +89,7 @@ function createTRow($name, $entries, $editable, $duration, $uid){
   }
 
   if($editable){
-    $row .= '<td><input type="hidden" name="uid" value="'.$uid.'"><button type="submit" class="ui primary button">'.$lang->save.'</button></td></form>';
+    $row .= '<td><input type="hidden" name="uid" value="'.$uid.'"><input type="submit" class="ui primary button" name="change_entries" value="'.$lang->save.'"></td></form>';
   } else {
     $row .= '<td></td>';
   }
