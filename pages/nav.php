@@ -8,6 +8,7 @@
     <a href="./practices.php" class="nav_practices item" ><?php echo $lang->title_practices ?></a>
     <a href="./scenes.php" class="nav_scenes item" ><?php echo $lang->scenes ?></a>
     <a href="./roles.php" class="nav_roles item" ><?php echo $lang->roles ?></a>
+    <a href="./dates.php" class="nav_dates item" ><?php echo $lang->title_date_finder ?></a>
     <a href="./personal.php" class="nav_personal item" ><?php echo $lang->title_personal ?></a>
     <div class="right menu">
       <?php if($_SESSION["Admin"]){
@@ -32,6 +33,7 @@
     <a href="./practices.php" class="nav_practices item" ><?php echo $lang->title_practices ?></a>
     <a href="./scenes.php" class="nav_scenes item" ><?php echo $lang->scenes ?></a>
     <a href="./roles.php" class="nav_roles item" ><?php echo $lang->roles ?></a>
+    <a href="./dates.php" class="nav_dates item" ><?php echo $lang->title_date_finder ?></a>
     <a href="./personal.php" class="nav_personal item" ><?php echo $lang->title_personal ?></a>
     <div class="right menu">
       <?php if($_SESSION["Admin"]){

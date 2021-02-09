@@ -154,5 +154,8 @@ return (object) array(
   "create_poll" => "Umfrage erstellen",
   "poll" => "Umfrage",
   "timeframe" => "Zeitraum",
+  "participated"=>"Teilgenommen",
+  "not_participated"=>"Nicht teilgenommen",
+  "poll_not_found"=>"Umfrage nicht gefunden",
 );
 ?>
