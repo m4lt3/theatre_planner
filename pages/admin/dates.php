@@ -88,7 +88,7 @@
           <div class="ui card">
             <div class="content">
               <div class="header">
-                {$lang->poll} #{$poll["PollID"]}
+                <a href="../dates.php?poll={$poll["PollID"]}">{$lang->poll} #{$poll["PollID"]}</a>
               </div>
             </div>
             <div class="content">
