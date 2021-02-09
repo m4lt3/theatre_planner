@@ -9,7 +9,7 @@
   <a href="./scenes.php" class="nav_scenes item"><?php echo $lang->title_scene_management ?></a>
   <a href="./roles.php" class="nav_roles item" ><?php echo $lang->title_role_management ?></a>
   <a href="./actors.php" class="nav_actors item" ><?php echo $lang->title_actor_management ?></a>
-  <a href="./dates.php" class="nav_date item" ><?php echo $lang->title_date_finder ?></a>
+  <a href="./dates.php" class="nav_dates item" ><?php echo $lang->title_date_finder ?></a>
   <a href="./config.php" class="nav_config item" ><?php echo $lang->title_server_configuration ?></a>
   <div class="right menu">
     <div class="ui item">
@@ -35,7 +35,7 @@
     <a href="./scenes.php" class="nav_scenes item" ><?php echo $lang->title_scene_management ?></a>
     <a href="./roles.php" class="nav_roles item" ><?php echo $lang->title_role_management ?></a>
     <a href="./actors.php" class="nav_actors item" ><?php echo $lang->title_actor_management ?></a>
-    <a href="./dates.php" class="nav_date item" ><?php echo $lang->title_date_finder ?></a>
+    <a href="./dates.php" class="nav_dates item" ><?php echo $lang->title_date_finder ?></a>
     <a href="./config.php" class="nav_config item" ><?php echo $lang->title_server_configuration ?></a>
     <div class="right menu">
       <div class="ui item">
