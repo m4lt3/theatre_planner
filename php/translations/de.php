@@ -157,5 +157,6 @@ return (object) array(
   "participated"=>"Teilgenommen",
   "not_participated"=>"Nicht teilgenommen",
   "poll_not_found"=>"Umfrage nicht gefunden",
+  "sum"=>"Summe",
 );
 ?>

@@ -58,16 +58,16 @@ function createTRow($name, $entries, $editable, $duration, $uid){
   global $lang;
 
   $parsed_entries = decbin((int)$entries);
+  if(strlen($parsed_entries)<$duration){
+    $parsed_entries = str_repeat("0", $duration - strlen($parsed_entries)) . $parsed_entries;
+  }
   $row = "<tr>";
   if($editable){
     $row .= '<form action="" method="post">';
   }
   $row .= "<td>".$name."</td>";
   if(!isset($entries)){
-    $parsed_entries = "0";
-    for($i = 1; $i < $duration; $i++){
-      $parsed_entries .= "0";
-    }
+    $parsed_entries = str_repeat("0", $duration);
   }
 
   if($editable){
@@ -94,6 +94,43 @@ function createTRow($name, $entries, $editable, $duration, $uid){
     $row .= '<td></td>';
   }
   $row .= "</tr>";
+  return $row;
+}
+
+function createSumRow($entries, $duration){
+  global $lang;
+
+  $matrix = array();
+  // filling matrix
+  for($i = 0; $i < $duration; $i++){
+    if(!isset($entries[$i]["Entries"])){
+      $matrix[] = str_repeat("0", $duration);
+    } else {
+      $parsed_entries = decbin($entries[$i]["Entries"]);
+      if(strlen($parsed_entries)<$duration){
+        $parsed_entries = str_repeat("0", $duration - strlen($parsed_entries)) . $parsed_entries;
+      }
+      $matrix[] = $parsed_entries;
+    }
+  }
+
+  //summing up columns
+  $sums = array();
+  for($i = 0; $i < $duration; $i++){
+    $sum = 0;
+    for($j = 0; $j < count($matrix); $j++){
+      $sum += (int) $matrix[$j][$i];
+    }
+    $sums[] = $sum;
+  }
+
+  $row = '<tr><td><b>'.$lang->sum.'</b></td>';
+
+  $max = max($sums);
+  for($i = 0; $i < $duration; $i++){
+    $row .= '<td'.($sums[$i]==$max?' class="positive"':'').'>'.($sums[$i]==$max?'<b style="font-size:130%">':'').$sums[$i].($sums[$i]==$max?'</b>':'').'</td>';
+  }
+  $row .= "<td></td></tr>";
   return $row;
 }
 ?>
