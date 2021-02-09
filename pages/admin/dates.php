@@ -2,7 +2,7 @@
   require_once dirname(dirname(__DIR__)) . "/php/auth/sessionValidate.php";
   require_once dirname(dirname(__DIR__)) . "/php/utils/loadPreferences.php";
   if(!$loggedIn){
-    header("location:/index.php");
+    header("location:../../index.php");
   }
   if(!$_SESSION["Admin"]){
     header("location:../dashboard.php");
@@ -74,7 +74,7 @@
         $pollQuery = "SELECT * FROM POLLS";
         $divided=false;
         if(empty($_SESSION["theatre_past"]) || !$_SESSION["theatre_past"]){
-          $pollQuery .= " WHERE Start >= CURDATE()";
+          $pollQuery .= " WHERE DATE_ADD(Start, INTERVAL (Duration - 1 ) DAY) >= CURDATE()";
           $divided=true;
         }
         $polls = $db->baseQuery($pollQuery)??array();
