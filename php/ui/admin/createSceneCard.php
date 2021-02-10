@@ -10,15 +10,18 @@
 * @param array $Features Array of Primary keys of role-scene relationships in the same orrder as roles
 * @param array $Mandatory Array of booleans wheter the role is mandatory for the scene or not - in the same order as roles
 * @param array $FreeRoles Array of Role ID and Name of Roles that have not yet been assigned to the scene
+* @param string $lastPracticed date string when the scene was last practiced
 *
 * @return string Card template
 */
-function createSceneCard($SceneID, $order, $Name, $Description, $Roles, $Features, $Mandatory, $FreeRoles){
+function createSceneCard($SceneID, $order, $Name, $Description, $Roles, $Features, $Mandatory, $FreeRoles, $lastPracticed){
   global $lang;
 
   $role_rows = createRoleRows($Roles, $Mandatory, $Features);
 
   $role_dialogue = createRoleDialogue($FreeRoles, $SceneID);
+
+  $lastFormatted = empty($lastPracticed)?$lang->never:date_format(date_create($lastPracticed), "d.m.Y");
 
 $button =<<<EOT
 <div class="ui buttons">
@@ -40,6 +43,7 @@ $card =<<<EOT
       <span class="meta">$order.</span> $Name
       <div class="right floated meta">#$SceneID</div>
     </div>
+    <div class="meta">{$lang->last_practiced} $lastFormatted</div>
   </div>
   <div class="content">
     <div class="ui sub header">{$lang->description}</div>

@@ -161,5 +161,7 @@ return (object) array(
   "already_added" => "Already added",
   "config_poll_entries" => "Allow actors to see all poll submissions",
   "allow_informal" => "Allow admins to change your attendance status for you",
+  "last_practiced" => "Last practiced on",
+  "never"=>"never",
 );
 ?>

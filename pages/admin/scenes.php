@@ -24,7 +24,7 @@
      }
    }
    // Add a new scene
-   $db->update("INSERT INTO SCENES VALUES (NULL, ?, ?, ?)", "ssi", array($_POST["sceneName"], $_POST["sceneDescription"], $_POST["order"]));
+   $db->update("INSERT INTO SCENES VALUES (NULL, ?, ?, ?, ?)", "ssis", array($_POST["sceneName"], $_POST["sceneDescription"], $_POST["order"], $_POST["lastPracticed"]));
  } elseif (isset($_POST["rm_scene"])){
    // Delete a scene
    if(!$db->update("DELETE FROM SCENES WHERE SceneID=?", "i", array($_POST["rm_scene"]))){
@@ -74,7 +74,7 @@
        }
      }
    }
-   $db->update("UPDATE SCENES SET Name=?, Description=?, Sequence=? WHERE SceneID=?", "ssii", array($_POST["sceneName"],$_POST["sceneDescription"],$_POST["order"],$_POST["SceneID"]));
+   $db->update("UPDATE SCENES SET Name=?, Description=?, Sequence=?, Last_practiced=? WHERE SceneID=?", "ssisi", array($_POST["sceneName"],$_POST["sceneDescription"],$_POST["order"],$_POST["lastPracticed"],$_POST["SceneID"]));
  }
 ?>
 <!DOCTYPE html>
@@ -103,6 +103,10 @@
           <label for="sceneDescription"><?php echo $lang->scene_description ?></label>
           <textarea name="sceneDescription" rows="8" cols="64" maxlength="512"><?php if(isset($_POST["edit_scene"])){ echo $edit_scene["Description"];} ?></textarea>
         </div>
+        <div class="field">
+          <label><?php echo $lang->last_practiced ?></label>
+          <input type="date" name="lastPracticed" value="<?php if(isset($_POST["edit_scene"])){ echo $edit_scene["Last_practiced"];}?>">
+        </div>
         <?php if(isset($_POST["edit_scene"])){echo '<input type="hidden" name="SceneID" value="'.$edit_scene["SceneID"].'">';}?>
         <input class="ui primary button" type="submit" name="<?php if(isset($_POST["edit_scene"])){echo "submitEdit";}else{echo "addScene";} ?>" value="<?php if(isset($_POST["edit_scene"])){echo $lang->save;}else{echo $lang->create_scene;} ?>">
       </form>
@@ -122,7 +126,7 @@
                 if($currentScene["SceneID"] != -1){
                   // Print card before overwriting with new scene
                   $FreeRoles = $db->prepareQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT ROLES.RoleID FROM ROLES, FEATURES WHERE ROLES.RoleID = FEATURES.RoleID AND FEATURES.SceneID = ?)", "i", array($currentScene["SceneID"]));
-                  echo createSceneCard($currentScene["SceneID"], $currentScene["Sequence"] ,$currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
+                  echo createSceneCard($currentScene["SceneID"], $currentScene["Sequence"] ,$currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles, $currentScene["Last_practiced"]);
                 }
                 // Overwrite with new values
                 $currentScene = $scene;
@@ -138,7 +142,7 @@
             }
             // Print the last card since it didn't ge triggered
             $FreeRoles = $db->prepareQuery("SELECT RoleID, Name FROM ROLES WHERE RoleID NOT IN (SELECT ROLES.RoleID FROM ROLES, FEATURES WHERE ROLES.RoleID = FEATURES.RoleID AND FEATURES.SceneID = ?)", "i", array($currentScene["SceneID"]));
-            echo createSceneCard($currentScene["SceneID"], $currentScene["Sequence"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles);
+            echo createSceneCard($currentScene["SceneID"], $currentScene["Sequence"], $currentScene["Name"], $currentScene["Description"], $currentScene["Role"], $currentScene["FeatureID"], $currentScene["Mandatory"], $FreeRoles, $currentScene["Last_practiced"]);
           }
         ?>
       </div>

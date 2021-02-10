@@ -31,6 +31,7 @@ CREATE TABLE SCENES(
   Name VARCHAR(32) NOT NULL,
   Description VARCHAR(512),
   Sequence INT UNIQUE NOT NULL,
+  Last_practiced DATE,
   PRIMARY KEY (SceneID)
 );
 
