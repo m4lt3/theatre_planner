@@ -69,10 +69,10 @@ EOT;
     $attendee_rows = "";
     if(!empty($practice_collection->attendees[0]["id"]))
     foreach ($practice_collection->attendees as $attendee) {
-      $attendee_rows .= '<tr><td>' . $attendee["name"] .'<div class="right floated meta">#' . $attendee["id"] . '</div></td><td>'.generateRemoveButton($attendee["id"],$practice_collection->id).'</td></tr>';
+      $attendee_rows .= '<tr><td>' . $attendee["name"] .'<div class="right floated meta">#' . $attendee["id"] . '</div></td><td>'.generateRemoveButton($attendee["id"],$practice_collection->id, $practice_collection->date).'</td></tr>';
     }
 
-    $add_attendee_dialogue = generateAddAttendeeDialogue($practice_collection->id);
+    $add_attendee_dialogue = generateAddAttendeeDialogue($practice_collection->id, $practice_collection->date);
 
     // Creating table rows containing name and id of each practiceable scene
     $scene_rows = "";
@@ -117,13 +117,17 @@ EOT;
 * Creates  a dialogue to add actors which allow having their attendance status set by admins
 *
 * @param int|string $pid ID of the Practice to add to
+* @param object $date the date of the practice. If it is in the past, no button is generated
 *
 * @return string template of the selection dialogue
 */
-function generateAddAttendeeDialogue($pid){
+function generateAddAttendeeDialogue($pid, $date){
   global $db;
   global $lang;
 
+  if($date < date("Y-m-d H:i:s")){
+    return "";
+  }
   $assignable = $db->prepareQuery("SELECT u.UserID, u.Name FROM USERS u WHERE u.Informal = true AND NOT EXISTS (SELECT u.UserID FROM PRACTICES p LEFT JOIN ATTENDS a ON p.PracticeID = a.PracticeID WHERE a.UserID = u.UserID AND p.PracticeID = ?)", "i", array($pid));
   $options = "";
   foreach ($assignable??array() as $actor) {
@@ -158,12 +162,16 @@ EOT;
 *
 * @param int|string $UserID ID of the user to remove
 * @param int|string $PracticeID ID of the Practice to remove the user from
+* @param object $date the date of the practice. If it is in the past, no button is generated
 *
 * @return string button template
 */
-function generateRemoveButton($UserID, $PracticeID){
+function generateRemoveButton($UserID, $PracticeID, $date){
   global $db;
 
+  if($date < date("Y-m-d H:i:s")){
+    return "";
+  }
   $informal = $db->prepareQuery("SELECT Informal FROM USERS Where UserID=?","i",array($UserID))[0]["Informal"];
   if($informal){
     $button = <<<EOT
