@@ -69,7 +69,7 @@
           <div class="required field">
             <label for="dateInput"><?php echo $lang->practice_date ?></label>
             <div class="ui action input">
-              <input id="dateInput" type="text" name="dateInput" value="">
+              <input id="dateInput" type="text" name="dateInput" value="" min="<?php echo date("Y-m-d H:i:s") ?>" required>
               <button type="button" class="ui icon button" name="button" onclick="openPicker()"><i class="calendar alternate outline icon"></i></button>
             </div>
           </div>
