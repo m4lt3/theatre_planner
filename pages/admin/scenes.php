@@ -40,6 +40,11 @@
      // Delete scene again
      $db->update("DELETE FROM SCENES WHERE SceneID=?", "i", array($_POST["rm_scene"]));
    }
+   //Update Scene order
+   $oldOrder = array_search($_POST["rm_scene"], array_column($SceneOrder, "SceneID")) + 1;
+   for($i = $oldOrder - 1; $i <= $sceneCount - 1; $i++){
+     $db->update("UPDATE SCENES SET SEQUENCE = ? WHERE SceneID = ?", "ii", array($SceneOrder[$i]["Sequence"]-1, $SceneOrder[$i]["SceneID"]));
+   }
  } elseif (isset($_POST["rm_features"])) {
    // Remove a role-scene relation
    $db->update("DELETE FROM FEATURES WHERE FeatureID=?", "i", array($_POST["rm_features"]));
