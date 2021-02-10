@@ -10,6 +10,7 @@
   require_once dirname(dirname(__DIR__)) . "/php/utils/database.php";
 
   $db = new DBHandler();
+  $edit_role = array();
 
   if(isset($_POST["rm_role"])){
     // Remove a role
@@ -37,6 +38,10 @@
     //(Re)Assign a role to an actor
     $db->update("DELETE FROM PLAYS WHERE RoleID = ?", "i", array($_POST["RoleID"]));
     $db->update("INSERT INTO PLAYS VALUES(NULL, ?, ?)", "ii", array($_POST["newPlay"], $_POST["RoleID"]));
+  } elseif(isset($_POST["edit_role"])) {
+    $edit_role = $db->prepareQuery("SELECT * FROM ROLES WHERE RoleID=?", "i", array($_POST["edit_role"]))[0];
+  } elseif(isset($_POST["RoleID"])){
+    $db->update("UPDATE ROLES SET Name=?, Description=? WHERE RoleID=?", "ssi", array($_POST["roleName"],$_POST["roleDescription"],$_POST["RoleID"]));
   }
 ?>
 <!DOCTYPE html>
@@ -53,13 +58,34 @@
       <form action="" method="post" class="ui form">
         <div class="required field">
           <label for="roleName"><?php echo $lang->role_name ?></label>
-          <input required="true" type="text" name="roleName" maxlength="32">
+          <input required="true" type="text" name="roleName" maxlength="32"
+          <?php
+          if(isset($_POST["edit_role"])){
+            echo ' value="'.$edit_role["Name"].'"';
+          }
+          ?>
+          >
         </div>
         <div class="field">
           <label for="roleDescription"><?php echo $lang->role_description ?></label>
-          <textarea name="roleDescription" rows="8" cols="64" maxlength="512"></textarea>
+          <textarea name="roleDescription" rows="8" cols="64" maxlength="512"><?php
+            if(isset($_POST["edit_role"])){
+              echo $edit_role["Description"];
+            }
+            ?></textarea>
         </div>
-        <input class="ui primary button" type="submit" name="addRole" value="<?php echo $lang->create_role ?>">
+        <?php
+        if(isset($_POST["edit_role"])){
+          echo '<input type="hidden" name="RoleID" value ="'.$edit_role["RoleID"].'">';
+        }
+        ?>
+        <input class="ui primary button" type="submit" name="<?php if(isset($_POST["edit_role"])){echo "submitEdit";}else{echo"addRole";} ?>" value="<?php
+        if(isset($_POST["edit_role"])){
+          echo $lang->save;
+        } else {
+          echo $lang->create_role;
+        }
+        ?>">
       </form>
 
       <br/>
