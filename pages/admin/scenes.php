@@ -13,6 +13,7 @@
   $SceneOrder = $db->baseQuery("SELECT SceneID, Sequence FROM SCENES ORDER BY Sequence");
   $sceneCount = count($SceneOrder??array());
   $inserted = true;
+  $edit_scene = array();
 
  if(isset($_POST["addScene"])){
    //Checking the new order
@@ -49,6 +50,26 @@
    //Toggle whether the role is mandatory for the scene or not
    $isMandatory = $db->prepareQuery("SELECT Mandatory FROM FEATURES WHERE FeatureID=?","i", array($_POST["toggle_mandatory"]))[0]["Mandatory"];
    $db->update("UPDATE FEATURES SET Mandatory=? WHERE FeatureID=?", "ii", array(!$isMandatory,$_POST["toggle_mandatory"]));
+ }  elseif(isset($_POST["edit_scene"])) {
+   $sceneCount = count($SceneOrder??array()) - 1;
+   $edit_scene = $db->prepareQuery("SELECT * FROM SCENES WHERE SceneID=?", "i", array($_POST["edit_scene"]))[0];
+ } elseif(isset($_POST["SceneID"])){
+   if($SceneOrder[$_POST["order"]-1]["SceneID"] != $_POST["SceneID"]){
+     $newOrder = $_POST["order"];
+     $oldOrder = array_search($_POST["SceneID"], array_column($SceneOrder, "SceneID")) + 1;
+     if(((int)$newOrder) > (int)$oldOrder){
+       $db->update("UPDATE SCENES SET Sequence=-1 WHERE SceneID=?","i",array($_POST["SceneID"]));
+       for($i = $oldOrder - 1; $i <= $newOrder -1; $i++){
+         $db->update("UPDATE SCENES SET SEQUENCE = ? WHERE SceneID = ?", "ii", array($SceneOrder[$i]["Sequence"]-1, $SceneOrder[$i]["SceneID"]));
+       }
+     } else {
+       $db->update("UPDATE SCENES SET Sequence=-1 WHERE SceneID=?","i",array($_POST["SceneID"]));
+       for($i = $oldOrder - 2; $i >= $newOrder -1; $i--){
+         $db->update("UPDATE SCENES SET SEQUENCE = ? WHERE SceneID = ?", "ii", array($SceneOrder[$i]["Sequence"]+1, $SceneOrder[$i]["SceneID"]));
+       }
+     }
+   }
+   $db->update("UPDATE SCENES SET Name=?, Description=?, Sequence=? WHERE SceneID=?", "ssii", array($_POST["sceneName"],$_POST["sceneDescription"],$_POST["order"],$_POST["SceneID"]));
  }
 ?>
 <!DOCTYPE html>
@@ -66,18 +87,19 @@
         <div class="two fields">
           <div class="required field">
             <label for="sceneSeq"><?php echo $lang->order ?></label>
-            <input required type="number" name="order" value="<?php echo ($sceneCount+1) ?>" min="1", max="<?php echo ($sceneCount+1) ?>">
+            <input required type="number" name="order" value="<?php if(isset($_POST["edit_scene"])){ echo $edit_scene["Sequence"];}else{echo ($sceneCount+1);} ?>" min="1", max="<?php echo ($sceneCount+1) ?>">
           </div>
           <div class="required field">
             <label for="sceneName"><?php echo $lang->scene_name ?></label>
-            <input required="true" type="text" name="sceneName" maxlength="32">
+            <input required="true" type="text" name="sceneName" maxlength="32" <?php if(isset($_POST["edit_scene"])){ echo ' value="'.$edit_scene["Name"].'"';} ?>>
           </div>
         </div>
         <div class="field">
           <label for="sceneDescription"><?php echo $lang->scene_description ?></label>
-          <textarea name="sceneDescription" rows="8" cols="64" maxlength="512"></textarea>
+          <textarea name="sceneDescription" rows="8" cols="64" maxlength="512"><?php if(isset($_POST["edit_scene"])){ echo $edit_scene["Description"];} ?></textarea>
         </div>
-        <input class="ui primary button" type="submit" name="addScene" value="<?php echo $lang->create_scene ?>">
+        <?php if(isset($_POST["edit_scene"])){echo '<input type="hidden" name="SceneID" value="'.$edit_scene["SceneID"].'">';}?>
+        <input class="ui primary button" type="submit" name="<?php if(isset($_POST["edit_scene"])){echo "submitEdit";}else{echo "addScene";} ?>" value="<?php if(isset($_POST["edit_scene"])){echo $lang->save;}else{echo $lang->create_scene;} ?>">
       </form>
 
       <br/>
