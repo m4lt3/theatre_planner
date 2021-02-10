@@ -32,6 +32,8 @@
     //Toggle whether the role is mandatory for the scene or not
     $isMandatory = $db->prepareQuery("SELECT Mandatory FROM FEATURES WHERE FeatureID=?","i", array($_POST["toggle_mandatory"]))[0]["Mandatory"];
     $db->update("UPDATE FEATURES SET Mandatory=? WHERE FeatureID=?", "ii", array(!$isMandatory,$_POST["toggle_mandatory"]));
+  } elseif(isset($_POST["rm_plays"])){
+    $db->update("DELETE FROM PLAYS WHERE PlaysID=?","i",array($_POST["rm_plays"]));
   }
 
   $everything = $db->baseQuery("SELECT SCENES.Name AS Scene, SCENES.SceneID, SCENES.Sequence, FEATURES.FeatureID, FEATURES.Mandatory, ROLES.RoleID, ROLES.Name AS Role, PLAYS.PlaysID, USERS.UserID, USERS.Name FROM SCENES LEFT JOIN FEATURES ON SCENES.SceneID = FEATURES.SceneID LEFT JOIN ROLES ON FEATURES.RoleID = ROLES.RoleID LEFT JOIN PLAYS ON ROLES.RoleID = PLAYS.RoleID LEFT JOIN USERS ON PLAYS.UserID = USERS.UserID ORDER BY SCENES.Sequence, ROLES.RoleID");
