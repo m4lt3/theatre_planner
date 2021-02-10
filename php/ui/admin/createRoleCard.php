@@ -16,14 +16,14 @@ function createRoleCard($id, $name, $description, $actors){
 
   $button =<<<EOT
   <div class="ui buttons">
-  <form method="POST" action="" style="margin-bottom:0;width:50%">
-    <input type="hidden" name="rm_role" value="$id">
-    <button class="ui bottom attached red icon button" type="submit" style="width:100%;border-radius:0;border-bottom-left-radius: .28571429rem;"><i class="trash icon"></i></button>
-  </form>
-  <form method="POST" action="" style="margin-bottom:0;width:50%" id="edit_form_$id">
-    <input type="hidden" name="edit_role" value="$id">
-    <button class="ui bottom attached blue icon button" type="submit" style="width:100%;border-radius:0;border-bottom-right-radius: .28571429rem;"><i class="edit icon"></i></button>
-  </form>
+    <form method="POST" action="" style="margin-bottom:0;width:50%">
+      <input type="hidden" name="rm_role" value="$id">
+      <button class="ui bottom attached red icon button" type="submit" style="width:100%;border-radius:0;border-bottom-left-radius: .28571429rem;"><i class="trash icon"></i></button>
+    </form>
+    <form method="POST" action="" style="margin-bottom:0;width:50%">
+      <input type="hidden" name="edit_role" value="$id">
+      <button class="ui bottom attached blue icon button" type="submit" style="width:100%;border-radius:0;border-bottom-right-radius: .28571429rem;"><i class="edit icon"></i></button>
+    </form>
   </div>
 EOT;
 
