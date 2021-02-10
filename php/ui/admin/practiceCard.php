@@ -32,7 +32,7 @@ function generateUserFocusedCardStack($practices, $allScenes){
         $practice_collection->attendees[] = array("id"=>$practice["UserID"], "name"=>$practice["Name"]);
       } elseif($practice["UserID"] != $practice_collection->attendees[count($practice_collection->attendees)-1]["id"]){
         // if a new user attends the practice, add it to the list
-        $practice_collection->attendees[] = array("id"=>$practice["UserID"], "name"=>$practice["Name"]);
+        $practice_collection->attendees[] = array("id"=>$practice["UserID"], "name"=>$practice["Name"], "informal"=>$practice["Informal"]);
       }
       // add the Role to the list
       $practice_collection->roles[] = $practice["RoleID"];
@@ -50,7 +50,7 @@ function generateUserFocusedCardStack($practices, $allScenes){
 /**
 * Creates a card template for displaying information about a practice date.
 *
-* @param object $practice_collection The Practice object ontaining all necessary information
+* @param object $practice_collection The Practice object containing all necessary information
 *
 * @return string The template
 */
@@ -69,8 +69,10 @@ EOT;
     $attendee_rows = "";
     if(!empty($practice_collection->attendees[0]["id"]))
     foreach ($practice_collection->attendees as $attendee) {
-      $attendee_rows .= '<tr><td>' . $attendee["name"] .'<div class="right floated meta">#' . $attendee["id"] . '</div></td></tr>';
+      $attendee_rows .= '<tr><td>' . $attendee["name"] .'<div class="right floated meta">#' . $attendee["id"] . '</div></td><td>'.generateRemoveButton($attendee["id"],$practice_collection->id).'</td></tr>';
     }
+
+    $add_attendee_dialogue = generateAddAttendeeDialogue($practice_collection->id);
 
     // Creating table rows containing name and id of each practiceable scene
     $scene_rows = "";
@@ -96,6 +98,7 @@ EOT;
         <div class="sub header">{$lang->attendees}</div>
         <table class="ui very basic table">
           $attendee_rows
+          $add_attendee_dialogue
         </table>
       </div>
       <div class="content">
@@ -108,6 +111,72 @@ EOT;
     </div>
 EOT;
     return $card;
+}
+
+/**
+* Creates  a dialogue to add actors which allow having their attendance status set by admins
+*
+* @param int|string $pid ID of the Practice to add to
+*
+* @return string template of the selection dialogue
+*/
+function generateAddAttendeeDialogue($pid){
+  global $db;
+  global $lang;
+
+  $assignable = $db->prepareQuery("SELECT u.UserID, u.Name FROM USERS u WHERE u.Informal = true AND NOT EXISTS (SELECT u.UserID FROM PRACTICES p LEFT JOIN ATTENDS a ON p.PracticeID = a.PracticeID WHERE a.UserID = u.UserID AND p.PracticeID = ?)", "i", array($pid));
+  $options = "";
+  foreach ($assignable??array() as $actor) {
+    $options .= '<div class="item" data-value="'.$actor["UserID"].'">'.$actor["Name"].'</div>';
+  }
+
+  $form = <<<EOT
+  <tr>
+    <form action="" method="POST">
+      <td>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="attend_actor">
+          <i class="dropdown icon"></i>
+          <div class="default text">{$lang->actor}</div>
+          <div class="menu">
+            $options
+          </div>
+        </div>
+      </td>
+      <td>
+        <input type="hidden" name="PracticeID" value="$pid">
+        <button type="submit" class="ui primary icon button" style="float:right"><i class="plus icon"></i></button>
+      </td>
+    </form>
+  </tr>
+EOT;
+  return $form;
+}
+
+/**
+* Generates a delete button to remove attending actors from practices
+*
+* @param int|string $UserID ID of the user to remove
+* @param int|string $PracticeID ID of the Practice to remove the user from
+*
+* @return string button template
+*/
+function generateRemoveButton($UserID, $PracticeID){
+  global $db;
+
+  $informal = $db->prepareQuery("SELECT Informal FROM USERS Where UserID=?","i",array($UserID))[0]["Informal"];
+  if($informal){
+    $button = <<<EOT
+    <form action="" method="POST" style="width:min-content;float:right">
+    <input type="hidden" name="rm_UserID" value="$UserID">
+    <input type="hidden" name="PracticeID" value="$PracticeID">
+    <button type="submit" class="ui red icon button"><i class="fitted trash icon"></i></button>
+    </form>
+EOT;
+  return $button;
+  } else {
+    return "";
+  }
 }
 
 // =============== Admin focused UI ============

@@ -6,7 +6,7 @@
 * @property int|string $id ID of the practice
 * @property string $title Optional title of the practice
 * @property string $date Date string of the practice
-* @property array $attendees All attending actors (only the ID)
+* @property array $attendees All attending actors (ID and informal preference)
 * @property array $roles All roles of the attending actors (id only)
 * @property array $scenes Practiceable scenes, to be detected at the end
 *

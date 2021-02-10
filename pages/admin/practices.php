@@ -42,6 +42,10 @@
     $db->update("DELETE FROM PLANNED_ON WHERE PlanID=?","i", array($_POST["rm_planned"]));
   } elseif(isset($_POST["addPlanned"])){
     $db->update("INSERT INTO PLANNED_ON VALUES (NULL, ?, ?)", "ii", array($_POST["PracticeID"], $_POST["newPlan"]));
+  } elseif (isset($_POST["rm_UserID"])){
+    $db->update("DELETE FROM ATTENDS WHERE UserID=? AND PracticeID=?","ii", array($_POST["rm_UserID"], $_POST["PracticeID"]));
+  } elseif (isset($_POST["attend_actor"])){
+    $db->update("INSERT INTO ATTENDS VALUES (NULL, ?, ?)", "ii", array($_POST["PracticeID"], $_POST["attend_actor"]));
   }
 ?>
 <!DOCTYPE html>
@@ -99,7 +103,7 @@
 
           //Query of hell - It actually just misses one relation table until it reaches back to itself
 
-          $practiceQuery = "SELECT PRACTICES.PracticeID, PRACTICES.Title, PRACTICES.Start, USERS.UserID, USERS.Name, ROLES.RoleID, ROLES.Name AS Role FROM PRACTICES LEFT JOIN ATTENDS ON PRACTICES.PracticeID = ATTENDS.PracticeID LEFT JOIN USERS ON USERS.UserID = ATTENDS.UserID LEFT JOIN PLAYS ON PLAYS.UserID = USERS.UserID LEFT JOIN ROLES ON PLAYS.RoleID = ROLES.RoleID";
+          $practiceQuery = "SELECT PRACTICES.PracticeID, PRACTICES.Title, PRACTICES.Start, USERS.UserID, USERS.Name, USERS.Informal, ROLES.RoleID, ROLES.Name AS Role FROM PRACTICES LEFT JOIN ATTENDS ON PRACTICES.PracticeID = ATTENDS.PracticeID LEFT JOIN USERS ON USERS.UserID = ATTENDS.UserID LEFT JOIN PLAYS ON PLAYS.UserID = USERS.UserID LEFT JOIN ROLES ON PLAYS.RoleID = ROLES.RoleID";
           $card_function = "generateUserFocusedCardStack";
           $sceneQuery = "SELECT FEATURES.SceneID, FEATURES.RoleID, FEATURES.Mandatory, SCENES.Name FROM FEATURES JOIN SCENES ON FEATURES.SceneID = SCENES.SceneID ORDER BY FEATURES.SceneID";
         } else {
