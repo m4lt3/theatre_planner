@@ -37,7 +37,7 @@
    } elseif (isset($_POST["create_user"])){
      require dirname(dirname(__DIR__))."/php/utils/database.php";
      $db = new DBHandler();
-     $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)", "sssi", array($_POST["name"], $_POST["email"], password_hash($_POST["password"], PASSWORD_BCRYPT), 1));
+     $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?, 0)", "sssi", array($_POST["name"], $_POST["email"], password_hash($_POST["password"], PASSWORD_BCRYPT), 1));
      $user = $db->prepareQuery("SELECT UserID, Name, Admin FROM USERS WHERE Mail=?","s",array($_POST["email"]))[0];
      session_start();
      $_SESSION["UserID"] = $user["UserID"];

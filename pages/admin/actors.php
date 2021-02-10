@@ -28,7 +28,7 @@
  } elseif (isset($_POST["addUser"])) {
    // user shall be created with a random password
    $password = uniqid();
-   $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?)","sssi",array($_POST["userName"], $_POST["userMail"], password_hash($password, PASSWORD_BCRYPT), (($_POST["userAdmin"]??0)==0)?0:1));
+   $inserted = $db->update("INSERT INTO USERS VALUES (NULL, ?, ?, ?, ?, 0)","sssi",array($_POST["userName"], $_POST["userMail"], password_hash($password, PASSWORD_BCRYPT), (($_POST["userAdmin"]??0)==0)?0:1));
    if($inserted){
      // generating a mail to notify the new user
      $header = "MIME-Version: 1.0\r\nContent-type: text/html; charset=utf-8\r\nFrom: no-reply@" . $_SERVER['SERVER_NAME'] . "\r\nReply-to: " . $config->admin_mail . "\r\nX-Mailer: PHP " . phpversion();
