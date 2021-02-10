@@ -163,5 +163,7 @@ return (object) array(
   "allow_informal" => "Erlaube Admins deine Terminzusagen zu verändern",
   "last_practiced" => "Zuletzt geprobt am",
   "never"=>"nie",
+  "delete_account"=>"Account löschen",
+  "delete_account_sure"=>"Bist du sicher, dass du das tun willst? Es kann nicht rückgängig gemacht werden!",
 );
 ?>

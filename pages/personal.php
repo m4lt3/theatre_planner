@@ -66,6 +66,18 @@ if(isset($_POST["newPassword"])){
 } elseif (isset($_POST["informal_value"])){
   $db = new DBHandler();
   $db->update("UPDATE USERS SET Informal=? WHERE UserID=?","ii", array($_POST["informal_value"]=="true"?1:0, $_SESSION["UserID"]));
+} elseif (isset($_POST["delete_account"])){
+  $db = new DBHandler();
+  if(!$db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_SESSION["UserID"]))){
+    // If deleting fails, resolve all possible foreign key reference issues
+    $db->update("DELETE FROM ATTENDS WHERE UserID=?","i",array($_SESSION["UserID"]));
+    $db->update("DELETE FROM PLAYS WHERE UserID=?","i",array($_SESSION["UserID"]));
+    $db->update("DELETE FROM POLL_ENTRIES WHERE UserID=?","i",array($_SESSION["UserID"]));
+    $db->update("DELETE FROM TOKENS WHERE UserID=?","i",array($_SESSION["UserID"]));
+    // delete again
+    $db->update("DELETE FROM USERS WHERE UserID=?", "i", array($_SESSION["UserID"]));
+  }
+  header("location:../php/auth/logout.php");
 }
 ?>
 
@@ -209,6 +221,10 @@ if(isset($_POST["newPassword"])){
               <label><?php echo $lang->allow_informal ?></label>
             </div>
           </div>
+        </form>
+        <div class="ui divider"></div>
+        <form method="post" onsubmit="return confirm('<?php echo $lang->delete_account_sure ?>');">
+          <input class="ui red button" type="submit" name="delete_account" value="<?php echo $lang->delete_account ?>">
         </form>
     </main>
     <?php
