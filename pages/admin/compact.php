@@ -10,7 +10,7 @@
   }
   $db = new DBHandler();
   if(isset($_POST["add_scene"])){
-    $db->update("INSERT INTO SCENES VALUES(NULL, ?, NULL, ?)", "si", array($_POST["add_scene"], $_POST["sequence"]));
+    $db->update("INSERT INTO SCENES VALUES(NULL, ?, NULL, ?, NULL)", "si", array($_POST["add_scene"], $_POST["sequence"]));
   } elseif (isset($_POST["rm_features"])){
     $db->update("DELETE FROM FEATURES WHERE FeatureID=?","i",array($_POST["rm_features"]));
   } elseif (isset($_POST["add_role"])){
