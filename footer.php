@@ -1,6 +1,6 @@
 <footer>
   <span><a href="<?php echo $config->subfolder ?>/imprint.php"><?php echo $lang->imprint ?></a></span>
-  <span><?php echo $lang->title ?> v1.8.3 <?php echo "$lang->on" ?> <a href="https://github.com/m4lt3/theatre_planner" target="_blank"><i class="github icon"></i></a></span>
+  <span><?php echo $lang->title ?> v1.8.4 <?php echo "$lang->on" ?> <a href="https://github.com/m4lt3/theatre_planner" target="_blank"><i class="github icon"></i></a></span>
   <span><a href="<?php echo $config->subfolder ?>/privacy.php"><?php echo $lang->privacy ?></a></span>
 </footer>
 

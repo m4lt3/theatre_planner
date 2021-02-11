@@ -24,7 +24,7 @@
      }
    }
    // Add a new scene
-   $db->update("INSERT INTO SCENES VALUES (NULL, ?, ?, ?, ?)", "ssis", array($_POST["sceneName"], $_POST["sceneDescription"], $_POST["order"], $_POST["lastPracticed"]));
+   $db->update("INSERT INTO SCENES VALUES (NULL, ?, ?, ?, ?)", "ssis", array($_POST["sceneName"], $_POST["sceneDescription"], $_POST["order"], empty($_POST["lastPracticed"])?NULL:$_POST["lastPracticed"]));
  } elseif (isset($_POST["rm_scene"])){
    // Delete a scene
    if(!$db->update("DELETE FROM SCENES WHERE SceneID=?", "i", array($_POST["rm_scene"]))){
@@ -74,7 +74,7 @@
        }
      }
    }
-   $db->update("UPDATE SCENES SET Name=?, Description=?, Sequence=?, Last_practiced=? WHERE SceneID=?", "ssisi", array($_POST["sceneName"],$_POST["sceneDescription"],$_POST["order"],$_POST["lastPracticed"],$_POST["SceneID"]));
+   $db->update("UPDATE SCENES SET Name=?, Description=?, Sequence=?, Last_practiced=? WHERE SceneID=?", "ssisi", array($_POST["sceneName"],$_POST["sceneDescription"],$_POST["order"],empty($_POST["lastPracticed"])?NULL:$_POST["lastPracticed"],$_POST["SceneID"]));
  }
 ?>
 <!DOCTYPE html>
