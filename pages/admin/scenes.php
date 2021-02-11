@@ -76,6 +76,8 @@
    }
    $db->update("UPDATE SCENES SET Name=?, Description=?, Sequence=?, Last_practiced=? WHERE SceneID=?", "ssisi", array($_POST["sceneName"],$_POST["sceneDescription"],$_POST["order"],empty($_POST["lastPracticed"])?NULL:$_POST["lastPracticed"],$_POST["SceneID"]));
  }
+ $SceneOrder = $db->baseQuery("SELECT SceneID, Sequence FROM SCENES ORDER BY Sequence");
+ $sceneCount = count($SceneOrder??array());
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $lang->lang ?>" dir="ltr">
