@@ -4,6 +4,8 @@ $langs_available = array('de', 'en');
 $lang = "";
 if(isset($_COOKIE["theatre_lang"])){
   $lang = $_COOKIE["theatre_lang"];
+} elseif (isset($_SESSION["lang"])) {
+  $lang = $_SESSION["lang"];
 } else {
   $lang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"], 0, 2);
   $lang = in_array($lang, $langs_available) ? $lang : 'en';

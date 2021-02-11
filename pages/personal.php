@@ -38,6 +38,7 @@ if(isset($_POST["newPassword"])){
       if (isset($_SESSION["cookies_allowed"]) && $_SESSION["cookies_allowed"] == true) {
         setcookie("theatre_lang", $_POST["lang"], array("expires"=>time() + 2592000, "samesite"=>"Lax", "path"=>"/"));
       }
+      $_SESSION["lang"] = $_POST["lang"];
       $lang = include dirname(__DIR__) . "/php/translations/" . $_POST["lang"]. ".php";
       if(empty($lang)){
         $lang = include dirname(__DIR__) . "/translations/en.php";
