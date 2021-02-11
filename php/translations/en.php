@@ -161,7 +161,7 @@ return (object) array(
   "already_added" => "Already added",
   "config_poll_entries" => "Allow actors to see all poll submissions",
   "allow_informal" => "Allow admins to change your attendance status for you",
-  "last_practiced" => "Last practiced on",
+  "last_practiced" => "Last practised on",
   "never"=>"never",
   "delete_account"=>"Delete your account",
   "delete_account_sure"=>"Are you sure you want to do this? It cannot be undone!",
