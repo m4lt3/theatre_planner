@@ -19,8 +19,8 @@
     }
     $entries = bindec($entries);
 
-    // Inserting or updatong entries
-    $relation_id = $db->prepareQuery("SELECT EntryID FROM POLL_ENTRIES WHERE UserID=?","i", array($_POST["uid"]));
+    // Inserting or updating entries
+    $relation_id = $db->prepareQuery("SELECT EntryID FROM POLL_ENTRIES WHERE UserID=? AND PollID=?","ii", array($_POST["uid"], $poll["PollID"]));
     if(count($relation_id??array()) == 0){
       $db->update("INSERT INTO POLL_ENTRIES VALUES(NULL, ?, ?, ?)", "iii", array($poll["PollID"], $_POST["uid"], $entries));
     } else {
