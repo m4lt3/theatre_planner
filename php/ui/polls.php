@@ -194,9 +194,9 @@ function createButtons($duration, $start, $practices){
   $foot = '<tfoot><tr><td></td>';
   for($i = 0; $i < $duration; $i++){
     if(isset($pmap[date_format($date,"Y-m-d")])){
-      $foot .= '<td><button type="button" class="ui disabled primary button">'.$lang->already_added.'</button>';
+      $foot .= '<td style="text-align:center"><button type="button" class="ui disabled primary button">'.$lang->already_added.'</button>';
     } else {
-      $foot .= '<td><form action="" method="post"><input type="hidden" name="col" value ="'.$i.'"><input type="submit" class="ui primary button" name="create_practice" value="'.$lang->add_date.'"></form></td>';
+      $foot .= '<td style="text-align:center"><form action="" method="post"><input type="hidden" name="col" value ="'.$i.'"><input type="submit" class="ui primary button" name="create_practice" value="'.$lang->add_date.'"></form></td>';
     }
     date_add($date, date_interval_create_from_date_string("1 days"));
   }

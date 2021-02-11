@@ -7,7 +7,7 @@
 
   $db = new DBHandler();
   if(isset($_GET["poll"])){
-    $poll = $db->prepareQuery("SELECT * FROM POLLS WHERE PollID=?","i", array($_GET["poll"]))[0]??array();
+    $poll = $db->prepareQuery("SELECT *, DATE_ADD(Start, INTERVAL (Duration - 1 ) DAY) AS Poll_end  FROM POLLS WHERE PollID=?","i", array($_GET["poll"]))[0]??array();
   }
 
   if(isset($_POST["change_entries"])){
@@ -100,21 +100,23 @@
               // Create admin UI
               $entries = $db->baseQuery("SELECT USERS.UserID, USERS.Name, USERS.Informal, POLL_ENTRIES.EntryID, POLL_ENTRIES.Entries, POLLS.* FROM USERS LEFT JOIN POLL_ENTRIES ON USERS.UserID = POLL_ENTRIES.UserID LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID ORDER BY USERS.UserID");
               foreach ($entries as $entry) {
-                $body .= createTRow($entry["Name"], $entry["Entries"], ($entry["Informal"] || $entry["UserID"]==$_SESSION["UserID"]), $poll["Duration"], $entry["UserID"]);
+                $body .= createTRow($entry["Name"], $entry["Entries"], (date_create($poll["Poll_end"])>date_create(date("Y-m-d"))&&($entry["Informal"] || $entry["UserID"]==$_SESSION["UserID"])), $poll["Duration"], $entry["UserID"]);
               }
               $body .= createSumRow($entries, $poll["Duration"]);
-              $foot = createButtons($poll["Duration"], $poll["Start"], $db->prepareQuery("SELECT DATE(Start) AS Start FROM PRACTICES WHERE Start >=? ORDER BY Start","s",array($poll["Start"])));
+              if(date_create($poll["Poll_end"])>date_create(date("Y-m-d"))){
+                $foot = createButtons($poll["Duration"], $poll["Start"], $db->prepareQuery("SELECT DATE(Start) AS Start FROM PRACTICES WHERE Start >=? ORDER BY Start","s",array($poll["Start"])));
+              }
             } else {
               // Create User UI
               if($config->all_poll_entries){
                 $entries = $db->baseQuery("SELECT USERS.UserID, USERS.Name, POLL_ENTRIES.EntryID, POLL_ENTRIES.Entries, POLLS.* FROM USERS LEFT JOIN POLL_ENTRIES ON USERS.UserID = POLL_ENTRIES.UserID LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID ORDER BY USERS.UserID");
                 foreach ($entries as $entry) {
-                  $body .= createTRow($entry["Name"], $entry["Entries"], $entry["UserID"]==$_SESSION["UserID"], $poll["Duration"], $entry["UserID"]);
+                  $body .= createTRow($entry["Name"], $entry["Entries"], date_create($poll["Poll_end"])>date_create(date("Y-m-d"))&&$entry["UserID"]==$_SESSION["UserID"], $poll["Duration"], $entry["UserID"]);
                 }
                 $body .= createSumRow($entries, $poll["Duration"]);
               } else {
                 $entry = $db->prepareQuery("SELECT POLL_ENTRIES.Entries, POLLS.* FROM POLL_ENTRIES JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID WHERE POLLS.PollID=? AND POLL_ENTRIES.UserID=?", "ii", array($_GET["poll"], $_SESSION["UserID"]))[0]??array();
-                $body .= createTRow($_SESSION["UserName"], $entry["Entries"]??NULL, true, $poll["Duration"], $_SESSION["UserID"]);
+                $body .= createTRow($_SESSION["UserName"], $entry["Entries"]??NULL, date_create($poll["Poll_end"])>date_create(date("Y-m-d")), $poll["Duration"], $_SESSION["UserID"]);
               }
             }
             echo '</div><div class="ui container">';
