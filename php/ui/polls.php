@@ -28,7 +28,7 @@ function createPollCard($poll){
   <div class="ui card">
     <div class="content">
       <div class="header">
-        <a href="dates.php?poll={$poll["PollID"]}">{$lang->poll} #{$poll["PollID"]}</a>
+        <a href="polls.php?poll={$poll["PollID"]}">{$lang->poll} #{$poll["PollID"]}</a>
       </div>
     </div>
     <div class="content">
