@@ -130,7 +130,7 @@
           }
         } else {
           //listing active polls
-          $polls = $db->baseQuery("SELECT * FROM POLLS WHERE DATE_ADD(Start, INTERVAL (Duration - 1 ) DAY) >= CURDATE()")??array();
+          $polls = $db->baseQuery("SELECT * FROM POLLS WHERE DATE_ADD(Start, INTERVAL (Duration - 1 ) DAY) >= CURDATE() ORDER BY DATE_ADD(Start, INTERVAL (Duration - 1 ) DAY)")??array();
           echo '<div class="ui two stacked cards">';
           foreach ($polls as $poll) {
             echo createPollCard($poll);

@@ -41,7 +41,7 @@
         <div class="two fields">
           <div class="required field">
             <label><?php echo $lang->start_date ?></label>
-            <input id="start" type="date" name="start" value="" required onchange="setMinDate()">
+            <input id="start" type="date" name="start" value="" required min="<?php echo date("Y-m-d") ?>" onchange="setMinDate()">
           </div>
           <div class="required field">
             <label><?php echo $lang->end_date ?></label>
@@ -76,7 +76,7 @@
         if(empty($_SESSION["theatre_past"]) || !$_SESSION["theatre_past"]){
           $pollQuery .= " WHERE DATE_ADD(Start, INTERVAL (Duration - 1 ) DAY) >= CURDATE()";
           $divided=true;
-        }
+        } $pollQuery .= " ORDER BY DATE_ADD(Start, INTERVAL (Duration - 1 ) DAY)";
         $polls = $db->baseQuery($pollQuery)??array();
         foreach ($polls as $poll) {
           $date = date_create($poll["Start"]);
