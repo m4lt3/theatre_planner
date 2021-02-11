@@ -107,7 +107,20 @@
             </form>
           </div>
 EOT;
+
+          if (!$divided && $date > date_create(date("Y-m-d"))){
+            // If new practice is in the future and past dates are enabled and not yet separated, draw a line
+            echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards" style="margin-top:-14px">';
+            $divided = !$divided;
+          }
+
           echo $card;
+
+        }
+        if (!$divided){
+          // If new practice is in the future and past dates are enabled and not yet separated, draw a line
+          echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards" style="margin-top:-14px">';
+          $divided = !$divided;
         }
         ?>
       </div>
