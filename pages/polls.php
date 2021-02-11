@@ -98,7 +98,7 @@
             $foot ="";
             if($_SESSION["Admin"]){
               // Create admin UI
-              $entries = $db->baseQuery("SELECT USERS.UserID, USERS.Name, USERS.Informal, POLL_ENTRIES.EntryID, POLL_ENTRIES.Entries, POLLS.* FROM USERS LEFT JOIN POLL_ENTRIES ON USERS.UserID = POLL_ENTRIES.UserID LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID ORDER BY USERS.UserID");
+              $entries = $db->prepareQuery("SELECT USERS.Name, USERS.Informal, USERS.UserID, ENTRIES.*FROM USERS LEFT JOIN (SELECT POLL_ENTRIES.EntryID, POLL_ENTRIES.Entries, POLL_ENTRIES.UserID AS Poll_uid, POLLS.* FROM POLL_ENTRIES LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID WHERE POLL_ENTRIES.PollID=?) AS ENTRIES ON ENTRIES.Poll_uid = USERS.UserID ORDER BY USERS.UserID ","i",array($poll["PollID"]));
               foreach ($entries as $entry) {
                 $body .= createTRow($entry["Name"], $entry["Entries"], (date_create($poll["Poll_end"])>date_create(date("Y-m-d"))&&($entry["Informal"] || $entry["UserID"]==$_SESSION["UserID"])), $poll["Duration"], $entry["UserID"]);
               }
@@ -109,7 +109,7 @@
             } else {
               // Create User UI
               if($config->all_poll_entries){
-                $entries = $db->baseQuery("SELECT USERS.UserID, USERS.Name, POLL_ENTRIES.EntryID, POLL_ENTRIES.Entries, POLLS.* FROM USERS LEFT JOIN POLL_ENTRIES ON USERS.UserID = POLL_ENTRIES.UserID LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID ORDER BY USERS.UserID");
+                $entries = $db->prepareQuery("SELECT USERS.Name, USERS.Informal, USERS.UserID, ENTRIES.*FROM USERS LEFT JOIN (SELECT POLL_ENTRIES.EntryID, POLL_ENTRIES.Entries, POLL_ENTRIES.UserID AS Poll_uid, POLLS.* FROM POLL_ENTRIES LEFT JOIN POLLS ON POLL_ENTRIES.PollID = POLLS.PollID WHERE POLL_ENTRIES.PollID=?) AS ENTRIES ON ENTRIES.Poll_uid = USERS.UserID ORDER BY USERS.UserID","i",array($poll["PollID"]));
                 foreach ($entries as $entry) {
                   $body .= createTRow($entry["Name"], $entry["Entries"], date_create($poll["Poll_end"])>date_create(date("Y-m-d"))&&$entry["UserID"]==$_SESSION["UserID"], $poll["Duration"], $entry["UserID"]);
                 }
