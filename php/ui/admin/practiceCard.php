@@ -17,12 +17,12 @@ function generateUserFocusedCardStack($practices, $allScenes){
           // Detect all practiceable scenes before displaying
           $practice_collection->detectScenes($allScenes);
 
-          echo createUserFocusedPracticeCard($practice_collection);
           if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
             // If new practice is in the future and past dates are enabled and not yet separated, draw a line
             echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards" style="margin-top:-14px">';
             $divided = !$divided;
           }
+          echo createUserFocusedPracticeCard($practice_collection);
         }
         // initialize new Collection for the next practice
         $practice_collection = new Practice($practice["PracticeID"], $practice["Title"], $practice["Start"]);
@@ -39,6 +39,11 @@ function generateUserFocusedCardStack($practices, $allScenes){
     }
     // print last practice as it didn't get triggered
     $practice_collection->detectScenes($allScenes);
+    if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
+      // If new practice is in the future and past dates are enabled and not yet separated, draw a line
+      echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards" style="margin-top:-14px">';
+      $divided = !$divided;
+    }
     echo createUserFocusedPracticeCard($practice_collection);
     if(!$divided){
       // If all dates have been in the past, at least indicate that now
@@ -205,17 +210,22 @@ function createAdminFocusedCardStack($practices, $allScenes){
     foreach($practices as $practice){
       if($currentPractice[0]["PracticeID"]!=$practice["PracticeID"]){
         //print old practice before overwriting
-        echo createAdminFocusedPracticeCard($currentPractice, $allScenes);
         if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
           // If new practice is in the future and past dates are enabled and not yet separated, draw a line
           echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards" style="margin-top:-14px">';
           $divided = !$divided;
         }
+        echo createAdminFocusedPracticeCard($currentPractice, $allScenes);
         $currentPractice = array($practice);
 
       } else {
         $currentPractice[] = $practice;
       }
+    }
+    if (!$divided && $practice["Start"] > date("Y-m-d H:i:s")){
+      // If new practice is in the future and past dates are enabled and not yet separated, draw a line
+      echo '</div><div class="ui horizontal divider">' . $lang->today .'</div><div class="ui two stacked cards" style="margin-top:-14px">';
+      $divided = !$divided;
     }
     echo createAdminFocusedPracticeCard($currentPractice, $allScenes);
     if(!$divided){
