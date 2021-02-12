@@ -25,7 +25,7 @@ function createCompactTable($everything){
     }
   }
   // Triggering last scene
-  $body .= generateSceneRow($sceneObject);
+  $body .= empty($everything)?"":generateSceneRow($sceneObject);
   // Generating "add scene" dialogue
   $body .= generateAddSceneRow($sceneObject->sequence+1);
   return $body;
