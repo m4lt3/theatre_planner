@@ -14,14 +14,16 @@
   } elseif (isset($_POST["rm_features"])){
     $db->update("DELETE FROM FEATURES WHERE FeatureID=?","i",array($_POST["rm_features"]));
   } elseif (isset($_POST["add_role"])){
-    if(is_numeric($_POST["add_role"])){
-      // assigning an existing role
-      $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, ?)", "iii", array($_POST["id"],$_POST["add_role"], (isset($_POST["isMandatory"])?1:0)));
-    } else {
-      // Create new role
-      $db->update("INSERT INTO ROLES VALUES (NULL,?,NULL)","s",array($_POST["add_role"]));
-      $id = $db->prepareQuery("SELECT RoleID FROM ROLES WHERE Name=?","s",array($_POST["add_role"]))[0]["RoleID"];
-      $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, ?)", "iii", array($_POST["id"],$id, (isset($_POST["isMandatory"])?1:0)));
+    if(!empty($_POST["add_role"])){
+      if(is_numeric($_POST["add_role"])){
+        // assigning an existing role
+        $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, ?)", "iii", array($_POST["id"],$_POST["add_role"], (isset($_POST["isMandatory"])?1:0)));
+      } else {
+        // Create new role
+        $db->update("INSERT INTO ROLES VALUES (NULL,?,NULL)","s",array($_POST["add_role"]));
+        $id = $db->prepareQuery("SELECT RoleID FROM ROLES WHERE Name=?","s",array($_POST["add_role"]))[0]["RoleID"];
+        $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, ?)", "iii", array($_POST["id"],$id, (isset($_POST["isMandatory"])?1:0)));
+      }  
     }
   } elseif (isset($_POST["add_actor"])) {
     $db->update("INSERT INTO PLAYS VALUES (NULL,?,?)", "ii", array($_POST["add_actor"],$_POST["id"]));

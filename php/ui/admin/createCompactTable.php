@@ -102,7 +102,7 @@ function generateChangeActorDropdown($selected){
   <input type="hidden" name="relation_id" value="{$selected["PlaysID"]}">
   <input type="hidden" name="role_id" value="{$selected["RoleID"]}">
     <div class="ui change selection dropdown">
-      <input type="hidden" name="change_actor" value="">
+      <input required="true" type="hidden" name="change_actor" value="">
       <i class="dropdown icon"></i>
       <div class="text">{$selected["UserName"]}</div>
       <div class="menu">
@@ -156,7 +156,7 @@ function generateAddActorDropdown($RoleID){
   <form action="" method="post">
   <input type="hidden" name="id" value="$RoleID">
     <div class="ui search selection dropdown">
-      <input type="hidden" name="add_actor" value="">
+      <input required="true" type="hidden" name="add_actor" value="">
       <i class="dropdown icon"></i>
       <div class="default text">{$lang->actor}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
       <div class="menu">
@@ -196,8 +196,8 @@ function generateAddRoleDropdown($SceneID, $excludeRoles){
 
   $form = <<<EOT
   <form action="" method="post" class="roleCell">
-    <div class="ui search selection dropdown">
-      <input type="hidden" name="add_role" value="">
+    <div class="ui required search selection dropdown">
+      <input required="true" type="hidden" name="add_role" value="" maxlength="32">
       <i class="dropdown icon"></i>
       <div class="default text">{$lang->role}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
       <div class="menu">
@@ -227,7 +227,7 @@ function generateAddSceneRow($sequence){
   <form method="post" action ="">
   <input type="hidden" name="sequence" value="$sequence">
     <div class="ui input">
-      <input type="text" placeholder="{$lang->scene}" name="add_scene" value="">
+      <input required="true" type="text" placeholder="{$lang->scene}" name="add_scene" value="" maxlength="32">
     </div>
     <button type="submit" class="ui blue icon button" style="float:right"><i class="plus icon"></i></button>
   </form>
