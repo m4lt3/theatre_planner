@@ -11,19 +11,20 @@
   $db = new DBHandler();
   if(isset($_POST["add_scene"])){
     $db->update("INSERT INTO SCENES VALUES(NULL, ?, NULL, ?, NULL)", "si", array($_POST["add_scene"], $_POST["sequence"]));
+    $_POST["SceneID"]=$db->getLastID();
   } elseif (isset($_POST["rm_features"])){
     $db->update("DELETE FROM FEATURES WHERE FeatureID=?","i",array($_POST["rm_features"]));
   } elseif (isset($_POST["add_role"])){
     if(!empty($_POST["add_role"])){
       if(is_numeric($_POST["add_role"])){
         // assigning an existing role
-        $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, ?)", "iii", array($_POST["id"],$_POST["add_role"], (isset($_POST["isMandatory"])?1:0)));
+        $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, ?)", "iii", array($_POST["SceneID"],$_POST["add_role"], (isset($_POST["isMandatory"])?1:0)));
       } else {
         // Create new role
         $db->update("INSERT INTO ROLES VALUES (NULL,?,NULL)","s",array($_POST["add_role"]));
         $id = $db->prepareQuery("SELECT RoleID FROM ROLES WHERE Name=?","s",array($_POST["add_role"]))[0]["RoleID"];
         $db->update("INSERT INTO FEATURES VALUES (NULL, ?, ?, ?)", "iii", array($_POST["id"],$id, (isset($_POST["isMandatory"])?1:0)));
-      }  
+      }
     }
   } elseif (isset($_POST["add_actor"])) {
     $db->update("INSERT INTO PLAYS VALUES (NULL,?,?)", "ii", array($_POST["add_actor"],$_POST["id"]));
@@ -89,5 +90,15 @@
         allowAdditions: true
       });
     </script>
+    <?php
+    if(isset($_POST["SceneID"])){
+      $script =  <<<EOT
+      <script>
+        location.hash = "#" + {$_POST["SceneID"]}
+      </script>
+EOT;
+    echo $script;
+    }
+    ?>
   </body>
 </html>

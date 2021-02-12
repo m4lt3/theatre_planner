@@ -41,7 +41,7 @@ function createCompactTable($everything){
 function generateSceneRow($scene){
   $rowspan = $scene->getRelationCount()+1;
   $sceneCell = $sceneCell = <<<EOT
-  <td rowspan="$rowspan"> <span class="meta">{$scene->sequence}.</span> {$scene->title}</td>
+  <td rowspan="$rowspan"> <a name="{$scene->id}"></a> <span class="meta">{$scene->sequence}.</span> {$scene->title}</td>
 EOT;
   $roleActorCells = "";
   $sceneRow = "";
@@ -50,25 +50,25 @@ EOT;
     $actorDropdown = "";
     if(empty($scene->parties[0]["PlaysID"])){
       // If there is no actor associated with the role, generate a form to add an actor
-      $actorDropdown = generateAddActorDropdown($scene->parties[0]["RoleID"]);
+      $actorDropdown = generateAddActorDropdown($scene->parties[0]["RoleID"], $scene->id);
     } else {
       // ... or generate form to change the existing assignment
-      $actorDropdown = generateChangeActorDropdown($scene->parties[0]);
+      $actorDropdown = generateChangeActorDropdown($scene->parties[0], $scene->id);
     }
 
-    $roleActorCells = '<td class="roleCell"><span>'.$scene->parties[0]["RoleName"].'</span>'.generateToggleMandatoryButton($scene->parties[0]["FeatureID"],$scene->parties[0]["Mandatory"]).generateDeleteRoleButton($scene->parties[0]).'</td><td>'.$actorDropdown.'</td>';
+    $roleActorCells = '<td class="roleCell"><span>'.$scene->parties[0]["RoleName"].'</span>'.generateToggleMandatoryButton($scene->parties[0]["FeatureID"],$scene->parties[0]["Mandatory"], $scene->id).generateDeleteRoleButton($scene->parties[0], $scene->id).'</td><td>'.$actorDropdown.'</td>';
     $sceneRow = "<tr>".$sceneCell.$roleActorCells."</tr>";
     if($scene->getRelationCount()>1){
       // If there are more than one roles associated, print coresponding roles
       for ($i=1; $i < $scene->getRelationCount(); $i++) {
         if(empty($scene->parties[$i]["PlaysID"])){
           // If there is no actor associated with the role, generate a form to add an actor
-          $actorDropdown = generateAddActorDropdown($scene->parties[$i]["RoleID"]);
+          $actorDropdown = generateAddActorDropdown($scene->parties[$i]["RoleID"], $scene->id);
         } else {
           // ... or generate form to change the existing assignment
-          $actorDropdown = generateChangeActorDropdown($scene->parties[$i]);
+          $actorDropdown = generateChangeActorDropdown($scene->parties[$i], $scene->id);
         }
-        $sceneRow .= "<tr><td class='roleCell'><span>".$scene->parties[$i]["RoleName"].'</span>'.generateToggleMandatoryButton($scene->parties[$i]["FeatureID"],$scene->parties[$i]["Mandatory"]).generateDeleteRoleButton($scene->parties[$i])."</td><td>".$actorDropdown."</td></tr>";
+        $sceneRow .= "<tr><td class='roleCell'><span>".$scene->parties[$i]["RoleName"].'</span>'.generateToggleMandatoryButton($scene->parties[$i]["FeatureID"],$scene->parties[$i]["Mandatory"], $scene->id).generateDeleteRoleButton($scene->parties[$i], $scene->id)."</td><td>".$actorDropdown."</td></tr>";
       }
     }
     // Printing form to add role to scene, indifferent of whether there already are other actors
@@ -84,10 +84,11 @@ EOT;
 * Generates a dropdown to change an associated actor with pre-selection of the current actor
 *
 * @param array $selected associative array of the selected array including name, id and relation-id
+* @param array $SceneID ID of the edited scene - page scrolls back to that row after edit
 *
 * @return string form template
 */
-function generateChangeActorDropdown($selected){
+function generateChangeActorDropdown($selected, $SceneID){
   global $db;
   $options = $db->baseQuery("SELECT UserID AS ID, Name FROM USERS")??array();
 
@@ -101,6 +102,7 @@ function generateChangeActorDropdown($selected){
   <form action="" method="post" style="display: inline-block">
   <input type="hidden" name="relation_id" value="{$selected["PlaysID"]}">
   <input type="hidden" name="role_id" value="{$selected["RoleID"]}">
+  <input type="hidden" name="SceneID" value="$SceneID">
     <div class="ui change selection dropdown">
       <input required="true" type="hidden" name="change_actor" value="">
       <i class="dropdown icon"></i>
@@ -114,6 +116,7 @@ EOT;
   $form .= <<<EOT
   <form method="POST" action="" style="display: inline-block; float:right">
     <input type="hidden" name="rm_plays" value="{$selected["PlaysID"]}">
+    <input type="hidden" name="SceneID" value="$SceneID">
     <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
   </form>
 EOT;
@@ -124,13 +127,15 @@ EOT;
 * Generates a dropdown to change an associated role with pre-selection of the current role
 *
 * @param array $selected associative array of the selected role including name, id and relation-id
+* @param array $SceneID ID of the edited scene - page scrolls back to that row after edit
 *
 * @return string form template
 */
-function generateDeleteRoleButton($selected){
+function generateDeleteRoleButton($selected, $SceneID){
   $form = <<<EOT
   <form method="POST" action="">
     <input type="hidden" name="rm_features" value="{$selected["FeatureID"]}">
+    <input type="hidden" name="SceneID" value="$SceneID">
     <button type="submit" class="ui red icon button"><i class="trash icon"></i></button>
   </form>
 EOT;
@@ -141,10 +146,11 @@ EOT;
 * Generates a dropdown to assign an existing actor to a role
 *
 * @param int|string $RoleID ID of the role to assign to
+* @param array $SceneID ID of the edited scene - page scrolls back to that row after edit
 *
 * @return string form template
 */
-function generateAddActorDropdown($RoleID){
+function generateAddActorDropdown($RoleID, $SceneID){
   global $lang;
   global $db;
   $users = $db->baseQuery("SELECT UserID, Name FROM USERS");
@@ -155,6 +161,7 @@ function generateAddActorDropdown($RoleID){
   $form = <<<EOT
   <form action="" method="post">
   <input type="hidden" name="id" value="$RoleID">
+  <input type="hidden" name="SceneID" value="$SceneID">
     <div class="ui search selection dropdown">
       <input required="true" type="hidden" name="add_actor" value="">
       <i class="dropdown icon"></i>
@@ -208,7 +215,7 @@ function generateAddRoleDropdown($SceneID, $excludeRoles){
       <input type="checkbox" name="isMandatory" checked="true">
     </div>
     <button type="submit" class="ui blue icon button" style="float:right"><i class="plus icon"></i></button>
-    <input type="hidden" name="id" value="$SceneID">
+    <input type="hidden" name="SceneID" value="$SceneID">
   </form>
 EOT;
   return $form;
@@ -235,7 +242,7 @@ EOT;
   $row = "<tr><td>".$form."</td><td></td><td></td></tr>";
   return $row;
 }
- function generateToggleMandatoryButton($relation_id, $mandatory){
+ function generateToggleMandatoryButton($relation_id, $mandatory, $SceneID){
    global $lang;
 
    $mandatoryColour = "";
@@ -246,6 +253,7 @@ EOT;
    }
    $form = <<<EOT
    <form action="" method="post" style="margin-right: 5px;">
+   <input type="hidden" name="SceneID" value="$SceneID">
      <input type="hidden" name="toggle_mandatory" value ="$relation_id">
      <button title="{$lang->admin_prefix}$mandatory_appendix{$lang->mandatory}" type="submit" style="cursor:pointer" class="ui $mandatoryColour label">
        <i class="fitted exclamation icon"></i>
